@@ -1,0 +1,58 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="Process_delete"
+     targetNamespace="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete"
+     xmlns:ns2="http://www.example.org/BPJS/extendedVar"
+     xmlns:ns1="http://www.example.org/BPJS/deletePendaftaran"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <plnk:partnerLinkType name="Process_delete">
+        <plnk:role name="Process_deleteProvider" portType="client:Process_delete"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.example.org/BPJS/deletePendaftaran"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:client="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns2="http://www.example.org/BPJS/extendedVar">
+            <import namespace="http://www.example.org/BPJS/deletePendaftaran" schemaLocation="xsd/deletePendaftaran.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.example.org/BPJS/extendedVar"
+             xmlns:ns1="http://www.example.org/BPJS/deletePendaftaran" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <xsd:import namespace="http://www.example.org/BPJS/extendedVar" schemaLocation="xsd/extendedVar.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Process_deleteRequestMessage">
+        <wsdl:part name="payload" element="ns1:input"/>
+    </wsdl:message>
+    <wsdl:message name="Process_deleteResponseMessage">
+        <wsdl:part name="payload" element="ns1:output"/>
+    </wsdl:message>
+     <wsdl:message name="Delete_obatHeaderMessage">
+        <wsdl:part name="payload" element="ns1:header"/>
+        </wsdl:message>
+    <wsdl:portType name="Process_delete">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:Process_deleteRequestMessage"/>
+            <wsdl:output message="client:Process_deleteResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="Process_deleteSOAP11Binding"
+                  type="client:Process_delete">
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document"
+                            soapAction="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete/process"/>
+            <wsdl:input>
+                <soap:header message="client:Delete_obatHeaderMessage" part="payload" use="literal"/>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

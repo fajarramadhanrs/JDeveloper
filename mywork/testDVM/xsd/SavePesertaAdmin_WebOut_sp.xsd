@@ -1,0 +1,121 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/SavePesertaAdmin_WebOut" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/SavePesertaAdmin_WebOut" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="PSNOKA" type="db:string13" db:index="1" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="PSNOKALAMA" type="db:string13" db:index="2" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="PSNOKALAMA2" type="db:string13" db:index="3" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="NAMA" type="db:string100" db:index="4" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="NMCETAK" type="db:string100" db:index="5" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="JENKEL" type="short" db:index="6" db:type="SMALLINT" minOccurs="0" nillable="true"/>
+            <element name="TMPLHR" type="db:string80" db:index="7" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="TGLLHR" type="date" db:index="8" db:type="DATE" minOccurs="0" nillable="true"/>
+            <element name="FLAGTANGGUNGAN" type="short" db:index="9" db:type="SMALLINT" minOccurs="0" nillable="true"/>
+            <element name="NOHP" type="db:string20" db:index="10" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="NOKTP" type="db:string35" db:index="11" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="NIK" type="db:string35" db:index="12" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="TMT" type="date" db:index="13" db:type="DATE" minOccurs="0" nillable="true"/>
+            <element name="TAT" type="date" db:index="14" db:type="DATE" minOccurs="0" nillable="true"/>
+            <element name="NPWP" type="db:string33" db:index="15" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="EMAIL" type="db:string100" db:index="16" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="NOKA" type="db:string13" db:index="17" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDHUBKEL" type="db:string2" db:index="18" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDSTAWIN" type="short" db:index="19" db:type="SMALLINT" minOccurs="0" nillable="true"/>
+            <element name="KDNEGARA" type="db:string3" db:index="20" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDGOLDARAH" type="db:string2" db:index="21" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="AGAMA" type="db:string1" db:index="22" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDSTATUSPST" type="db:string2" db:index="23" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDKANTOR" type="db:string4" db:index="24" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="USERINPUT" type="db:string32" db:index="25" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="noawal" type="db:string13" db:index="26" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="noakhir" type="db:string13" db:index="27" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="STATUS" type="db:string1" db:index="28" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="PENDAFTAR" type="db:string100" db:index="29" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="psnokaOut" type="db:string13" db:index="30" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="RowSet" type="db:RowSet" db:type="RowSet" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <element name="psnokaOut" type="db:string13" db:index="30" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="RowSet">
+      <sequence>
+         <element name="Row" minOccurs="0" maxOccurs="unbounded">
+            <complexType>
+               <sequence>
+                  <element name="Column" maxOccurs="unbounded" nillable="true">
+                     <complexType>
+                        <simpleContent>
+                           <extension base="string">
+                              <attribute name="name" type="string" use="required"/>
+                              <attribute name="sqltype" type="string" use="required"/>
+                           </extension>
+                        </simpleContent>
+                     </complexType>
+                  </element>
+               </sequence>
+            </complexType>
+         </element>
+      </sequence>
+   </complexType>
+   <simpleType name="string13">
+      <restriction base="string">
+         <maxLength value="13"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string80">
+      <restriction base="string">
+         <maxLength value="80"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string20">
+      <restriction base="string">
+         <maxLength value="20"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string35">
+      <restriction base="string">
+         <maxLength value="35"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string33">
+      <restriction base="string">
+         <maxLength value="33"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string2">
+      <restriction base="string">
+         <maxLength value="2"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string3">
+      <restriction base="string">
+         <maxLength value="3"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1">
+      <restriction base="string">
+         <maxLength value="1"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string4">
+      <restriction base="string">
+         <maxLength value="4"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string32">
+      <restriction base="string">
+         <maxLength value="32"/>
+      </restriction>
+   </simpleType>
+</schema>

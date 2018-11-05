@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org/setVar" targetNamespace="http://www.example.org/setVar" elementFormDefault="qualified">
+   <xsd:element name="SetVar">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="kdPPOB" type="xsd:string"/>
+            <xsd:element name="maxUID" type="xsd:string"/>
+            <xsd:element name="setNopeg" type="xsd:string"/>
+            <xsd:element name="setKdkantor" type="xsd:string"/>
+            <xsd:element name="setNik" type="xsd:string"/>
+            <xsd:element name="setStatus" type="xsd:string"/>
+            <xsd:element name="setNohp" type="xsd:string"/>
+            <xsd:element name="setNmpegawai" type="xsd:string"/>
+            <xsd:element name="setUserid" type="xsd:string"/>
+            <xsd:element name="setKdjabatan" type="xsd:string"/>
+            <xsd:element name="setKdpks" type="xsd:string"/>
+            <xsd:element name="setPwd" type="xsd:string"/>
+            <xsd:element name="pwd" type="xsd:string"/>
+            <xsd:element name="TSINPUT" type="xsd:string"/>
+            <xsd:element name="settgllhr" type="xsd:string"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+</xsd:schema>

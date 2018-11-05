@@ -1,0 +1,250 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Sep 12 13:56:24 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="deletePeserta"
+               targetNamespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.example.org/BPJS/extendedVar"
+         xmlns:ns2="http://www.example.org/BPJS/deletePeserta"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/PcareKelompok/pcareKelompok/getEdukasiData"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/sp/getEdukasiData"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/PcareKelompok/pcareKelompok/EdukasiDetDelete"
+         xmlns:ns6="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/DeletePesertaToDB"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EdukasiDetDelete"
+         xmlns:ns8="http://www.example.org"
+         xmlns:ns9="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/BPELProcess1">
+  <import namespace="http://www.example.org/BPJS/deletePeserta"
+          location="xsd/deletePeserta.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org/BPJS/extendedVar"
+          location="xsd/extendedVar.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta" location="deletePeserta.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="deletepeserta_client" partnerLinkType="client:deletePeserta" myRole="deletePesertaProvider"/>
+    <partnerLink name="getEdukasiData" partnerLinkType="ns3:getEdukasiData_plt"
+                 partnerRole="getEdukasiData_role"/>
+    <partnerLink name="BPELProcess1.bpelprocess1_client"
+                 partnerLinkType="ns9:BPELProcess1"
+                 partnerRole="BPELProcess1Provider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:deletePesertaRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:deletePesertaResponseMessage"/>
+    <variable name="extendedVar" element="ns1:tempDeletePeserta"/>
+    <variable name="header" element="ns2:header"/>
+    <variable name="getEdukasiData_InputVariable"
+              messageType="ns3:args_in_msg"/>
+    <variable name="getEdukasiData_OutputVariable"
+              messageType="ns3:args_out_msg"/>
+    <variable name="deletPeserta_process_InputVariable"
+              messageType="ns9:BPELProcess1RequestMessage"/>
+    <variable name="deletPeserta_process_OutputVariable"
+              messageType="ns9:BPELProcess1ResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in deletePeserta.wsdl) -->
+    <receive name="receiveInput" partnerLink="deletepeserta_client" portType="client:deletePeserta" operation="process" variable="inputVariable" createInstance="yes"
+             bpelx:headerVariable="header"/>
+    <assign name="header">
+      <copy>
+        <from>$header/ns2:ppk</from>
+        <to>$extendedVar/ns1:ppk</to>
+      </copy>
+      <copy>
+        <from>$header/ns2:kdJnsUser</from>
+        <to>$extendedVar/ns1:kdJnsUser</to>
+      </copy>
+    </assign>
+    <if name="If_kdJnsuser">
+      <condition>$extendedVar/ns1:kdJnsUser!='000'</condition>
+      <sequence name="Sequence3">
+        <assign name="error_kdJnsUser">
+          <copy>
+            <from>'X-Authentication, Jenis User Bukan Administrator'</from>
+            <to>$outputVariable.payload/ns2:message</to>
+          </copy>
+          <copy>
+            <from><literal>422</literal></from>
+            <to>$outputVariable.payload/ns2:code</to>
+          </copy>
+        </assign>
+        <reply name="returnError" variable="outputVariable"
+               partnerLink="deletepeserta_client"
+               portType="client:deletePeserta" operation="process"/>
+        <exit name="Exit1"/>
+      </sequence>
+      <else>
+        <if name="If_eduId">
+          <condition>normalize-space($inputVariable.payload/ns2:eduId) = 0</condition>
+          <sequence name="Sequence4">
+            <assign name="error_eduId">
+              <copy>
+                <from>'eduId Tidak boleh kosong'</from>
+                <to>$outputVariable.payload/ns2:message</to>
+              </copy>
+              <copy>
+                <from><literal>403</literal></from>
+                <to>$outputVariable.payload/ns2:code</to>
+              </copy>
+            </assign>
+            <reply name="returnError" variable="outputVariable"
+                   partnerLink="deletepeserta_client"
+                   portType="client:deletePeserta" operation="process"/>
+            <exit name="Exit2"/>
+          </sequence>
+          <else>
+            <sequence name="Sequence1">
+              <assign name="check_refrence">
+                <copy>
+                  <from>$header/ns2:ppk</from>
+                  <to>$getEdukasiData_InputVariable.InputParameters/ns4:kdppk</to>
+                </copy>
+                <copy>
+                  <from>$inputVariable.payload/ns2:eduId</from>
+                  <to>$getEdukasiData_InputVariable.InputParameters/ns4:eduId</to>
+                </copy>
+              </assign>
+              <invoke name="getEdukasiData"
+                      partnerLink="getEdukasiData"
+                      portType="ns3:getEdukasiData_ptt"
+                      operation="getEdukasiData"
+                      inputVariable="getEdukasiData_InputVariable"
+                      outputVariable="getEdukasiData_OutputVariable"
+                      bpelx:invokeAsDetail="no"/>
+              <if name="If_refrences">
+                <condition>count($getEdukasiData_OutputVariable.OutputParameters/ns4:RowSet/ns4:Row)&lt;1</condition>
+                <sequence name="Sequence5">
+                  <assign name="error_eduId">
+                    <copy>
+                      <from>'eduId Tidak sesuai dengan referensi sistem.'</from>
+                      <to>$outputVariable.payload/ns2:message</to>
+                    </copy>
+                    <copy>
+                      <from><literal>412</literal></from>
+                      <to>$outputVariable.payload/ns2:code</to>
+                    </copy>
+                  </assign>
+                  <reply name="returnError" variable="outputVariable"
+                         partnerLink="deletepeserta_client"
+                         portType="client:deletePeserta" operation="process"/>
+                  <exit name="Exit3"/>
+                </sequence>
+                <else>
+                  <sequence name="Sequence2">
+                    <assign name="assign_to_delete">
+                      <copy>
+                        <from>$inputVariable.payload/ns2:eduId</from>
+                        <to>$deletPeserta_process_InputVariable.payload/ns8:eduId</to>
+                      </copy>
+                      <copy>
+                        <from>$deletPeserta_process_InputVariable.payload/ns8:noKartu</from>
+                        <to>$deletPeserta_process_InputVariable.payload/ns8:noKartu</to>
+                      </copy>
+                      <copy>
+                        <from>$header/ns2:username</from>
+                        <to>$deletPeserta_process_InputVariable.payload/ns8:LUser</to>
+                      </copy>
+                    </assign>
+                    <invoke name="deletPeserta"
+                            partnerLink="BPELProcess1.bpelprocess1_client"
+                            portType="ns9:BPELProcess1" operation="process"
+                            inputVariable="deletPeserta_process_InputVariable"
+                            outputVariable="deletPeserta_process_OutputVariable"
+                            bpelx:invokeAsDetail="no"/>
+                    <if name="If_returnType">
+                      <documentation>
+                        <![CDATA[true]]>
+                      </documentation>
+                      <condition>$deletPeserta_process_OutputVariable.payload/ns8:response</condition>
+                      <assign name="code200">
+                        <copy>
+                          <from><literal>200</literal></from>
+                          <to>$outputVariable.payload/ns2:code</to>
+                        </copy>
+                        <copy>
+                          <from>'OK'</from>
+                          <to>$outputVariable.payload/ns2:message</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <documentation>
+                          <![CDATA[false]]>
+                        </documentation>
+                        <assign name="code500">
+                          <copy>
+                            <from><literal>500</literal></from>
+                            <to>$outputVariable.payload/ns2:code</to>
+                          </copy>
+                          <copy>
+                            <from>'NOT_MODIFIED'</from>
+                            <to>$outputVariable.payload/ns2:message</to>
+                          </copy>
+                        </assign>
+                      </else>
+                    </if>
+                  </sequence>
+                </else>
+              </if>
+            </sequence>
+          </else>
+        </if>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="deletepeserta_client" portType="client:deletePeserta" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

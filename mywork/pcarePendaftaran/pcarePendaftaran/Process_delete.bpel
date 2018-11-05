@@ -1,0 +1,361 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Sep 05 11:53:21 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="Process_delete"
+               targetNamespace="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.example.org/BPJS/deletePendaftaran"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/pcarePendaftaran/pcarePendaftaran/getPendaftarByPpkNoUrutOrNoKartu"
+         xmlns:ns3="http://www.example.org/BPJS/extendedVar"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/sp/getPendaftarByPpkNoUrutOrNoKartu"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/pcarePendaftaran/pcarePendaftaran/DaftarDelete"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/DaftarDelete"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/pcarePendaftaran/pcarePendaftaran/getPoliF1ByAlias"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/getPoliF1ByAlias"
+         xmlns:ns9="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/daftarDeleteToSP"
+         xmlns:ns10="http://www.example.org">
+  <import namespace="http://www.example.org/BPJS/extendedVar"
+          location="xsd/extendedVar.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org/BPJS/deletePendaftaran"
+          location="xsd/deletePendaftaran.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/Process_delete" location="Process_delete.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="process_delete_client" partnerLinkType="client:Process_delete" myRole="Process_deleteProvider"/>
+    <partnerLink name="getPoliF1ByAlias"
+                 partnerLinkType="ns7:getPoliF1ByAlias_plt"
+                 partnerRole="getPoliF1ByAlias_role"/>
+    <partnerLink name="daftarDeleteToSP.daftardeletetosp_client"
+                 partnerLinkType="ns9:daftarDeleteToSP"
+                 partnerRole="daftarDeleteToSPProvider"/>
+    <partnerLink name="getPendaftarByPpkNoUrutOrNoKartu"
+                 partnerLinkType="ns2:getPendaftarByPpkNoUrutOrNoKartu_plt"
+                 partnerRole="getPendaftarByPpkNoUrutOrNoKartu_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:Process_deleteRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:Process_deleteResponseMessage"/>
+    <variable name="header" element="ns1:header"/>
+    <variable name="extendedVar" element="ns3:tempDelete"/>
+    <variable name="Check_refrensi_alias_getPoliF1ByAlias_InputVariable"
+              messageType="ns7:getPoliF1ByAliasInput_msg"/>
+    <variable name="Check_refrensi_alias_getPoliF1ByAlias_OutputVariable"
+              messageType="ns7:getPoliF1ByAliasOutputCollection_msg"/>
+    <variable name="getPendaftarByPpkNoUrutOrNoKartu_InputVariable"
+              messageType="ns2:args_in_msg"/>
+    <variable name="getPendaftarByPpkNoUrutOrNoKartu_OutputVariable"
+              messageType="ns2:args_out_msg"/>
+    <variable name="daftarDelete_process_InputVariable"
+              messageType="ns9:daftarDeleteToSPRequestMessage"/>
+    <variable name="daftarDelete_process_OutputVariable"
+              messageType="ns9:daftarDeleteToSPResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in Process_delete.wsdl) -->
+    <receive name="receiveInput" partnerLink="process_delete_client" portType="client:Process_delete" operation="process" variable="inputVariable" createInstance="yes"
+             bpelx:headerVariable="header"/>
+    <assign name="kdPpk">
+      <copy>
+        <from>$header/ns1:kdppk</from>
+        <to>$extendedVar/ns3:kdPpk</to>
+      </copy>
+    </assign>
+    <if name="If_noKartu_noUrut_null">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>string-length($inputVariable.payload/ns1:noKartu)=0</condition>
+      <sequence name="Sequence2"><assign name="noKartu">
+          <copy>
+            <from>'noKartu,  Tidak boleh kosong''</from>
+            <to>$outputVariable.payload/ns1:message</to>
+          </copy>
+          <copy>
+            <from><literal>404</literal></from>
+            <to>$outputVariable.payload/ns1:code</to>
+          </copy>
+        </assign>
+        <reply name="Reply1" variable="outputVariable"
+               partnerLink="process_delete_client"
+               portType="client:Process_delete" operation="process"/>
+        <exit name="Exit1"/>
+      </sequence>
+      <elseif>
+        <documentation>
+          <![CDATA[valid]]>
+        </documentation>
+        <condition>string-length($inputVariable.payload/ns1:noUrut) = 0</condition>
+        <sequence>
+          <assign name="noUrut">
+            <copy>
+              <from>'noUrut, Tidak boleh kosong'</from>
+              <to>$outputVariable.payload/ns1:message</to>
+            </copy>
+            <copy>
+              <from><literal>404</literal></from>
+              <to>$outputVariable.payload/ns1:code</to>
+            </copy>
+          </assign>
+          <reply name="Reply2" variable="outputVariable"
+                 partnerLink="process_delete_client"
+                 portType="client:Process_delete" operation="process"/>
+          <exit name="Exit2"/>
+        </sequence>
+      </elseif>
+      <else>
+        <sequence name="Sequence6">
+          <assign name="noUrut_substring">
+            <copy>
+              <from>substring($inputVariable.payload/ns1:noUrut,1,1)</from>
+              <to>$Check_refrensi_alias_getPoliF1ByAlias_InputVariable.getPoliF1ByAliasInput_msg/ns8:aliasantrian</to>
+            </copy>
+          </assign>
+          <invoke name="Check_refrensi_alias"
+                  partnerLink="getPoliF1ByAlias"
+                  portType="ns7:getPoliF1ByAlias_ptt"
+                  operation="getPoliF1ByAlias"
+                  inputVariable="Check_refrensi_alias_getPoliF1ByAlias_InputVariable"
+                  outputVariable="Check_refrensi_alias_getPoliF1ByAlias_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <if name="If_aliasPoliNotNull">
+            <documentation>
+              <![CDATA[valid]]>
+            </documentation>
+            <condition>count($Check_refrensi_alias_getPoliF1ByAlias_OutputVariable.getPoliF1ByAliasOutputCollection/ns8:getPoliF1ByAliasOutput)&gt;0</condition>
+            <if name="If_notMatched">
+              <documentation>
+                <![CDATA[valid]]>
+              </documentation>
+              <condition>$inputVariable.payload/ns1:kdPoli != $Check_refrensi_alias_getPoliF1ByAlias_OutputVariable.getPoliF1ByAliasOutputCollection/ns8:getPoliF1ByAliasOutput/ns8:kdpoli</condition><sequence xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <assign name="kdPoli">
+                  <copy>
+                    <from>'kdPoli, tidak sesuai dengan referensi sistem'</from>
+                    <to>$outputVariable.payload/ns1:message</to>
+                  </copy>
+                  <copy>
+                    <from><literal>412</literal></from>
+                    <to>$outputVariable.payload/ns1:code</to>
+                  </copy>
+                </assign>
+      <reply name="Reply2" variable="outputVariable"
+             partnerLink="process_delete_client"
+             portType="client:Process_delete" operation="process"/>
+      <exit name="Exit2"/>
+   </sequence><else>
+                <documentation>
+                  <![CDATA[invalid]]>
+                </documentation>
+                <sequence name="Sequence7">
+                  <assign name="getKdpoliToSP">
+                    <copy>
+                      <from>$Check_refrensi_alias_getPoliF1ByAlias_OutputVariable.getPoliF1ByAliasOutputCollection/ns8:getPoliF1ByAliasOutput/ns8:kdpoli</from>
+                      <to>$extendedVar/ns3:getKdpoli</to>
+                    </copy>
+                  </assign>
+                </sequence>
+              </else>
+            </if>
+            <else>
+              <documentation>
+                <![CDATA[invalid]]>
+              </documentation>
+              <sequence>
+                <assign name="getKdPoli">
+                  <copy>
+                    <from>$inputVariable.payload/ns1:kdPoli</from>
+                    <to>$extendedVar/ns3:getKdpoli</to>
+                  </copy>
+                </assign>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <assign name="setTglLahir_IND_DATE">
+      <copy>
+        <from>concat(substring($inputVariable.payload/ns1:tglDaftar,7,4),'-',substring($inputVariable.payload/ns1:tglDaftar,4,2),'-',(substring($inputVariable.payload/ns1:tglDaftar,1,2)))</from>
+        <to>$extendedVar/ns3:setTglLhr</to>
+      </copy>
+    </assign>
+    <assign name="cekPendaftaranByPpk">
+      <copy>
+        <from>$extendedVar/ns3:getKdpoli</from>
+        <to>$getPendaftarByPpkNoUrutOrNoKartu_InputVariable.InputParameters/ns4:kdpoli</to>
+      </copy>
+      <copy>
+        <from>''</from>
+        <to>$getPendaftarByPpkNoUrutOrNoKartu_InputVariable.InputParameters/ns4:urut</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:noKartu</from>
+        <to>$getPendaftarByPpkNoUrutOrNoKartu_InputVariable.InputParameters/ns4:nokapst</to>
+      </copy>
+      <copy>
+        <from>$extendedVar/ns3:setTglLhr</from>
+        <to>$getPendaftarByPpkNoUrutOrNoKartu_InputVariable.InputParameters/ns4:tglDaftar</to>
+      </copy>
+      <copy>
+        <from>$extendedVar/ns3:kdPpk</from>
+        <to>$getPendaftarByPpkNoUrutOrNoKartu_InputVariable.InputParameters/ns4:ppk</to>
+      </copy>
+      <copy>
+        <from>'1,0'</from>
+        <to>$getPendaftarByPpkNoUrutOrNoKartu_InputVariable.InputParameters/ns4:kunjSakit</to>
+      </copy>
+    </assign>
+    <invoke name="getPendaftarByPpkNoUrutOrNoKartu"
+            inputVariable="getPendaftarByPpkNoUrutOrNoKartu_InputVariable"
+            outputVariable="getPendaftarByPpkNoUrutOrNoKartu_OutputVariable"
+            partnerLink="getPendaftarByPpkNoUrutOrNoKartu"
+            portType="ns2:getPendaftarByPpkNoUrutOrNoKartu_ptt"
+            operation="getPendaftarByPpkNoUrutOrNoKartu"
+            bpelx:invokeAsDetail="no"/>
+    <if name="If_resultSPNull">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>count($getPendaftarByPpkNoUrutOrNoKartu_OutputVariable.OutputParameters/ns4:RowSet/ns4:Row)=0</condition><sequence xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <assign name="noKartu">
+          <copy>
+            <from>'noKartu, belum melakukan pendaftaran pada poli tersebut'</from>
+            <to>$outputVariable.payload/ns1:message</to>
+          </copy>
+          <copy>
+            <from><literal>404</literal></from>
+            <to>$outputVariable.payload/ns1:code</to>
+          </copy>
+        </assign>
+      <reply name="Reply2" variable="outputVariable"
+             partnerLink="process_delete_client"
+             portType="client:Process_delete" operation="process"/>
+      <exit name="Exit2"/>
+   </sequence><else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation>
+        <assign name="setNoUrut">
+          <copy>
+            <from>$inputVariable.payload/ns1:noUrut</from>
+            <to>$extendedVar/ns3:setNoUrut</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <assign name="Delete_daftar">
+      <copy>
+        <from>$inputVariable.payload/ns1:noKartu</from>
+        <to>$daftarDelete_process_InputVariable.payload/ns10:NOKAPST</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:noUrut</from>
+        <to>$daftarDelete_process_InputVariable.payload/ns10:NOURUT</to>
+      </copy>
+      <copy>
+        <from>$extendedVar/ns3:kdPpk</from>
+        <to>$daftarDelete_process_InputVariable.payload/ns10:PPK_KUNJUNGAN</to>
+      </copy>
+      <copy>
+        <from>$extendedVar/ns3:setTglLhr</from>
+        <to>$daftarDelete_process_InputVariable.payload/ns10:TGLDAFTAR</to>
+      </copy>
+      <copy>
+        <from>$extendedVar/ns3:getKdpoli</from>
+        <to>$daftarDelete_process_InputVariable.payload/ns10:KDPOLI</to>
+      </copy>
+    </assign>
+    <invoke name="daftarDelete"
+            partnerLink="daftarDeleteToSP.daftardeletetosp_client"
+            portType="ns9:daftarDeleteToSP" operation="process"
+            inputVariable="daftarDelete_process_InputVariable"
+            outputVariable="daftarDelete_process_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <if name="If_responseType">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>$daftarDelete_process_OutputVariable.payload/ns10:response</condition>
+      <assign name="code200">
+        <copy>
+          <from><literal>200</literal></from>
+          <to>$outputVariable.payload/ns1:code</to>
+        </copy>
+        <copy>
+          <from>'OK'</from>
+          <to>$outputVariable.payload/ns1:message</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation>
+        <assign name="code500"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+      
+   <copy>
+         <from><literal>500</literal></from>
+         <to>$outputVariable.payload/ns1:code</to>
+      </copy><copy>
+         <from>'NOT_MODIFIED'</from>
+         <to>$outputVariable.payload/ns1:message</to>
+      </copy></assign></else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="process_delete_client" portType="client:Process_delete" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

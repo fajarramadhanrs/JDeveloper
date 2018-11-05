@@ -1,0 +1,51 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="PndftrnBayiBaruLahir"
+     targetNamespace="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+     xmlns:ns2="http://www.example.org"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka"
+    >
+    <plnk:partnerLinkType name="PndftrnBayiBaruLahir">
+        <plnk:role name="PndftrnBayiBaruLahirProvider" portType="client:PndftrnBayiBaruLahir"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+             xmlns:ns2="http://www.example.org" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka">
+            <import namespace="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+                 schemaLocation="xsd/PndftrnBayiBaruLahir.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+             xmlns:ns2="http://www.example.org" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka">
+            <xsd:import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka"
+                 schemaLocation="xsd/GetJnsPstHistLastByPsnoka.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+             xmlns:ns2="http://www.example.org" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka">
+            <xsd:import namespace="http://www.example.org" schemaLocation="xsd/Administrasi.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.example.org" schemaLocation="xsd/Peserta.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="PndftrnBayiBaruLahirRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="PndftrnBayiBaruLahirResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="PndftrnBayiBaruLahir">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:PndftrnBayiBaruLahirRequestMessage"/>
+            <wsdl:output message="client:PndftrnBayiBaruLahirResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

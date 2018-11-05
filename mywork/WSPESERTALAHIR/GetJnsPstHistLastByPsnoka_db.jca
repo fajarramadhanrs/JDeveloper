@@ -1,0 +1,13 @@
+<adapter-config name="GetJnsPstHistLastByPsnoka" adapter="Database Adapter" wsdlLocation="GetJnsPstHistLastByPsnoka.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="SQLBPJS" adapterRef=""/>
+  <endpoint-interaction portType="GetJnsPstHistLastByPsnoka_ptt" operation="GetJnsPstHistLastByPsnoka">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="SELECT A.NOKA, A.KDHUBKEL, B.TMTPEG, B.NIPBARU, B.NIPLAMA, B.MASABERLAKU, B.KDPKS, B.KDSUBPKS, B.KDJNSKPST, B.KDJNSPESERTA, B.TSINPUT, B.USERINPUT, B.TSUPDATE,  B.USERUPDATE, E.KDDATI2,  D.NMJNSKPST, C.KETJNSPESERTA,E.NMPKS, F.NMSUBPKS, E.KDKANTOR, B.FLAGTANGGUNGAN FROM  dbo.PESERTA A                      OUTER APPLY dbo.UFN_JNSPST_LAST2(A.NOKA) B  INNER JOIN dbo.JNSPESERTA_TBL C ON C.KDJNSPESERTA=B.KDJNSPESERTA   INNER JOIN dbo.JNSKPST_TBL D ON D.KDJNSPESERTA=B.KDJNSPESERTA AND D.KDJNSKPST=B.KDJNSKPST   INNER JOIN dbo.PKS E ON E.KDPKS=B.KDPKS   INNER JOIN dbo.SUB_PKS F ON F.KDPKS=B.KDPKS AND F.KDSUBPKS=B.KDSUBPKS   WHERE A.PSNOKA = #PS_NOKA"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

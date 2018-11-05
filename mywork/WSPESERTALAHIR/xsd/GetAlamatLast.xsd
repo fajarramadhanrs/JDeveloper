@@ -1,0 +1,41 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetAlamatLast" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/GetAlamatLast" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="GetAlamatLastInput" type="GetAlamatLastInput"/>
+   <xs:complexType name="GetAlamatLastInput">
+      <xs:sequence>
+         <xs:element name="PSNOKA" type="xs:string" nillable="true"/>
+         <xs:element name="KDJNS_ALAMAT" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="GetAlamatLastOutputCollection" type="GetAlamatLastOutputCollection"/>
+   <xs:complexType name="GetAlamatLastOutputCollection">
+      <xs:sequence>
+         <xs:element name="GetAlamatLastOutput" type="GetAlamatLastOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="GetAlamatLastOutput">
+      <xs:sequence>
+         <xs:element name="PSNOKA" type="xs:string" nillable="true"/>
+         <xs:element name="TGLSEJAK" type="xs:dateTime" nillable="true"/>
+         <xs:element name="KDDESA" type="xs:string" nillable="true"/>
+         <xs:element name="ALAMAT" type="xs:string" nillable="true"/>
+         <xs:element name="RT" type="xs:string" nillable="true"/>
+         <xs:element name="RW" type="xs:string" nillable="true"/>
+         <xs:element name="KODEPOS" type="xs:string" nillable="true"/>
+         <xs:element name="KKNO" type="xs:string" nillable="true"/>
+         <xs:element name="KDTLP" type="xs:string" nillable="true"/>
+         <xs:element name="NOTLP" type="xs:string" nillable="true"/>
+         <xs:element name="KDFAX" type="xs:string" nillable="true"/>
+         <xs:element name="NOFAX" type="xs:string" nillable="true"/>
+         <xs:element name="KDJNS_ALAMAT" type="xs:short" nillable="true"/>
+         <xs:element name="NMDESA" type="xs:string" nillable="true"/>
+         <xs:element name="KDKEC" type="xs:string" nillable="true"/>
+         <xs:element name="NMKEC" type="xs:string" nillable="true"/>
+         <xs:element name="KDDATI2" type="xs:string" nillable="true"/>
+         <xs:element name="NMDATI2" type="xs:string" nillable="true"/>
+         <xs:element name="KDPROP" type="xs:string" nillable="true"/>
+         <xs:element name="NMPROP" type="xs:string" nillable="true"/>
+         <xs:element name="KDDATI2PST" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

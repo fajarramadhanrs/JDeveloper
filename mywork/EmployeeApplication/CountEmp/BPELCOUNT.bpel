@@ -1,0 +1,93 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Fri May 25 16:06:57 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELCOUNT"
+               targetNamespace="http://xmlns.oracle.com/EmployeeApplication/CountEmp/BPELCOUNT"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/EmployeeApplication/CountEmp/BPELCOUNT"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/EmployeeApplication/CountEmp/DBCountRow">
+
+    <import namespace="http://xmlns.oracle.com/EmployeeApplication/CountEmp/BPELCOUNT" location="BPELCOUNT.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpelcount_client" partnerLinkType="client:BPELCOUNT" myRole="BPELCOUNTProvider"/>
+    <partnerLink name="DBCountRow" partnerLinkType="ns1:DBCountRow_plt"
+                 partnerRole="DBCountRow_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPELCOUNTRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPELCOUNTResponseMessage"/>
+    <variable name="Invoke1_DBCountRow_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="Invoke1_DBCountRow_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELCOUNT.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpelcount_client" portType="client:BPELCOUNT" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Transform1">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/TransformationReq.xsl", $inputVariable.payload)</from>
+        <to variable="Invoke1_DBCountRow_InputVariable" part="InputParameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke1" bpelx:invokeAsDetail="no" partnerLink="DBCountRow"
+            portType="ns1:DBCountRow_ptt" operation="DBCountRow"
+            inputVariable="Invoke1_DBCountRow_InputVariable"
+            outputVariable="Invoke1_DBCountRow_OutputVariable"/>
+    <assign name="Transform2">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/TransformationRes.xsl", $Invoke1_DBCountRow_OutputVariable.OutputParameters)</from>
+        <to variable="outputVariable" part="payload"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpelcount_client" portType="client:BPELCOUNT" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

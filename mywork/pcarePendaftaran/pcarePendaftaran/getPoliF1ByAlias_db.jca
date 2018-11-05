@@ -1,0 +1,13 @@
+<adapter-config name="getPoliF1ByAlias" adapter="Database Adapter" wsdlLocation="getPoliF1ByAlias.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/PelayananDS" UIConnectionName="dbPelayanan" adapterRef=""/>
+  <endpoint-interaction portType="getPoliF1ByAlias_ptt" operation="getPoliF1ByAlias">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="select kdpoli, nmpoli, statusAktif, isPoliSakit, AliasAntrian from refpolif1 where statusAktif=1 and aliasantrian=#aliasantrian"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

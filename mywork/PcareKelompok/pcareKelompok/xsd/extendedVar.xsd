@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org/BPJS/extendedVar"
+            targetNamespace="http://www.example.org/BPJS/extendedVar"
+            elementFormDefault="qualified">
+   <xsd:element name="tempAddPeserta">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="dpho" type="xsd:string"/>
+        <xsd:element name="kdRacikan" type="xsd:string" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="tempDeletePeserta">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ppk" type="xsd:string"/>
+        <xsd:element name="kdJnsUser" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="tempDeleteKegiatan">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ppk" type="xsd:string"/>
+        <xsd:element name="kdJnsUser" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

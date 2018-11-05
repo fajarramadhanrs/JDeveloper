@@ -1,0 +1,1160 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Jul 03 14:19:37 ICT 2018
+  Author:  ERFIAN
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="PndftrnBayiBaruLahir"
+               targetNamespace="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/BPJS_SOA/PendaftaranBayiBaruLahir/GetPesertaBayi"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/top/GetPesertaBayi"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetJnsPstHistLastByPsnoka"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/sp/GetJnsPstHistLastByPsnoka"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPesertaBYNIKOnly"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/GetPesertaBYNIKOnly"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPesertaByNIKOnly_"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/GetPesertaByNIKOnly_"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPesertaBYpsnoka"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/db/GetPesertaBYpsnoka"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/UpdatePeserta"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/sp/UpdatePeserta"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/SaveCetakKartuBayi"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/db/sp/SaveCetakKartuBayi"
+         xmlns:ns16="http://www.example.org"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPpkHistLast"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/db/sp/GetPpkHistLast"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetJmlAnakTanggunganAktif"
+         xmlns:ns20="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetAlamatLast"
+         xmlns:ns21="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/IsPksUnCutOff"
+         xmlns:ns22="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPremiLast"
+         xmlns:ns23="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetRefPpk"
+         xmlns:ns24="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetRefKantor"
+         xmlns:ns25="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetAlokasiMigrasi"
+         xmlns:ns26="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/SavePesertaAdmin_WebOut"
+         xmlns:ns27="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetGolHistLast"
+         xmlns:ns28="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPesertaByNamaTglLhrKlg"
+         xmlns:ns29="http://xmlns.oracle.com/pcbpel/adapter/db/sp/GetPesertaByNamaTglLhrKlg"
+         xmlns:ns30="http://xmlns.oracle.com/pcbpel/adapter/db/sp/GetJmlAnakTanggunganAktif"
+         xmlns:ns31="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/SaveLogDukcapilForInfo"
+         xmlns:ns32="http://xmlns.oracle.com/pcbpel/adapter/db/sp/SaveLogDukcapilForInfo">
+  <import namespace="http://www.example.org" location="xsd/Peserta.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org" location="xsd/Administrasi.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka"
+          location="xsd/GetJnsPstHistLastByPsnoka.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir" location="PndftrnBayiBaruLahir.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="pndftrnbayibarulahir_client" partnerLinkType="client:PndftrnBayiBaruLahir" myRole="PndftrnBayiBaruLahirProvider"/>
+    <partnerLink name="GetJnsPstHistLastByPsnoka"
+                 partnerLinkType="ns3:GetJnsPstHistLastByPsnoka_plt"
+                 partnerRole="GetJnsPstHistLastByPsnoka_role"/>
+    <partnerLink name="GetPesertaByNikOnly"
+                 partnerLinkType="ns8:GetPesertaByNIKOnly__plt"
+                 partnerRole="GetPesertaByNIKOnly__role"/>
+    <partnerLink name="GetPesertaBYpsnoka"
+                 partnerLinkType="ns10:GetPesertaBYpsnoka_plt"
+                 partnerRole="GetPesertaBYpsnoka_role"/>
+    <partnerLink name="UpdatePeserta" partnerLinkType="ns12:UpdatePeserta_plt"
+                 partnerRole="UpdatePeserta_role"/>
+    <partnerLink name="SaveCetakKartuBayi"
+                 partnerLinkType="ns14:SaveCetakKartuBayi_plt"
+                 partnerRole="SaveCetakKartuBayi_role"/>
+    <partnerLink name="GetPpkHisLast" partnerLinkType="ns17:GetPpkHistLast_plt"
+                 partnerRole="GetPpkHistLast_role"/>
+    <partnerLink name="GetAlamatLast" partnerLinkType="ns20:GetAlamatLast_plt"
+                 partnerRole="GetAlamatLast_role"/>
+    <partnerLink name="GetPesertaByNamaTglLhrKlg"
+                 partnerLinkType="ns28:GetPesertaByNamaTglLhrKlg_plt"
+                 partnerRole="GetPesertaByNamaTglLhrKlg_role"/>
+    <partnerLink name="SavePesertaAdmin_WebOut"
+                 partnerLinkType="ns26:SavePesertaAdmin_WebOut_plt"
+                 partnerRole="SavePesertaAdmin_WebOut_role"/>
+    <partnerLink name="GetAlokasiMigrasi"
+                 partnerLinkType="ns25:GetAlokasiMigrasi_plt"
+                 partnerRole="GetAlokasiMigrasi_role"/>
+    <partnerLink name="GetRefKantor" partnerLinkType="ns24:GetRefKantor_plt"
+                 partnerRole="GetRefKantor_role"/>
+    <partnerLink name="GetRefPpk" partnerLinkType="ns23:GetRefPpk_plt"
+                 partnerRole="GetRefPpk_role"/>
+    <partnerLink name="GetPremiLast" partnerLinkType="ns22:GetPremiLast_plt"
+                 partnerRole="GetPremiLast_role"/>
+    <partnerLink name="GetJmlAnakTanggunganAktif"
+                 partnerLinkType="ns19:GetJmlAnakTanggunganAktif_plt"
+                 partnerRole="GetJmlAnakTanggunganAktif_role"/>
+    <partnerLink name="GetGolHisLast" partnerLinkType="ns27:GetGolHistLast_plt"
+                 partnerRole="GetGolHistLast_role"/>
+    <partnerLink name="SaveLogDukcapilForInfo"
+                 partnerLinkType="ns31:SaveLogDukcapilForInfo_plt"
+                 partnerRole="SaveLogDukcapilForInfo_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:PndftrnBayiBaruLahirRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:PndftrnBayiBaruLahirResponseMessage"/>
+    <variable name="GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_InputVariable"
+              messageType="ns3:GetJnsPstHistLastByPsnokaInput_msg"/>
+    <variable name="GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable"
+              messageType="ns3:GetJnsPstHistLastByPsnokaOutputCollection_msg"/>
+    <variable name="GetPesertaBYNIKOnly_GetPesertaByNIKOnly__InputVariable"
+              messageType="ns8:GetPesertaByNIKOnly_Input_msg"/>
+    <variable name="GetPesertaBYNIKOnly_GetPesertaByNIKOnly__OutputVariable"
+              messageType="ns8:GetPesertaByNIKOnly_OutputCollection_msg"/>
+    <variable name="GetPesertaBYpsnoka_GetPesertaBYpsnoka_InputVariable"
+              messageType="ns10:GetPesertaBYpsnokaInput_msg"/>
+    <variable name="GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable"
+              messageType="ns10:GetPesertaBYpsnokaOutputCollection_msg"/>
+    <variable name="UpdatePeserta_UpdatePeserta_InputVariable"
+              messageType="ns12:args_in_msg"/>
+    <variable name="UpdatePeserta_UpdatePeserta_OutputVariable"
+              messageType="ns12:args_out_msg"/>
+    <variable name="SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable"
+              messageType="ns14:args_in_msg"/>
+    <variable name="SaveCetakKartuBayi_SaveCetakKartuBayi_OutputVariable"
+              messageType="ns14:args_out_msg"/>
+    <variable name="Administrasi" element="ns16:Adm"/>
+    <variable name="Peserta" element="ns16:pst"/>
+    <variable name="GetPpkHisLast_GetPpkHistLast_InputVariable"
+              messageType="ns17:args_in_msg"/>
+    <variable name="GetPpkHisLast_GetPpkHistLast_OutputVariable"
+              messageType="ns17:args_out_msg"/>
+    <variable name="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_InputVariable"
+              messageType="ns28:args_in_msg"/>
+    <variable name="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_OutputVariable"
+              messageType="ns28:args_out_msg"/>
+    <variable name="GetAlamatLast_GetAlamatLast_InputVariable"
+              messageType="ns20:GetAlamatLastInput_msg"/>
+    <variable name="GetAlamatLast_GetAlamatLast_OutputVariable"
+              messageType="ns20:GetAlamatLastOutputCollection_msg"/>
+    <variable name="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_InputVariable_1"
+              messageType="ns28:args_in_msg"/>
+    <variable name="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_OutputVariable_1"
+              messageType="ns28:args_out_msg"/>
+    <variable name="Invoke1_SavePesertaAdmin_WebOut_InputVariable"
+              messageType="ns26:args_in_msg"/>
+    <variable name="Invoke1_SavePesertaAdmin_WebOut_OutputVariable"
+              messageType="ns26:args_out_msg"/>
+    <variable name="GetAlokasiMigrasi_GetAlokasiMigrasi_InputVariable"
+              messageType="ns25:args_in_msg"/>
+    <variable name="GetAlokasiMigrasi_GetAlokasiMigrasi_OutputVariable"
+              messageType="ns25:args_out_msg"/>
+    <variable name="GetRefKantor_GetRefKantor_InputVariable"
+              messageType="ns24:args_in_msg"/>
+    <variable name="GetRefKantor_GetRefKantor_OutputVariable"
+              messageType="ns24:args_out_msg"/>
+    <variable name="GetRefPpk_GetRefPpk_InputVariable"
+              messageType="ns23:args_in_msg"/>
+    <variable name="GetRefPpk_GetRefPpk_OutputVariable"
+              messageType="ns23:args_out_msg"/>
+    <variable name="GetPremiLast_GetPremiLast_InputVariable"
+              messageType="ns22:args_in_msg"/>
+    <variable name="GetPremiLast_GetPremiLast_OutputVariable"
+              messageType="ns22:args_out_msg"/>
+    <variable name="GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_InputVariable"
+              messageType="ns19:args_in_msg"/>
+    <variable name="GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_OutputVariable"
+              messageType="ns19:args_out_msg"/>
+    <variable name="GetGolHisLast_GetGolHistLast_InputVariable"
+              messageType="ns27:args_in_msg"/>
+    <variable name="GetGolHisLast_GetGolHistLast_OutputVariable"
+              messageType="ns27:args_out_msg"/>
+    <variable name="SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable"
+              messageType="ns31:args_in_msg"/>
+    <variable name="SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_OutputVariable"
+              messageType="ns31:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in PndftrnBayiBaruLahir.wsdl) -->
+    <receive name="receiveInput" partnerLink="pndftrnbayibarulahir_client" portType="client:PndftrnBayiBaruLahir" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="Check_PsNoka_isnotnull">
+      <documentation>
+        <![CDATA[PSNOKA_Validation]]>
+      </documentation>
+      <condition>$inputVariable.payload/client:PSNOKA != 'null' or $inputVariable.payload/client:PSNOKA != '' and string-length($inputVariable.payload/client:PSNOKA) = 13</condition>
+      <sequence name="Sequence1">
+        <assign name="getValue_GetJnsPstHistLastByPsnoka">
+          <copy>
+            <from>$inputVariable.payload/client:PSNOKA</from>
+            <to>$GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_InputVariable.GetJnsPstHistLastByPsnokaInput_msg/ns5:PS_NOKA</to>
+          </copy>
+        </assign>
+        <invoke name="GetJnsPstHistLastByPsnoka"
+                inputVariable="GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_InputVariable"
+                outputVariable="GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable"
+                partnerLink="GetJnsPstHistLastByPsnoka"
+                portType="ns3:GetJnsPstHistLastByPsnoka_ptt"
+                operation="GetJnsPstHistLastByPsnoka"
+                bpelx:invokeAsDetail="no"/>
+        <if name="Check_Individu_Validation">
+          <documentation>
+            <![CDATA[Individu_Validation]]>
+          </documentation>
+          <condition>$GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable.GetJnsPstHistLastByPsnokaOutputCollection/ns5:GetJnsPstHistLastByPsnokaOutput/ns5:B_KDJNSPESERTA = 14 or $GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable.GetJnsPstHistLastByPsnokaOutputCollection/ns5:GetJnsPstHistLastByPsnokaOutput/ns5:B_KDJNSPESERTA = 23 or $GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable.GetJnsPstHistLastByPsnokaOutputCollection/ns5:GetJnsPstHistLastByPsnokaOutput/ns5:B_KDJNSPESERTA = 24 or $GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable.GetJnsPstHistLastByPsnokaOutputCollection/ns5:GetJnsPstHistLastByPsnokaOutput/ns5:B_KDJNSPESERTA = 25</condition>
+          <sequence name="Sequence2">
+            <assign name="getValue_GetPesertaBYNIKOnly">
+              <copy>
+                <from>$inputVariable.payload/client:NIK</from>
+                <to>$GetPesertaBYNIKOnly_GetPesertaByNIKOnly__InputVariable.GetPesertaByNIKOnly_Input_msg/ns9:NIK</to>
+              </copy>
+            </assign>
+            <invoke name="GetPesertaBYNIKOnly"
+                    inputVariable="GetPesertaBYNIKOnly_GetPesertaByNIKOnly__InputVariable"
+                    outputVariable="GetPesertaBYNIKOnly_GetPesertaByNIKOnly__OutputVariable"
+                    bpelx:invokeAsDetail="no"
+                    partnerLink="GetPesertaByNikOnly"
+                    portType="ns8:GetPesertaByNIKOnly__ptt"
+                    operation="GetPesertaByNIKOnly_"/>
+            <if name="Check_NIK">
+              <documentation>
+                <![CDATA[DB_NOKA_Validation]]>
+              </documentation>
+              <condition>$GetPesertaBYNIKOnly_GetPesertaByNIKOnly__OutputVariable.GetPesertaByNIKOnly_OutputCollection/ns9:GetPesertaByNIKOnly_Output/ns9:NOKA != ''</condition>
+              <assign name="Message_Failed">
+                <copy>
+                  <from>concat("Data Tidak DiProses, NIK : ", $inputVariable.payload/client:NIK," sudah terdaftar, Dengan Nama : ", $GetPesertaBYNIKOnly_GetPesertaByNIKOnly__OutputVariable.GetPesertaByNIKOnly_OutputCollection/ns9:GetPesertaByNIKOnly_Output/ns9:NAMA)</from>
+                  <to>$outputVariable.payload/client:entity</to>
+                </copy>
+                <copy>
+                  <from>'401'</from>
+                  <to>$outputVariable.payload/client:status</to>
+                </copy>
+              </assign>
+              <else>
+                <empty name="Empty18"/>
+              </else>
+            </if>
+            <assign name="getValue_GetPesertaByPSNoka">
+              <copy>
+                <from>$inputVariable.payload/client:PSNOKA</from>
+                <to>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_InputVariable.GetPesertaBYpsnokaInput_msg/ns11:PS_NOKA</to>
+              </copy>
+            </assign>
+            <invoke name="GetPesertaByPsNoka" bpelx:invokeAsDetail="no"
+                    partnerLink="GetPesertaBYpsnoka"
+                    portType="ns10:GetPesertaBYpsnoka_ptt"
+                    operation="GetPesertaBYpsnoka"
+                    inputVariable="GetPesertaBYpsnoka_GetPesertaBYpsnoka_InputVariable"
+                    outputVariable="GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable"/>
+            <assign name="Update_Data_Peserta">
+              <copy>
+                <from>$inputVariable.payload/client:NAMA_LGKP</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:NAMA</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NO_HP</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:NOHP</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NIK</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:NIK</to>
+              </copy>
+              <copy>
+                <from>dvm:lookupValue("dvm/Config.dvm","VariableName","KDKC_USER_KP","Value","")</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:USERUPDATE</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NAMA_LGKP</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:NMCETAK</to>
+              </copy>
+              <copy>
+                <from>xp20:current-dateTime()</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:TSUPDATE</to>
+              </copy>
+              <copy>
+                <from>xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[M01]/[D01]/[Y0001]')</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:TGLLHR</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_PSNOKA</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:PSNOKA</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_AGAMA</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:AGAMA</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_JENKEL</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:JENKEL</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_TMPLHR</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:TMPLHR</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_FLAGTANGGUNGAN</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:FLAGTANGGUNGAN</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_NOKTP</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:NOKTP</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_TAT</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:TAT</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:TMT</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:TMT</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_NPWP</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:NPWP</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_EMAIL</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:EMAIL</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_NOKA</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:NOKA</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDHUBKEL</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:KDHUBKEL</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDSTAWIN</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:KDSTAWIN</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDNEGARA</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:KDNEGARA</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:KDGOLDARAH</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:KDGOLDARAH</to>
+              </copy>
+              <copy>
+                <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDSTATUSPST</from>
+                <to>$UpdatePeserta_UpdatePeserta_InputVariable.InputParameters/ns13:KDSTATUSPST</to>
+              </copy>
+            </assign>
+            <invoke name="UpdatePeserta" partnerLink="UpdatePeserta"
+                    portType="ns12:UpdatePeserta_ptt" operation="UpdatePeserta"
+                    inputVariable="UpdatePeserta_UpdatePeserta_InputVariable"
+                    bpelx:invokeAsDetail="no"
+                    outputVariable="UpdatePeserta_UpdatePeserta_OutputVariable"/>
+            <assign name="Save_Cetak_Kartu_Bayi">
+              <copy>
+                <from>$inputVariable.payload/client:JENIS_KLMIN</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:JENKEL</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NOKA</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:NOKA</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:PSNOKA</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:PSNOKA</to>
+              </copy>
+              <copy>
+                <from>xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[D01]-[M01]-[Y0001]')</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:TGLLAHIR</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:TMPT_LHR</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:TMPLAHIR</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:KD_RS</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:KDRS</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NAMA_LGKP</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:NAMA</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NO_HP</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:NOHP</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NO_KK</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:NOKK</to>
+              </copy>
+              <copy>
+                <from>$inputVariable.payload/client:NIK</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:NIK</to>
+              </copy>
+              <copy>
+                <from>'0'</from>
+                <to>$SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable.InputParameters/ns15:STATUSCETAK</to>
+              </copy>
+            </assign>
+            <invoke name="SaveCetakKartuBayi" partnerLink="SaveCetakKartuBayi"
+                    portType="ns14:SaveCetakKartuBayi_ptt"
+                    operation="SaveCetakKartuBayi"
+                    inputVariable="SaveCetakKartuBayi_SaveCetakKartuBayi_InputVariable"
+                    outputVariable="SaveCetakKartuBayi_SaveCetakKartuBayi_OutputVariable"
+                    bpelx:invokeAsDetail="no"/>
+            <assign name="Message_Success">
+              <copy>
+                <from>$inputVariable.payload/client:PSNOKA</from>
+                <to>$outputVariable.payload/client:entity</to>
+              </copy>
+              <copy>
+                <from>'200'</from>
+                <to>$outputVariable.payload/client:status</to>
+              </copy>
+            </assign>
+          </sequence>
+          <else>
+            <empty name="Empty3"/>
+          </else>
+        </if>
+      </sequence>
+      <else>
+        <documentation/>
+        <sequence name="Sequence4">
+          <empty name="Empty4"/>
+        </sequence>
+      </else>
+    </if>
+    <if name="Parameter_Validation">
+      <documentation>
+        <![CDATA[NOKA_Validation]]>
+      </documentation>
+      <condition>string-length($inputVariable.payload/client:NOKA) &lt; 13</condition>
+      <assign name="Message_Failed">
+        <copy>
+          <from>"Panjang No.Kartu Peserta tidak lengkap"</from>
+          <to>$outputVariable.payload/client:entity</to>
+        </copy>
+        <copy>
+          <from>"401"</from>
+          <to>$outputVariable.payload/client:status</to>
+        </copy>
+      </assign>
+      <elseif>
+        <documentation>
+          <![CDATA[NIK_Validation]]>
+        </documentation>
+        <condition>string-length($inputVariable.payload/client:NIK) &lt; 16</condition>
+        <assign name="Message_Failed">
+          <copy>
+            <from>"Panjang NIK tidak sesuai ketentuan (16 digit)"</from>
+            <to>$outputVariable.payload/client:entity</to>
+          </copy>
+          <copy>
+            <from>"401"</from>
+            <to>$outputVariable.payload/client:status</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[NoHP_Validation]]>
+        </documentation>
+        <condition>string-length($inputVariable.payload/client:NO_HP) &lt; 1</condition>
+        <assign name="Message_Failed">
+          <copy>
+            <from>"No.HP yg bisa dihubungi harus diisi"</from>
+            <to>$outputVariable.payload/client:entity</to>
+          </copy>
+          <copy>
+            <from>"401"</from>
+            <to>$outputVariable.payload/client:status</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[Name_Validation]]>
+        </documentation>
+        <condition>string-length($inputVariable.payload/client:NAMA_LGKP) &lt; 1</condition>
+        <assign name="Message_Failed">
+          <copy>
+            <from>"Nama harus diisi"</from>
+            <to>$outputVariable.payload/client:entity</to>
+          </copy>
+          <copy>
+            <from>"401"</from>
+            <to>$outputVariable.payload/client:status</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[TmptLhr_Validation]]>
+        </documentation>
+        <condition>string-length($inputVariable.payload/client:TMPT_LHR) &lt; 1</condition>
+        <assign name="Message_Failed">
+          <copy>
+            <from>"Tempat Lahir harus diisi"</from>
+            <to>$outputVariable.payload/client:entity</to>
+          </copy>
+          <copy>
+            <from>"401"</from>
+            <to>$outputVariable.payload/client:status</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[TglLhr_Validation]]>
+        </documentation>
+        <condition>string-length($inputVariable.payload/client:TGL_LHR) &lt; 1</condition>
+        <assign name="Message_Failed">
+          <copy>
+            <from>"Tgl. Lahir harus diisi"</from>
+            <to>$outputVariable.payload/client:entity</to>
+          </copy>
+          <copy>
+            <from>"401"</from>
+            <to>$outputVariable.payload/client:status</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[Format_TglLhr_Validation]]>
+        </documentation>
+        <condition>xp20:matches(string(xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[D01]-[M01]-[Y0001]')), '^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$')=false()</condition>
+        <assign name="Message_Failed">
+          <copy>
+            <from>"Tgl. Lahir Salah"</from>
+            <to>$outputVariable.payload/client:entity</to>
+          </copy>
+          <copy>
+            <from>"401"</from>
+            <to>$outputVariable.payload/client:status</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[TglLhr_Validation_With_CurrentDate]]>
+        </documentation>
+        <condition>xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[D01]-[M01]-[Y0001]') &gt; xp20:current-date()</condition>
+        <assign name="Message_Failed">
+          <copy>
+            <from>"Tgl. Lahir Melebihi hari ini"</from>
+            <to>$outputVariable.payload/client:entity</to>
+          </copy>
+          <copy>
+            <from>'401'</from>
+            <to>$outputVariable.payload/client:status</to>
+          </copy>
+        </assign>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[NIK_Validation_With_DB]]>
+        </documentation>
+        <condition>string-length($inputVariable.payload/client:NIK) = 16 and $GetPesertaBYNIKOnly_GetPesertaByNIKOnly__OutputVariable.GetPesertaByNIKOnly_OutputCollection/ns9:GetPesertaByNIKOnly_Output/ns9:NOKA != ''</condition>
+        <sequence>
+          <assign name="Message_Failed">
+            <copy>
+              <from>concat("Data Tidak DiProses, NIK : ", $inputVariable.payload/client:NIK, " sudah terdaftar, Dengan Nama : ", $GetPesertaBYNIKOnly_GetPesertaByNIKOnly__OutputVariable.GetPesertaByNIKOnly_OutputCollection/ns9:GetPesertaByNIKOnly_Output/ns9:NAMA)</from>
+              <to>$outputVariable.payload/client:entity</to>
+            </copy>
+            <copy>
+              <from>"401"</from>
+              <to>$outputVariable.payload/client:status</to>
+            </copy>
+          </assign>
+        </sequence>
+      </elseif>
+      <elseif>
+        <documentation>
+          <![CDATA[TglLhr_Nama_Validation]]>
+        </documentation>
+        <condition>xp20:matches(string(xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[D01]-[M01]-[Y0001]')), '^\s*(3[01]|[12][0-9]|0?[1-9])\-(1[012]|0?[1-9])\-((?:19|20)\d{2})\s*$')=false() and not(xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[Y0001]-[M01]-[D01]') &lt;= xp20:current-date()) and string-length( $inputVariable.payload/client:NAMA_LGKP) &gt; 0</condition>
+        <sequence name="Sequence9">
+          <assign name="Check_NmLgkpTglLhrNoka">
+            <copy>
+              <from>$inputVariable.payload/client:NAMA_LGKP</from>
+              <to>$GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_InputVariable.InputParameters/ns29:NAMA</to>
+            </copy>
+            <copy>
+              <from>xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[D01]-[M01]-[Y0001]')</from>
+              <to>$GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_InputVariable.InputParameters/ns29:TGLLHR</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:NOKA</from>
+              <to>$GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_InputVariable.InputParameters/ns29:NOKA</to>
+            </copy>
+          </assign>
+          <invoke name="GetPesertaByNamaTglLhrKlg" bpelx:invokeAsDetail="no"
+                  partnerLink="GetPesertaByNamaTglLhrKlg"
+                  portType="ns28:GetPesertaByNamaTglLhrKlg_ptt"
+                  operation="GetPesertaByNamaTglLhrKlg"
+                  inputVariable="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_InputVariable"
+                  outputVariable="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_OutputVariable"/>
+          <if name="PesertaBYNamaTglLhrKlg">
+            <documentation>
+              <![CDATA[PesertaBYNamaTglLhrKlg.NOKA!=null]]>
+            </documentation>
+            <condition>ora:getElement('GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_OutputVariable','OutputParameters','/ns29:RowSet/ns29:Row/ns29:Column','NOKA') != ''</condition>
+            <assign name="Message_Failed">
+              <copy>
+                <from>concat("Data Tidak DiProses, Nama : ",$inputVariable.payload/client:NAMA_LGKP," sudah terdaftar Pada Keluarga ini, Dengan Tanggal Lahir yg Sama")</from>
+                <to>$outputVariable.payload/client:entity</to>
+              </copy>
+              <copy>
+                <from>'401'</from>
+                <to>$outputVariable.payload/client:status</to>
+              </copy>
+            </assign>
+            <else>
+              <empty name="Empty14"/>
+            </else>
+          </if>
+        </sequence>
+      </elseif>
+      <else>
+        <documentation/>
+        <sequence>
+          <empty name="Empty13"/>
+        </sequence>
+      </else>
+    </if>
+    <assign name="GetPesertaOrtu_ByPsNoka">
+      <copy>
+        <from>$inputVariable.payload/client:PSNOKA</from>
+        <to>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_InputVariable.GetPesertaBYpsnokaInput_msg/ns11:PS_NOKA</to>
+      </copy>
+    </assign>
+    <invoke name="GetPesertaByPsNoka" bpelx:invokeAsDetail="no"
+            partnerLink="GetPesertaBYpsnoka"
+            portType="ns10:GetPesertaBYpsnoka_ptt"
+            operation="GetPesertaBYpsnoka"
+            inputVariable="GetPesertaBYpsnoka_GetPesertaBYpsnoka_InputVariable"
+            outputVariable="GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable"/>
+    <if name="Check_PsNoka_isnotnull">
+      <documentation>
+        <![CDATA[PsNoka!=null]]>
+      </documentation>
+      <condition>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_PSNOKA != ''</condition>
+      <sequence name="Sequence8">
+        <if name="Check_KdHubKlg">
+          <documentation>
+            <![CDATA[!KdHubKel]]>
+          </documentation>
+          <condition>not($GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDHUBKEL = '1') and not($GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDHUBKEL ='2') and not($GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDHUBKEL = 3)</condition>
+          <assign name="Message_Failed">
+            <copy>
+              <from>"Data Tidak DiProses, Status bukan Orangtua "</from>
+              <to>$outputVariable.payload/client:entity</to>
+            </copy>
+            <copy>
+              <from>"401"</from>
+              <to>$outputVariable.payload/client:status</to>
+            </copy>
+          </assign>
+          <else>
+            <sequence name="Sequence6">
+              <assign name="GetJnsPstByNoka">
+                <copy>
+                  <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_NOKA</from>
+                  <to>$GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_InputVariable.GetJnsPstHistLastByPsnokaInput_msg/ns5:PS_NOKA</to>
+                </copy>
+              </assign>
+              <invoke name="GetJnsPstHistLastByPsnoka" bpelx:invokeAsDetail="no"
+                      partnerLink="GetJnsPstHistLastByPsnoka"
+                      portType="ns3:GetJnsPstHistLastByPsnoka_ptt"
+                      operation="GetJnsPstHistLastByPsnoka"
+                      inputVariable="GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_InputVariable"
+                      outputVariable="GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable"/>
+              <assign name="Administrasi">
+                <copy>
+                  <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_NOKA</from>
+                  <to>$Administrasi/ns16:noka</to>
+                </copy>
+                <copy>
+                  <from>"1"</from>
+                  <to>$Administrasi/ns16:status</to>
+                </copy>
+                <copy>
+                  <from>"DUKCAPIL"</from>
+                  <to>$Administrasi/ns16:pendaftar</to>
+                </copy>
+                <copy>
+                  <from>xp20:current-dateTime()</from>
+                  <to>$Administrasi/ns16:tsinput</to>
+                </copy>
+                <copy>
+                  <from>xp20:current-dateTime()</from>
+                  <to>$Administrasi/ns16:tsupdate</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KDKC_USER_KP","Value","")</from>
+                  <to>$Administrasi/ns16:userinput</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KDKC_USER_KP","Value","")</from>
+                  <to>$Administrasi/ns16:userupdate</to>
+                </copy>
+              </assign>
+              <assign name="Peserta">
+                <copy>
+                  <from>xp20:current-dateTime()</from>
+                  <to>$Peserta/ns16:tsinput</to>
+                </copy>
+                <copy>
+                  <from>$Administrasi/ns16:noka</from>
+                  <to>$Peserta/ns16:nokapst/ns16:noka</to>
+                </copy>
+                <copy>
+                  <from>$Administrasi/ns16:status</from>
+                  <to>$Peserta/ns16:nokapst/ns16:status</to>
+                </copy>
+                <copy>
+                  <from>$Administrasi/ns16:pendaftar</from>
+                  <to>$Peserta/ns16:nokapst/ns16:pendaftar</to>
+                </copy>
+                <copy>
+                  <from>$Administrasi/ns16:tsinput</from>
+                  <to>$Peserta/ns16:nokapst/ns16:tsinput</to>
+                </copy>
+                <copy>
+                  <from>$Administrasi/ns16:tsupdate</from>
+                  <to>$Peserta/ns16:nokapst/ns16:tsupdate</to>
+                </copy>
+                <copy>
+                  <from>$Administrasi/ns16:userinput</from>
+                  <to>$Peserta/ns16:nokapst/ns16:userinput</to>
+                </copy>
+                <copy>
+                  <from><literal>"0"</literal></from>
+                  <to>$Peserta/ns16:agama</to>
+                </copy>
+                <copy>
+                  <from>$Administrasi/ns16:userupdate</from>
+                  <to>$Peserta/ns16:nokapst/ns16:userupdate</to>
+                </copy>
+                <copy>
+                  <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDKANTOR</from>
+                  <to>$Peserta/ns16:kdkantor</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_WNI","Value","")</from>
+                  <to>$Peserta/ns16:kdstawin</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_GOLDARAH","Value","")</from>
+                  <to>$Peserta/ns16:kdgoldarah</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_HUBKEL_ANAK","Value","")</from>
+                  <to>$Peserta/ns16:kdhubkel</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_BELUM_KAWIN","value","")</from>
+                  <to>$Peserta/ns16:kdnegara</to>
+                </copy>
+                <copy>
+                  <from><literal>""</literal></from>
+                  <to>$Peserta/ns16:email</to>
+                </copy>
+                <copy>
+                  <from>$inputVariable.payload/client:NO_HP</from>
+                  <to>$Peserta/ns16:nohp</to>
+                </copy>
+                <copy>
+                  <from><literal>""</literal></from>
+                  <to>$Peserta/ns16:npwp</to>
+                </copy>
+                <copy>
+                  <from>$inputVariable.payload/client:NIK</from>
+                  <to>$Peserta/ns16:nik</to>
+                </copy>
+                <copy>
+                  <from>xp20:current-dateTime()</from>
+                  <to>$Peserta/ns16:tsupdate</to>
+                </copy>
+                <copy>
+                  <from><literal>""</literal></from>
+                  <to>$Peserta/ns16:noktp</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KDKC_USER_KP","Value","")</from>
+                  <to>$Peserta/ns16:userinput</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KDKC_USER_KP","Value","")</from>
+                  <to>$Peserta/ns16:userupdate</to>
+                </copy>
+                <copy>
+                  <from>$inputVariable.payload/client:NAMA_LGKP</from>
+                  <to>$Peserta/ns16:nama</to>
+                </copy>
+                <copy>
+                  <from>$inputVariable.payload/client:NAMA_LGKP</from>
+                  <to>$Peserta/ns16:nmcetak</to>
+                </copy>
+                <copy>
+                  <from>$inputVariable.payload/client:JENIS_KLMIN</from>
+                  <to>$Peserta/ns16:jenkel</to>
+                </copy>
+                <copy>
+                  <from>$inputVariable.payload/client:TMPT_LHR</from>
+                  <to>$Peserta/ns16:tmplhr</to>
+                </copy>
+                <copy>
+                  <from>xp20:format-dateTime($inputVariable.payload/client:TGL_LHR,'[D01]-[M01]-[Y0001]')</from>
+                  <to>$Peserta/ns16:tgllhr</to>
+                </copy>
+                <copy>
+                  <from>xp20:current-date()</from>
+                  <to>$Peserta/ns16:tmt</to>
+                </copy>
+                <copy>
+                  <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","TAT","Value","")</from>
+                  <to>$Peserta/ns16:tat</to>
+                </copy>
+              </assign>
+              <if name="Validasi_PBI">
+                <documentation>
+                  <![CDATA[Validasi_PBI_APBD]]>
+                </documentation>
+                <condition>$GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable.GetJnsPstHistLastByPsnokaOutputCollection/ns5:GetJnsPstHistLastByPsnokaOutput/ns5:B_KDJNSPESERTA = '22'</condition>
+                <sequence name="Sequence7">
+                  <assign name="SetKdStatusPst_Peserta">
+                    <copy>
+                      <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_MORATORIUM_CAUSE_TMT","Value","")</from>
+                      <to>$Peserta/ns16:kdstatuspst</to>
+                    </copy>
+                  </assign>
+                  <if name="GetDate">
+                    <documentation>
+                      <![CDATA[GetDateAwalBulan]]>
+                    </documentation>
+                    <condition>''</condition>
+                    <empty name="Empty10"/>
+                    <else>
+                      <documentation>
+                        <![CDATA[GetDateCutOff]]>
+                      </documentation>
+                      <sequence>
+                        <empty name="Empty11"/>
+                        <invoke name="GetAlamatLast" bpelx:invokeAsDetail="no"
+                                partnerLink="GetAlamatLast"
+                                portType="ns20:GetAlamatLast_ptt"
+                                operation="GetAlamatLast"
+                                inputVariable="GetAlamatLast_GetAlamatLast_InputVariable"
+                                outputVariable="GetAlamatLast_GetAlamatLast_OutputVariable"/>
+                        <invoke name="GetPesertaByNamaTglLhrKlg"
+                                bpelx:invokeAsDetail="no"
+                                partnerLink="GetPesertaByNamaTglLhrKlg"
+                                portType="ns28:GetPesertaByNamaTglLhrKlg_ptt"
+                                operation="GetPesertaByNamaTglLhrKlg"
+                                inputVariable="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_InputVariable_1"
+                                outputVariable="GetPesertaByNamaTglLhrKlg_GetPesertaByNamaTglLhrKlg_OutputVariable_1"/>
+                        <invoke name="SavePesertaAdmin_WebOut"
+                                partnerLink="SavePesertaAdmin_WebOut"
+                                portType="ns26:SavePesertaAdmin_WebOut_ptt"
+                                operation="SavePesertaAdmin_WebOut"
+                                inputVariable="Invoke1_SavePesertaAdmin_WebOut_InputVariable"
+                                outputVariable="Invoke1_SavePesertaAdmin_WebOut_OutputVariable"
+                                bpelx:invokeAsDetail="no"/>
+                        <invoke name="GetAlokasiMigrasi" bpelx:invokeAsDetail="no"
+                                partnerLink="GetAlokasiMigrasi"
+                                portType="ns25:GetAlokasiMigrasi_ptt"
+                                operation="GetAlokasiMigrasi"
+                                inputVariable="GetAlokasiMigrasi_GetAlokasiMigrasi_InputVariable"
+                                outputVariable="GetAlokasiMigrasi_GetAlokasiMigrasi_OutputVariable"/>
+                        <invoke name="GetRefKantor" bpelx:invokeAsDetail="no"
+                                partnerLink="GetRefKantor"
+                                portType="ns24:GetRefKantor_ptt"
+                                operation="GetRefKantor"
+                                inputVariable="GetRefKantor_GetRefKantor_InputVariable"
+                                outputVariable="GetRefKantor_GetRefKantor_OutputVariable"/>
+                        <invoke name="GetRefPpk" bpelx:invokeAsDetail="no"
+                                partnerLink="GetRefPpk"
+                                portType="ns23:GetRefPpk_ptt"
+                                operation="GetRefPpk"
+                                inputVariable="GetRefPpk_GetRefPpk_InputVariable"
+                                outputVariable="GetRefPpk_GetRefPpk_OutputVariable"/>
+                        <invoke name="GetPremiLast" bpelx:invokeAsDetail="no"
+                                partnerLink="GetPremiLast"
+                                portType="ns22:GetPremiLast_ptt"
+                                operation="GetPremiLast"
+                                inputVariable="GetPremiLast_GetPremiLast_InputVariable"
+                                outputVariable="GetPremiLast_GetPremiLast_OutputVariable"/>
+                        <invoke name="GetGolHisLast" bpelx:invokeAsDetail="no"
+                                partnerLink="GetGolHisLast"
+                                portType="ns27:GetGolHistLast_ptt"
+                                operation="GetGolHistLast"
+                                inputVariable="GetGolHisLast_GetGolHistLast_InputVariable"
+                                outputVariable="GetGolHisLast_GetGolHistLast_OutputVariable"/>
+                        <assign name="GetPpkHisLast">
+                          <copy ignoreMissingFromData="no">
+                            <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_NOKA</from>
+                            <to>$GetPpkHisLast_GetPpkHistLast_InputVariable.InputParameters/ns18:PSNOKA</to>
+                          </copy>
+                        </assign>
+                        <invoke name="GetPpkHisLast" bpelx:invokeAsDetail="no"
+                                partnerLink="GetPpkHisLast"
+                                portType="ns17:GetPpkHistLast_ptt"
+                                operation="GetPpkHistLast"
+                                inputVariable="GetPpkHisLast_GetPpkHistLast_InputVariable"
+                                outputVariable="GetPpkHisLast_GetPpkHistLast_OutputVariable"/>
+                        <assign name="GetValue_From_PpkHistLast">
+                          <copy>
+                            <from>concat($GetPpkHisLast_GetPpkHistLast_OutputVariable.OutputParameters/ns18:RowSet/ns18:Row/ns18:Column[@name= "NOPPK"]/text(),$GetPpkHisLast_GetPpkHistLast_OutputVariable.OutputParameters/ns18:RowSet/ns18:Row/ns18:Column[@name= "NMPPK"]/text())</from>
+                            <to>$outputVariable.payload/client:entity</to>
+                          </copy>
+                        </assign>
+                      </sequence>
+                    </else>
+                  </if>
+                </sequence>
+                <elseif>
+                  <documentation>
+                    <![CDATA[Validasi_PBI_APBN]]>
+                  </documentation>
+                  <condition>$GetJnsPstHistLastByPsnoka_GetJnsPstHistLastByPsnoka_OutputVariable.GetJnsPstHistLastByPsnokaOutputCollection/ns5:GetJnsPstHistLastByPsnokaOutput/ns5:B_KDJNSPESERTA = '21'</condition>
+                  <sequence name="Sequence10">
+                    <assign name="SetKdStatusPst_Peserta">
+                      <copy>
+                        <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_AKTIF","Value","")</from>
+                        <to>$Peserta/ns16:kdstatuspst</to>
+                      </copy>
+                    </assign>
+                    <if name="ValidasiThnLahir_Bayi">
+                      <documentation>
+                        <![CDATA[ValidasiThnLahir_Bayi]]>
+                      </documentation>
+                      <condition>xp20:year-from-dateTime(xp20:format-dateTime($inputVariable.payload/client:TGL_LHR, '[D01]-[M01]-[Y0001]')) &lt; xp20:year-from-dateTime(xp20:current-date())</condition>
+                      <assign name="Message_Failed">
+                        <copy>
+                          <from>concat("Tahun Lahir Anak tidak memenuhi ketentuan (minimal tahun kelahiran " , number(xp20:year-from-dateTime(string(xp20:current-date()))) - 1)</from>
+                          <to>$outputVariable.payload/client:entity</to>
+                        </copy>
+                        <copy>
+                          <from>401</from>
+                          <to>$outputVariable.payload/client:status</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <empty name="Empty15"/>
+                      </else>
+                    </if>
+                  </sequence>
+                </elseif>
+                <elseif>
+                  <documentation>
+                    <![CDATA[Validasi_PNS]]>
+                  </documentation>
+                  <condition>$inputVariable.payload/client:NOKA != ''</condition>
+                  <sequence name="Sequence12">
+                    <if name="Validasi_BU_Kelompok">
+                      <documentation>
+                        <![CDATA[Validasi_BU_Kelompok]]>
+                      </documentation>
+                      <condition>$inputVariable.payload/client:NOKA != ''</condition>
+                      <assign name="SetKdStatusPst_Peserta">
+                        <copy>
+                          <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_MORATORIUM_CAUSE_PREMI","Value","")</from>
+                          <to>$Peserta/ns16:kdstatuspst</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <assign name="SetKdStatusPst_Peserta">
+                          <copy>
+                            <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_NON_COVER","Value","")</from>
+                            <to>$Peserta/ns16:kdstatuspst</to>
+                          </copy>
+                        </assign>
+                      </else>
+                    </if>
+                    <if name="Cek_KdSttsPStAktif_DB">
+                      <documentation>
+                        <![CDATA[Cek_KdSttsPStAktif_DB]]>
+                      </documentation>
+                      <condition>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_KDSTATUSPST = dvm:lookupValue1M("dvm/Config.dvm","VariableName","KD_STATUS_PST_AKTIF","Value","")</condition>
+                      <assign name="SetKdStatusPst_Peserta">
+                        <copy>
+                          <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_AKTIF","Value","")</from>
+                          <to>$Peserta/ns16:kdstatuspst</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <empty name="Empty17"/>
+                      </else>
+                    </if>
+                    <assign name="Cek_JmlAnakTanggungan">
+                      <copy>
+                        <from>$GetPesertaBYpsnoka_GetPesertaBYpsnoka_OutputVariable.GetPesertaBYpsnokaOutputCollection/ns11:GetPesertaBYpsnokaOutput/ns11:A_NOKA</from>
+                        <to>$GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_InputVariable.InputParameters/ns30:NOKA</to>
+                      </copy>
+                      <copy>
+                        <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_HUBKEL_ANAK","Value","")</from>
+                        <to>$GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_InputVariable.InputParameters/ns30:KDHUBKEL</to>
+                      </copy>
+                      <copy>
+                        <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_AKTIF","Value","")</from>
+                        <to>$GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_InputVariable.InputParameters/ns30:KDSTATUSPST1</to>
+                      </copy>
+                      <copy>
+                        <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_MORATORIUM_CAUSE_PREMI","Value","")</from>
+                        <to>$GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_InputVariable.InputParameters/ns30:KDSTATUSPST2</to>
+                      </copy>
+                      <copy>
+                        <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariabelName","KD_STATUS_PST_MORATORIUM_PEMBAYARAN","Value","")</from>
+                        <to>$GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_InputVariable.InputParameters/ns30:KDSTATUSPST3</to>
+                      </copy>
+                    </assign>
+                    <invoke name="GetJmlAnakTanggunganAktif"
+                            partnerLink="GetJmlAnakTanggunganAktif"
+                            portType="ns19:GetJmlAnakTanggunganAktif_ptt"
+                            operation="GetJmlAnakTanggunganAktif"
+                            inputVariable="GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_InputVariable"
+                            outputVariable="GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_OutputVariable"
+                            bpelx:invokeAsDetail="no"/>
+                    <if name="CekJmlAnak">
+                      <documentation>
+                        <![CDATA[CekJmlAnak]]>
+                      </documentation>
+                      <condition>$GetJmlAnakTanggunganAktif_GetJmlAnakTanggunganAktif_OutputVariable.OutputParameters/ns30:RowSet/ns30:Row/ns30:Column[@name='JML']/text() = 3</condition>
+                      <assign name="Message_Failed">
+                        <copy>
+                          <from>"Data tidak dapat diinput karena Jumlah Anak sudah 3(tiga)"</from>
+                          <to>$outputVariable.payload/client:entity</to>
+                        </copy>
+                        <copy>
+                          <from>"401"</from>
+                          <to>$outputVariable.payload/client:status</to>
+                        </copy>
+                      </assign>
+                      <else>
+                        <empty name="Empty19"/>
+                      </else>
+                    </if>
+                  </sequence>
+                </elseif>
+                <else>
+                  <assign name="SetKdStatusPst_Peserta">
+                    <copy>
+                      <from>dvm:lookupValue("PendaftaranBayiBaruLahir/dvm/Config.dvm","VariableName","KD_STATUS_PST_MORATORIUM_PEMBAYARAN","Value","")</from>
+                      <to>$Peserta/ns16:kdstatuspst</to>
+                    </copy>
+                  </assign>
+                </else>
+              </if>
+              <if name="If1">
+                <documentation/>
+                <condition>''</condition>
+                <empty name="Empty20"/>
+                <else>
+                  <empty name="Empty21"/>
+                </else>
+              </if>
+            </sequence>
+          </else>
+        </if>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[SaveLogDukcapil]]>
+        </documentation>
+        <sequence name="Sequence13">
+          <assign name="SaveLogDukcapil">
+            <copy>
+              <from>$inputVariable.payload/client:NAMA_LGKP</from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:NAMA</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:NO_KK</from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:NOKK</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:JENIS_KLMIN</from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:JENKEL</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:TMPT_LHR</from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:TMPLAHIR</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:NO_HP</from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:NOHP</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:TGL_LHR</from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:TGLLAHIR</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/client:KD_RS</from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:KDRS</to>
+            </copy>
+            <copy>
+              <from><literal>"0"</literal></from>
+              <to>$SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable.InputParameters/ns32:STATUSCETAK</to>
+            </copy>
+          </assign>
+          <invoke name="SaveLogDukcapilForInfo" bpelx:invokeAsDetail="no"
+                  partnerLink="SaveLogDukcapilForInfo"
+                  portType="ns31:SaveLogDukcapilForInfo_ptt"
+                  operation="SaveLogDukcapilForInfo"
+                  inputVariable="SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_InputVariable"
+                  outputVariable="SaveLogDukcapilForInfo_SaveLogDukcapilForInfo_OutputVariable"/>
+          <assign name="Response_SaveLogDukcapil">
+            <copy>
+              <from><literal>"Nomor Kartu Kepala Keluarga tidak ada"</literal></from>
+              <to>$outputVariable.payload/client:entity</to>
+            </copy>
+            <copy>
+              <from><literal>"401"</literal></from>
+              <to>$outputVariable.payload/client:status</to>
+            </copy>
+          </assign>
+        </sequence>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="pndftrnbayibarulahir_client" portType="client:PndftrnBayiBaruLahir" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

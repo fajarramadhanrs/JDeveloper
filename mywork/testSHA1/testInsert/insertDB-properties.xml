@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+   <entry key="root_descriptor_alias">dbo.LOG_PST_NO_NOKA</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_4">TMPLAHIR</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_3">JENKEL</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_2">NOKK</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_1">NAMA</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_0">ID</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.ID:db_column_type">bigint identity</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.TSINPUT:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.TMPLAHIR:db_column_type">VARCHAR</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NOKK:db_column_size">35</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NOHP:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.JENKEL:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.TMPLAHIR:db_column_size">200</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.ID:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NOKK:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NOHP:db_column_type">VARCHAR</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_table_type">TABLE</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.TGLLAHIR:db_column_type">DATE</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.TGLLAHIR:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.STATUSCETAK:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NOHP:db_column_size">13</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.TSINPUT:db_column_type">datetime2</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.KDRS:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.KDRS:db_column_type">VARCHAR</entry>
+   <entry key="return_single_result_set">false</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NAMA:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.TMPLAHIR:db_column_not_null">true</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NAMA:db_column_type">VARCHAR</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.KDRS:db_column_size">8</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.STATUSCETAK:db_column_type">SMALLINT</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.JENKEL:db_column_type">SMALLINT</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_9">TSINPUT</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_8">STATUSCETAK</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_7">KDRS</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NOKK:db_column_type">VARCHAR</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA.NAMA:db_column_size">200</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_6">NOHP</entry>
+   <entry key="dbo.LOG_PST_NO_NOKA:db_column_5">TGLLAHIR</entry>
+</properties>

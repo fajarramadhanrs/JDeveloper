@@ -1,0 +1,28 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/getTindakan" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/getTindakan" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="getTindakanInput" type="getTindakanInput"/>
+   <xs:complexType name="getTindakanInput">
+      <xs:sequence>
+         <xs:element name="kdTindakanSk" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="getTindakanOutputCollection" type="getTindakanOutputCollection"/>
+   <xs:complexType name="getTindakanOutputCollection">
+      <xs:sequence>
+         <xs:element name="getTindakanOutput" type="getTindakanOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="getTindakanOutput">
+      <xs:sequence>
+         <xs:element name="kdTindakanSk" type="xs:integer" nillable="true"/>
+         <xs:element name="no_kunjungan" type="xs:string" nillable="true"/>
+         <xs:element name="kdTindakan" type="xs:string" nillable="true"/>
+         <xs:element name="nmTindakan" type="xs:string" nillable="true"/>
+         <xs:element name="keterangan" type="xs:string" nillable="true"/>
+         <xs:element name="fdate" type="xs:dateTime" nillable="true"/>
+         <xs:element name="biaya" type="xs:decimal" nillable="true"/>
+         <xs:element name="tglTindakan" type="xs:dateTime" nillable="true"/>
+         <xs:element name="hasil" type="xs:decimal" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

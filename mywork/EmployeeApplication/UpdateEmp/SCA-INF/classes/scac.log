@@ -1,0 +1,8 @@
+24 Mei 18 9:35:50 oracle.soa.common.util.FabricLCMUtil info
+INFO:  INFO : URLExpander load ............. {}
+24 Mei 18 9:35:55 oracle.fabric.common.wsdl.SchemaManager isIncrementalBuildSupported
+INFO: XMLSchema incremental build enabled.
+24 Mei 18 9:35:56 oracle.integration.platform.blocks.FabricConfigManager <clinit>
+WARNING: JRF is unable to determine the current application server platform.
+24 Mei 18 9:35:56 oracle.integration.platform.blocks.WLSPlatformConfigurationProvider <clinit>
+WARNING: JRF is unable to determine the current application server platform.

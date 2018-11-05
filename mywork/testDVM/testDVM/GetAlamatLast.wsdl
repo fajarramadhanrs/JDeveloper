@@ -1,0 +1,25 @@
+<?binding.jca GetAlamatLast_db.jca?>
+<wsdl:definitions name="GetAlamatLast" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetAlamatLast" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetAlamatLast" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/GetAlamatLast">
+    <plt:partnerLinkType name="GetAlamatLast_plt">
+        <plt:role name="GetAlamatLast_role">
+            <plt:portType name="tns:GetAlamatLast_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetAlamatLast" schemaLocation="xsd/GetAlamatLast.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="GetAlamatLastInput_msg">
+        <wsdl:part name="GetAlamatLastInput_msg" element="db:GetAlamatLastInput"/>
+    </wsdl:message>
+    <wsdl:message name="GetAlamatLastOutputCollection_msg">
+        <wsdl:part name="GetAlamatLastOutputCollection" element="db:GetAlamatLastOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="GetAlamatLast_ptt">
+        <wsdl:operation name="GetAlamatLast">
+            <wsdl:input message="tns:GetAlamatLastInput_msg"/>
+            <wsdl:output message="tns:GetAlamatLastOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

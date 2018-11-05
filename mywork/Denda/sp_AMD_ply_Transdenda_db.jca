@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<adapter-config name="sp_AMD_ply_Transdenda" adapter="Database Adapter" wsdlLocation="sp_AMD_ply_Transdenda.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/DB/CollectPremi/InsOrUpd" UIConnectionName="Connection1" UIProcedureReturnStatus="true" UIStrongXSD="false" adapterRef=""/>
+   <endpoint-interaction portType="sp_AMD_ply_Transdenda_ptt" operation="sp_AMD_ply_Transdenda">
+      <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+         <property name="SchemaName" value="CollectPremi"/>
+         <property name="PackageName" value="dbo"/>
+         <property name="ProcedureName" value="sp_AMD_ply_Transdenda"/>
+         <property name="GetActiveUnitOfWork" value="false"/>
+      </interaction-spec>
+      <output/>
+   </endpoint-interaction>
+</adapter-config>

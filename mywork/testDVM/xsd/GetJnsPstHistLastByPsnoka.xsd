@@ -1,0 +1,39 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="GetJnsPstHistLastByPsnokaInput" type="GetJnsPstHistLastByPsnokaInput"/>
+   <xs:complexType name="GetJnsPstHistLastByPsnokaInput">
+      <xs:sequence>
+         <xs:element name="PS_NOKA" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="GetJnsPstHistLastByPsnokaOutputCollection" type="GetJnsPstHistLastByPsnokaOutputCollection"/>
+   <xs:complexType name="GetJnsPstHistLastByPsnokaOutputCollection">
+      <xs:sequence>
+         <xs:element name="GetJnsPstHistLastByPsnokaOutput" type="GetJnsPstHistLastByPsnokaOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="GetJnsPstHistLastByPsnokaOutput">
+      <xs:sequence>
+         <xs:element name="A_NOKA" type="xs:string" nillable="true"/>
+         <xs:element name="A_KDHUBKEL" type="xs:string" nillable="true"/>
+         <xs:element name="B_TMTPEG" type="xs:string" nillable="true"/>
+         <xs:element name="B_NIPBARU" type="xs:string" nillable="true"/>
+         <xs:element name="B_NIPLAMA" type="xs:string" nillable="true"/>
+         <xs:element name="B_MASABERLAKU" type="xs:string" nillable="true"/>
+         <xs:element name="B_KDPKS" type="xs:string" nillable="true"/>
+         <xs:element name="B_KDSUBPKS" type="xs:string" nillable="true"/>
+         <xs:element name="B_KDJNSKPST" type="xs:string" nillable="true"/>
+         <xs:element name="B_KDJNSPESERTA" type="xs:string" nillable="true"/>
+         <xs:element name="B_TSINPUT" type="xs:string" nillable="true"/>
+         <xs:element name="B_USERINPUT" type="xs:string" nillable="true"/>
+         <xs:element name="B_TSUPDATE" type="xs:string" nillable="true"/>
+         <xs:element name="B_USERUPDATE" type="xs:string" nillable="true"/>
+         <xs:element name="E_KDDATI2" type="xs:string" nillable="true"/>
+         <xs:element name="D_NMJNSKPST" type="xs:string" nillable="true"/>
+         <xs:element name="C_KETJNSPESERTA" type="xs:string" nillable="true"/>
+         <xs:element name="E_NMPKS" type="xs:string" nillable="true"/>
+         <xs:element name="F_NMSUBPKS" type="xs:string" nillable="true"/>
+         <xs:element name="E_KDKANTOR" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

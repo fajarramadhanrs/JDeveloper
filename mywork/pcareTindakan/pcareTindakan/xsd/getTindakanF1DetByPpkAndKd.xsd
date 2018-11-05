@@ -1,0 +1,31 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/getTindakanF1DetByPpkAndKd" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/getTindakanF1DetByPpkAndKd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="getTindakanF1DetByPpkAndKdInput" type="getTindakanF1DetByPpkAndKdInput"/>
+   <xs:complexType name="getTindakanF1DetByPpkAndKdInput">
+      <xs:sequence>
+         <xs:element name="KODE_INAP" type="xs:string" nillable="true"/>
+         <xs:element name="kdppk" type="xs:string" nillable="true"/>
+         <xs:element name="kdTindakan" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="getTindakanF1DetByPpkAndKdOutputCollection" type="getTindakanF1DetByPpkAndKdOutputCollection"/>
+   <xs:complexType name="getTindakanF1DetByPpkAndKdOutputCollection">
+      <xs:sequence>
+         <xs:element name="getTindakanF1DetByPpkAndKdOutput" type="getTindakanF1DetByPpkAndKdOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="getTindakanF1DetByPpkAndKdOutput">
+      <xs:sequence>
+         <xs:element name="kdTindakan" type="xs:string" nillable="true"/>
+         <xs:element name="nmTindakan" type="xs:string" nillable="true"/>
+         <xs:element name="biaya" type="xs:decimal" nillable="true"/>
+         <xs:element name="isFFS" type="xs:boolean" nillable="true"/>
+         <xs:element name="isOnlyGigi" type="xs:boolean" nillable="true"/>
+         <xs:element name="isOnlyInap" type="xs:boolean" nillable="true"/>
+         <xs:element name="isOnlyBaby" type="xs:boolean" nillable="true"/>
+         <xs:element name="isForMan" type="xs:boolean" nillable="true"/>
+         <xs:element name="isForWoman" type="xs:boolean" nillable="true"/>
+         <xs:element name="withValue" type="xs:boolean" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

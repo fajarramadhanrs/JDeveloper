@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:exp="http://www.example.org"
+            targetNamespace="http://www.example.org"
+            elementFormDefault="qualified">
+  <xsd:element name="DBRowList" type="DBRowListType"/>
+
+  <xsd:complexType name="DBRowListType">
+    <xsd:sequence>
+      <xsd:element name="dbRow" type="DBRowType" nillable="true" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="DbRowType">
+    <xsd:sequence>
+      <xsd:element name="NOPPK" type="xsd:string"/>
+      <xsd:element name="PSNOKA" type="xsd:string"/>
+      <xsd:element name="TMTPPK" type="xsd:string"/>
+      <xsd:element name="TATPPK" type="xsd:string"/>
+      <xsd:element name="TSINPUT" type="xsd:string"/>
+      <xsd:element name="USERINPUT" type="xsd:string"/>
+      <xsd:element name="TSUPDATE" type="xsd:string"/>
+      <xsd:element name="USERUPDATE" type="xsd:string"/>
+      <xsd:element name="KDDATI2" type="xsd:string"/>
+      <xsd:element name="KDKANTOR" type="xsd:string"/>
+      <xsd:element name="KDKCREF" type="xsd:string"/>
+      <xsd:element name="NMPPK" type="xsd:string"/>
+      <xsd:element name="LAT" type="xsd:string"/>
+      <xsd:element name="LON" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

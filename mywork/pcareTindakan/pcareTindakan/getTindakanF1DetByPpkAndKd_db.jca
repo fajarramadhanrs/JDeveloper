@@ -1,0 +1,14 @@
+<adapter-config name="getTindakanF1DetByPpkAndKd" adapter="Database Adapter" wsdlLocation="getTindakanF1DetByPpkAndKd.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/PelayananDS" UIConnectionName="dbPelayanan" UIStrongXSD="false" adapterRef=""/>
+  <endpoint-interaction portType="getTindakanF1DetByPpkAndKd_ptt" operation="getTindakanF1DetByPpkAndKd">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="dbPelayanan"/>
+      <property name="PackageName" value="dbo"/>
+      <property name="ProcedureName" value="sp_f1_ref_tind_byKD"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

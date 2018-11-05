@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="getDatUserByNik" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getDatUserByNik" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/getDatUserByNik" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getDatUserByNik" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <plt:partnerLinkType name="getDatUserByNik_plt">
+      <plt:role name="getDatUserByNik_role">
+         <plt:portType name="tns:getDatUserByNik_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/getDatUserByNik" schemaLocation="xsd/getDatUserByNik.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="getDatUserByNikInput_msg">
+      <wsdl:part name="getDatUserByNikInput_msg" element="db:getDatUserByNikInput"/>
+   </wsdl:message>
+   <wsdl:message name="getDatUserByNikOutputCollection_msg">
+      <wsdl:part name="getDatUserByNikOutputCollection" element="db:getDatUserByNikOutputCollection"/>
+   </wsdl:message>
+   <wsdl:portType name="getDatUserByNik_ptt">
+      <wsdl:operation name="getDatUserByNik">
+         <wsdl:input message="tns:getDatUserByNikInput_msg"/>
+         <wsdl:output message="tns:getDatUserByNikOutputCollection_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

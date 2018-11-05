@@ -1,0 +1,52 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<graphics>
+   <diagram optimizeLayout="false" popupEditor="true" fixedWidthSwimlanes="true" roundedPartnerlinks="true" centerZoom="true" validateOnLoad="true" confirmBeforeDelete="true" selectedPartnerLinkColor="0,0,153" swimlaneBackground="240,240,240" swimlaneDividerBackground="218,218,218" graphBackground="255,255,255" selectedBorderBackground="49,105,198" connectedPartnerLinkColor="204,204,255" connectablePartnerLinkColor="0,0,255" unconnectedPartnerLinkColor="192,192,192"/>
+   <annotationfile/>
+   <iconize/>
+   <partnerlink_locations>
+      <partnerlink name="bpelprocess1_client" x="2" y="2778" side="left"/>
+      <partnerlink name="getRefKantor" x="1291" y="877" side="right"/>
+      <partnerlink name="getDatUserByNik" x="1291" y="1951" side="right"/>
+      <partnerlink name="getDatUserMaxPPOB" x="1291" y="5712" side="right"/>
+      <partnerlink name="saveDatUserDB" x="1291" y="6503" side="right"/>
+      <partnerlink name="getDatUserByKdpks" x="1291" y="5395" side="right"/>
+   </partnerlink_locations>
+   <graph_layout viewport="236,3150,814,513" show_swimlanes="true">
+      <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/faultHandlers/catchAll" type="catchall"/>
+      <layout_item collapsed="false" xpath="/process/faultHandlers/catchAll/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[1]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[1]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[2]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[2]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[2]/else/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[2]/else/sequence/if/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/else/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/else/sequence/if/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/else/sequence/if/else/sequence/forEach" type="foreach"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/else/sequence/if/else/sequence/forEach/scope" type="scope" showhandlers="true"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/else/sequence/if/else/sequence/forEach/scope/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[3]/else/sequence/if/else/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[4]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[5]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[5]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[6]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[6]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[6]/else/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[6]/else/sequence/if/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[6]/else/sequence/if/else/sequence/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[7]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[7]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[7]/else/sequence/if[1]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[7]/else/sequence/if[1]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[7]/else/sequence/if[2]/elseif/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[8]/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[8]/else/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[8]/else/sequence/if/sequence" type="sequence"/>
+      <layout_item collapsed="false" xpath="/process/sequence/if[8]/else/sequence/if/else/sequence" type="sequence"/>
+   </graph_layout>
+   <bookmarks/>
+</graphics>

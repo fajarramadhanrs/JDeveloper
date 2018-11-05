@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/getRefKantor" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/getRefKantor" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="getRefKantorInput" type="getRefKantorInput"/>
+   <xs:complexType name="getRefKantorInput">
+      <xs:sequence>
+         <xs:element name="KDKANTOR" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="getRefKantorOutputCollection" type="getRefKantorOutputCollection"/>
+   <xs:complexType name="getRefKantorOutputCollection">
+      <xs:sequence>
+         <xs:element name="getRefKantorOutput" type="getRefKantorOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="getRefKantorOutput">
+      <xs:sequence>
+         <xs:element name="A_KDKANTOR" type="xs:string" nillable="true"/>
+         <xs:element name="A_KDKCREF" type="xs:string" nillable="true"/>
+         <xs:element name="A_NMKANTOR" type="xs:string" nillable="true"/>
+         <xs:element name="A_KEPALAKANTOR" type="xs:string" nillable="true"/>
+         <xs:element name="A_ALAMAT" type="xs:string" nillable="true"/>
+         <xs:element name="A_RT" type="xs:string" nillable="true"/>
+         <xs:element name="A_RW" type="xs:string" nillable="true"/>
+         <xs:element name="A_KODEPOS" type="xs:string" nillable="true"/>
+         <xs:element name="A_KDTLP" type="xs:string" nillable="true"/>
+         <xs:element name="A_NOTLP" type="xs:string" nillable="true"/>
+         <xs:element name="A_FAX" type="xs:string" nillable="true"/>
+         <xs:element name="A_EMAIL" type="xs:string" nillable="true"/>
+         <xs:element name="A_LAT" type="xs:string" nillable="true"/>
+         <xs:element name="A_LON" type="xs:string" nillable="true"/>
+         <xs:element name="A_KDDESA" type="xs:string" nillable="true"/>
+         <xs:element name="A_KDJNSKC" type="xs:string" nillable="true"/>
+         <xs:element name="C_NMJNSKC" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

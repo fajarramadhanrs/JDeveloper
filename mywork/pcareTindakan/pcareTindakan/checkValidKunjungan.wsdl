@@ -1,0 +1,25 @@
+<?binding.jca checkValidKunjungan_db.jca?>
+<wsdl:definitions name="checkValidKunjungan" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/checkValidKunjungan" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/checkValidKunjungan" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/checkValidKunjungan" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plt:partnerLinkType name="checkValidKunjungan_plt">
+        <plt:role name="checkValidKunjungan_role">
+            <plt:portType name="tns:checkValidKunjungan_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/checkValidKunjungan" schemaLocation="xsd/checkValidKunjungan.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="checkValidKunjunganInput_msg">
+        <wsdl:part name="checkValidKunjunganInput_msg" element="db:checkValidKunjunganInput"/>
+    </wsdl:message>
+    <wsdl:message name="checkValidKunjunganOutputCollection_msg">
+        <wsdl:part name="checkValidKunjunganOutputCollection" element="db:checkValidKunjunganOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="checkValidKunjungan_ptt">
+        <wsdl:operation name="checkValidKunjungan">
+            <wsdl:input message="tns:checkValidKunjunganInput_msg"/>
+            <wsdl:output message="tns:checkValidKunjunganOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,118 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Oct 04 13:05:21 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="deleteTIndakanSP"
+               targetNamespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/deleteTIndakanSP"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/deleteTIndakanSP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/TindakanDelete"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/sp/TindakanDelete"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns2="http://www.example.org">
+
+    <import namespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/deleteTIndakanSP" location="deleteTIndakanSP.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="deletetindakansp_client" partnerLinkType="client:deleteTIndakanSP" myRole="deleteTIndakanSPProvider"/>
+    <partnerLink name="TindakanDelete" partnerLinkType="ns1:TindakanDelete_plt"
+                 partnerRole="TindakanDelete_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:deleteTIndakanSPRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:deleteTIndakanSPResponseMessage"/>
+    <variable name="tindakanDeleteSP_TindakanDelete_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="tindakanDeleteSP_TindakanDelete_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="ReturnFALSE">
+          <copy>
+            <from><literal>0</literal></from>
+            <to>$outputVariable.payload/ns2:response</to>
+          </copy>
+        </assign>
+        <reply name="return" variable="outputVariable"
+               partnerLink="deletetindakansp_client"
+               portType="client:deleteTIndakanSP" operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in deleteTIndakanSP.wsdl) -->
+    <receive name="receiveInput" partnerLink="deletetindakansp_client" portType="client:deleteTIndakanSP" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="setToDB">
+      <copy>
+        <from>$inputVariable.payload/ns2:getNoKunjungan</from>
+        <to>$tindakanDeleteSP_TindakanDelete_InputVariable.InputParameters/ns3:No_Kunjungan</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:setfUser</from>
+        <to>$tindakanDeleteSP_TindakanDelete_InputVariable.InputParameters/ns3:FUser</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:getKdTindakanSK</from>
+        <to>$tindakanDeleteSP_TindakanDelete_InputVariable.InputParameters/ns3:kdTindSK</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:getKdTindakan</from>
+        <to>$tindakanDeleteSP_TindakanDelete_InputVariable.InputParameters/ns3:kdTind</to>
+      </copy>
+    </assign>
+    <invoke name="tindakanDeleteSP"
+            partnerLink="TindakanDelete" portType="ns1:TindakanDelete_ptt"
+            operation="TindakanDelete"
+            inputVariable="tindakanDeleteSP_TindakanDelete_InputVariable"
+            outputVariable="tindakanDeleteSP_TindakanDelete_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="ReturnTRUE">
+      <copy>
+        <from><literal>1</literal></from>
+        <to>$outputVariable.payload/ns2:response</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="deletetindakansp_client" portType="client:deleteTIndakanSP" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

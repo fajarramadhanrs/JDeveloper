@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="saveDatUserDB" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/saveDatUserDB" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/saveDatUserDB" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/saveDatUserDB">
+   <plt:partnerLinkType name="saveDatUserDB_plt">
+      <plt:role name="saveDatUserDB_role">
+         <plt:portType name="tns:saveDatUserDB_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/saveDatUserDB" schemaLocation="xsd/saveDatUserDB_table.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="DatuserCollection_msg">
+      <wsdl:part name="DatuserCollection" element="top:DatuserCollection"/>
+   </wsdl:message>
+   <wsdl:message name="saveDatUserDBSelect_inputParameters">
+      <wsdl:part name="saveDatUserDBSelect_inputParameters" element="top:saveDatUserDBSelectInputParameters"/>
+   </wsdl:message>
+   <wsdl:portType name="saveDatUserDB_ptt">
+      <wsdl:operation name="merge">
+         <wsdl:input message="tns:DatuserCollection_msg"/>
+      </wsdl:operation>
+      <wsdl:operation name="insert">
+         <wsdl:input message="tns:DatuserCollection_msg"/>
+      </wsdl:operation>
+      <wsdl:operation name="saveDatUserDBSelect">
+         <wsdl:input message="tns:saveDatUserDBSelect_inputParameters"/>
+         <wsdl:output message="tns:DatuserCollection_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

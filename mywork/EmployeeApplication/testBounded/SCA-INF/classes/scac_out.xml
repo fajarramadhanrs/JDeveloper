@@ -1,0 +1,43 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>86</line>
+      <col/>
+      <file>EmpSelectBounded.bpel</file>
+      <name>EmpSelectBounded.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>90</line>
+      <col/>
+      <file>EmpSelectBounded.bpel</file>
+      <name>EmpSelectBounded.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>94</line>
+      <col/>
+      <file>EmpSelectBounded.bpel</file>
+      <name>EmpSelectBounded.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>98</line>
+      <col/>
+      <file>EmpSelectBounded.bpel</file>
+      <name>EmpSelectBounded.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+</Faults>

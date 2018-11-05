@@ -1,0 +1,149 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Sep 24 16:26:51 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="TindakanUpdate"
+               targetNamespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/TindakanUpdate"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/TindakanUpdate"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.example.org/BPJS/pcareTindakan"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/TindakanUpdateSP"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/sp/TindakanUpdateSP"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import namespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/TindakanUpdate" location="TindakanUpdate.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="tindakanupdate_client" partnerLinkType="client:TindakanUpdate" myRole="TindakanUpdateProvider"/>
+    <partnerLink name="TindakanUpdateSP"
+                 partnerLinkType="ns2:TindakanUpdateSP_plt"
+                 partnerRole="TindakanUpdateSP_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:TindakanUpdateRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:TindakanUpdateResponseMessage"/>
+    <variable name="TindakanUpdate_SP_InputVariable"
+              messageType="ns2:args_in_msg"/>
+    <variable name="TindakanUpdate_SP_OutputVariable"
+              messageType="ns2:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="set_to_false">
+          <copy>
+            <from><literal>0</literal></from>
+            <to>$outputVariable.payload/ns1:response</to>
+          </copy>
+        </assign>
+        <reply name="Reply1" variable="outputVariable"
+               partnerLink="tindakanupdate_client"
+               portType="client:TindakanUpdate" operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in TindakanUpdate.wsdl) -->
+    <receive name="receiveInput" partnerLink="tindakanupdate_client" portType="client:TindakanUpdate" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="set_to_DB">
+      <copy>
+        <from>$inputVariable.payload/ns1:getNoKunjungan</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:No_Kunjungan</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:setDate</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:tglTind</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:getKdTindakan</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:kdTindNew</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:getKeterangan</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:ket</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:getBiaya</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:biaya</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:getHasil</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:value</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:getlUser</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:User</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:getKdTindakanSK</from>
+        <to>$TindakanUpdate_SP_InputVariable.InputParameters/ns3:kdTindSK</to>
+      </copy>
+    </assign>
+    <invoke name="TindakanUpdate_SP"
+            partnerLink="TindakanUpdateSP" portType="ns2:TindakanUpdateSP_ptt"
+            operation="TindakanUpdateSP"
+            inputVariable="TindakanUpdate_SP_InputVariable"
+            outputVariable="TindakanUpdate_SP_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="set_to_True">
+      <copy>
+        <from><literal>1</literal></from>
+        <to>$outputVariable.payload/ns1:response</to>
+      </copy>
+      <copy>
+        <from>$outputVariable.payload/ns1:kdTindakanSK</from>
+        <to>$TindakanUpdate_SP_OutputVariable.OutputParameters/ns3:new_identity</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="tindakanupdate_client" portType="client:TindakanUpdate" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

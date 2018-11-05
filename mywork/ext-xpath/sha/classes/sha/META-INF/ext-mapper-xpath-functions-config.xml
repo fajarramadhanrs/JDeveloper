@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<soa-xpath-functions version="11.1.1"
+                     xmlns="http://xmlns.oracle.com/soa/config/xpath"
+                     xmlns:test="http://www.oracle.com/XSL/Transform/java/sha.pwd">
+<function name="test:pwd">
+<className>sha.pwd</className>
+
+<return type="string"/>
+
+<params>
+
+<param name="text" type="string"/>
+
+</params>
+
+<desc/>
+
+<detail>
+
+<![CDATA[This function is to Hash.]]>
+
+</detail>
+
+</function>
+</soa-xpath-functions>

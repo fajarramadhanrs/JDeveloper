@@ -1,0 +1,95 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed May 23 14:40:48 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELINSERT"
+               targetNamespace="http://xmlns.oracle.com/EmployeeApplication/InsetEmp/BPELINSERT"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/EmployeeApplication/InsetEmp/BPELINSERT"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/EmployeeApplication/InsetEmp/EmpReqAndRes">
+
+    <import namespace="http://xmlns.oracle.com/EmployeeApplication/InsetEmp/BPELINSERT" location="BPELINSERT.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpelinsert_client" partnerLinkType="client:BPELINSERT" myRole="BPELINSERTProvider"/>
+    <partnerLink name="EmpReqAndRes" partnerLinkType="ns1:EmpReqAndRes_plt"
+                 partnerRole="EmpReqAndRes_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPELINSERTRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPELINSERTResponseMessage"/>
+    <variable name="Invoke1_EmpReqAndRes_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="Invoke1_EmpReqAndRes_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELINSERT.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpelinsert_client" portType="client:BPELINSERT" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="TransformRequest">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/EmpInsertReq.xsl", $inputVariable.payload)</from>
+        <to variable="Invoke1_EmpReqAndRes_InputVariable"
+            part="InputParameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke1" bpelx:invokeAsDetail="no"
+            partnerLink="EmpReqAndRes" portType="ns1:EmpReqAndRes_ptt"
+            operation="EmpReqAndRes"
+            inputVariable="Invoke1_EmpReqAndRes_InputVariable"
+            outputVariable="Invoke1_EmpReqAndRes_OutputVariable"/>
+    <assign name="TransformResponse">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/EmpInsertRes.xsl", $Invoke1_EmpReqAndRes_OutputVariable.OutputParameters)</from>
+        <to variable="outputVariable" part="payload"/>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpelinsert_client" portType="client:BPELINSERT" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

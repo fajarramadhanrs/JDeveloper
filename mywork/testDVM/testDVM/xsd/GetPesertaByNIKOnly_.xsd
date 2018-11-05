@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetPesertaByNIKOnly_" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/GetPesertaByNIKOnly_" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="GetPesertaByNIKOnly_Input" type="GetPesertaByNIKOnly_Input"/>
+   <xs:complexType name="GetPesertaByNIKOnly_Input">
+      <xs:sequence>
+         <xs:element name="NIK" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="GetPesertaByNIKOnly_OutputCollection" type="GetPesertaByNIKOnly_OutputCollection"/>
+   <xs:complexType name="GetPesertaByNIKOnly_OutputCollection">
+      <xs:sequence>
+         <xs:element name="GetPesertaByNIKOnly_Output" type="GetPesertaByNIKOnly_Output" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="GetPesertaByNIKOnly_Output">
+      <xs:sequence>
+         <xs:element name="PSNOKA" type="xs:string" nillable="true"/>
+         <xs:element name="PSNOKALAMA" type="xs:string" nillable="true"/>
+         <xs:element name="PSNOKALAMA2" type="xs:string" nillable="true"/>
+         <xs:element name="NAMA" type="xs:string" nillable="true"/>
+         <xs:element name="NMCETAK" type="xs:string" nillable="true"/>
+         <xs:element name="JENKEL" type="xs:short" nillable="true"/>
+         <xs:element name="AGAMA" type="xs:string" nillable="true"/>
+         <xs:element name="TMPLHR" type="xs:string" nillable="true"/>
+         <xs:element name="TGLLHR" type="xs:dateTime" nillable="true"/>
+         <xs:element name="FLAGTANGGUNGAN" type="xs:short" nillable="true"/>
+         <xs:element name="NOHP" type="xs:string" nillable="true"/>
+         <xs:element name="NIK" type="xs:string" nillable="true"/>
+         <xs:element name="NOKTP" type="xs:string" nillable="true"/>
+         <xs:element name="TMT" type="xs:dateTime" nillable="true"/>
+         <xs:element name="TAT" type="xs:dateTime" nillable="true"/>
+         <xs:element name="NPWP" type="xs:string" nillable="true"/>
+         <xs:element name="EMAIL" type="xs:string" nillable="true"/>
+         <xs:element name="NOKA" type="xs:string" nillable="true"/>
+         <xs:element name="KDHUBKEL" type="xs:string" nillable="true"/>
+         <xs:element name="KDSTAWIN" type="xs:short" nillable="true"/>
+         <xs:element name="KDNEGARA" type="xs:string" nillable="true"/>
+         <xs:element name="KDGOLDARAH" type="xs:string" nillable="true"/>
+         <xs:element name="KDSTATUSPST" type="xs:string" nillable="true"/>
+         <xs:element name="KDKANTOR" type="xs:string" nillable="true"/>
+         <xs:element name="TSINPUT" type="xs:string" nillable="true"/>
+         <xs:element name="TSUPDATE" type="xs:string" nillable="true"/>
+         <xs:element name="USERINPUT" type="xs:string" nillable="true"/>
+         <xs:element name="USERUPDATE" type="xs:string" nillable="true"/>
+         <xs:element name="TSSTATUS" type="xs:string" nillable="true"/>
+         <xs:element name="DAFTAR" type="xs:short" nillable="true"/>
+         <xs:element name="NMHUBKEL" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:adm="http://www.example.org"
+            targetNamespace="http://www.example.org"
+            elementFormDefault="qualified"
+            xmlns:xml="http://www.w3.org/XML/1998/namespace">
+  <xsd:element name="Adm">
+    <xsd:annotation>
+      <xsd:documentation>
+        A sample element
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="noka" type="xsd:string"/>
+        <xsd:element name="status" type="xsd:string"/>
+        <xsd:element name="pendaftar" type="xsd:string"/>
+        <xsd:element name="jmltunjanganistri" type="xsd:string"/>
+        <xsd:element name="jmltunjangananak" type="xsd:string"/>
+        <xsd:element name="tsinput" type="xsd:string"/>
+        <xsd:element name="tsupdate" type="xsd:string"/>
+        <xsd:element name="userinput" type="xsd:string"/>
+        <xsd:element name="userupdate" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

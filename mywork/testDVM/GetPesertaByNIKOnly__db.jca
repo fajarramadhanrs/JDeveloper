@@ -1,0 +1,13 @@
+<adapter-config name="GetPesertaByNIKOnly_" adapter="Database Adapter" wsdlLocation="GetPesertaByNIKOnly_.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="SQLBPJS" adapterRef=""/>
+  <endpoint-interaction portType="GetPesertaByNIKOnly__ptt" operation="GetPesertaByNIKOnly_">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="SELECT  A.PSNOKA, A.PSNOKALAMA, A.PSNOKALAMA2, A.NAMA, A.NMCETAK, A.JENKEL, A.AGAMA,  A.TMPLHR, A.TGLLHR, A.FLAGTANGGUNGAN, A.NOHP, A.NIK, A.NOKTP, A.TMT,  A.TAT, A.NPWP, A.EMAIL, A.NOKA, A.KDHUBKEL, A.KDSTAWIN, A.KDNEGARA,  KDGOLDARAH, A.KDSTATUSPST, A.KDKANTOR, A.TSINPUT, A.TSUPDATE, A.USERINPUT,  A.USERUPDATE, A.TSSTATUS, A.DAFTAR, B.NMHUBKEL FROM dbo.PESERTA A INNER JOIN dbo.HUBKEL_TBL B ON A.KDHUBKEL=B.KDHUBKEL WHERE A.NIK=#NIK"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

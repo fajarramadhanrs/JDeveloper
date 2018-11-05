@@ -1,0 +1,233 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Faults>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>320</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>324</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>328</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>332</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>336</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>340</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>344</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>348</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>352</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>356</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>360</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>364</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>368</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>372</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>376</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>380</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>700</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>712</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>778</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>874</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Make sure that the expression in &lt;bpel:condition> is a boolean expression.</fix>
+      <msg>The expression '' in &lt;bpel:condition> is not a boolean expression.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>934</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>1030</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Add a predicate to select an element from the sequence.</fix>
+      <msg>The XPath segment "child::ns11:GetPesertaBYpsnokaOutput" selects a sequence of elements - a predicate MAY be needed to correctly select an element.</msg>
+   </Fault>
+   <Fault>
+      <severity>warning</severity>
+      <loc/>
+      <line>1089</line>
+      <col/>
+      <file>PndftrnBayiBaruLahir.bpel</file>
+      <name>PndftrnBayiBaruLahir.bpel</name>
+      <fix>Make sure that the expression in &lt;bpel:condition> is a boolean expression.</fix>
+      <msg>The expression '' in &lt;bpel:condition> is not a boolean expression.</msg>
+   </Fault>
+</Faults>

@@ -1,0 +1,53 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="bpel_delete"
+     targetNamespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/bpel_delete"
+     xmlns:ns2="http://www.example.org/BPJS/extendedVariable"
+     xmlns:ns1="http://www.example.org/BPJS/deleteTindakan"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/bpel_delete"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <plnk:partnerLinkType name="bpel_delete">
+        <plnk:role name="bpel_deleteProvider" portType="client:bpel_delete"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.example.org/BPJS/deleteTindakan"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/bpel_delete"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <import namespace="http://www.example.org/BPJS/deleteTindakan" schemaLocation="xsd/deleteTindakan.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.example.org/BPJS/extendedVariable" schemaLocation="xsd/extendedVariable.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="bpel_deleteRequestMessage">
+        <wsdl:part name="payload" element="ns1:input"/>
+    </wsdl:message>
+    <wsdl:message name="bpel_deleteResponseMessage">
+        <wsdl:part name="payload" element="ns1:output"/>
+    </wsdl:message>
+    <wsdl:message name="delete_TindakanHeaderMessage">
+        <wsdl:part name="payload" element="ns1:header"/>
+    </wsdl:message>
+    <wsdl:portType name="bpel_delete">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:bpel_deleteRequestMessage"/>
+            <wsdl:output message="client:bpel_deleteResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="bpel_deleteSOAP11Binding" type="client:bpel_delete">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/bpel_delete/process"/>
+            <wsdl:input>
+                <soap:header message="client:delete_TindakanHeaderMessage" part="payload" use="literal"/>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

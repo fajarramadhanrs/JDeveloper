@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<adapter-config name="getDatUserByKdpks" adapter="Database Adapter" wsdlLocation="getDatUserByKdpks.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="getRefKantor" UIStrongXSD="false" adapterRef=""/>
+   <endpoint-interaction portType="getDatUserByKdpks_ptt" operation="getDatUserByKdpks">
+      <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+         <property name="SchemaName" value="DBKepesertaan"/>
+         <property name="PackageName" value="dbo"/>
+         <property name="ProcedureName" value="getDatUserByKdPKS"/>
+         <property name="GetActiveUnitOfWork" value="false"/>
+      </interaction-spec>
+      <output/>
+   </endpoint-interaction>
+</adapter-config>

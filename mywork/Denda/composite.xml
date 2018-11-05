@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<composite name="Denda" revision="1.0" label="2018-07-26_16-49-54_154" mode="active" state="on" xmlns="http://xmlns.oracle.com/sca/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:ui="http://xmlns.oracle.com/soa/designer/">
+   <import namespace="http://xmlns.oracle.com/Application1/Denda/InputDenda" location="InputDenda.wsdl" importType="wsdl"/>
+   <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/Application1/Denda/sp_AMD_ply_Transdenda" location="sp_AMD_ply_Transdenda.wsdl" importType="wsdl"/>
+   <service name="inputdenda_client_ep" ui:wsdlLocation="InputDenda.wsdl">
+      <interface.wsdl interface="http://xmlns.oracle.com/Application1/Denda/InputDenda#wsdl.interface(InputDenda)"/>
+      <binding.ws port="http://xmlns.oracle.com/Application1/Denda/InputDenda#wsdl.endpoint(inputdenda_client_ep/InputDenda_pt)"/>
+   </service>
+   <property name="productVersion" type="xs:string" many="false">11.1.1.9.0</property>
+   <component name="InputDenda" version="2.0">
+      <implementation.bpel src="InputDenda.bpel"/>
+      <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
+   </component>
+   <reference name="sp_AMD_ply_Transdenda" ui:wsdlLocation="sp_AMD_ply_Transdenda.wsdl">
+      <interface.wsdl interface="http://xmlns.oracle.com/pcbpel/adapter/db/Application1/Denda/sp_AMD_ply_Transdenda#wsdl.interface(sp_AMD_ply_Transdenda_ptt)"/>
+      <binding.jca config="sp_AMD_ply_Transdenda_db.jca"/>
+      <property name="jca.retry.count" type="xs:int" many="false" override="may">4</property>
+      <property name="jca.retry.interval" type="xs:int" many="false" override="may">1</property>
+      <property name="jca.retry.backoff" type="xs:int" many="false" override="may">2</property>
+      <property name="jca.retry.maxInterval" type="xs:string" many="false" override="may">120</property>
+   </reference>
+   <wire>
+      <source.uri>inputdenda_client_ep</source.uri>
+      <target.uri>InputDenda/inputdenda_client</target.uri>
+   </wire>
+   <wire>
+      <source.uri>InputDenda/sp_AMD_ply_Transdenda</source.uri>
+      <target.uri>sp_AMD_ply_Transdenda</target.uri>
+   </wire>
+</composite>

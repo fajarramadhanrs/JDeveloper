@@ -1,0 +1,253 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Sep 13 13:22:12 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="deleteKegiatan"
+               targetNamespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatan"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatan"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.example.org/BPJS/deleteKegiatan"
+         xmlns:ns2="http://www.example.org/BPJS/extendedVar"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/PcareKelompok/pcareKelompok/edu_riw_viewData"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/PcareKelompok/pcareKelompok/getEdukasiData"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/sp/getEdukasiData"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/PcareKelompok/pcareKelompok/EdukasiDelete2"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EdukasiDelete2"
+         xmlns:ns8="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatanToDB"
+         xmlns:ns9="http://www.example.org">
+  <import namespace="http://www.example.org/BPJS/extendedVar"
+          location="xsd/extendedVar.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org/BPJS/deleteKegiatan"
+          location="xsd/deleteKegiatan.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatan" location="deleteKegiatan.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="deletekegiatan_client" partnerLinkType="client:deleteKegiatan" myRole="deleteKegiatanProvider"/>
+    <partnerLink name="getEdukasiData" partnerLinkType="ns4:getEdukasiData_plt"
+                 partnerRole="getEdukasiData_role"/>
+    <partnerLink name="deleteKegiatanToDB.deletekegiatantodb_client"
+                 partnerLinkType="ns8:deleteKegiatanToDB"
+                 partnerRole="deleteKegiatanToDBProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:deleteKegiatanRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:deleteKegiatanResponseMessage"/>
+    <variable name="header" element="ns1:header"/>
+    <variable name="extendedVar" element="ns2:tempDeleteKegiatan"/>
+    <variable name="getEdukasiData_InputVariable"
+              messageType="ns4:args_in_msg"/>
+    <variable name="getEdukasiData_OutputVariable"
+              messageType="ns4:args_out_msg"/>
+    <variable name="delete_kegiatan_process_InputVariable"
+              messageType="ns8:deleteKegiatanToDBRequestMessage"/>
+    <variable name="delete_kegiatan_process_OutputVariable"
+              messageType="ns8:deleteKegiatanToDBResponseMessage"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in deleteKegiatan.wsdl) -->
+    <receive name="receiveInput" partnerLink="deletekegiatan_client" portType="client:deleteKegiatan" operation="process" variable="inputVariable" createInstance="yes"
+             bpelx:headerVariable="header"/>
+    <assign name="header">
+      <copy>
+        <from>$header/ns1:ppk</from>
+        <to>$extendedVar/ns2:ppk</to>
+      </copy>
+      <copy>
+        <from>$header/ns1:kdJnsUser</from>
+        <to>$extendedVar/ns2:kdJnsUser</to>
+      </copy>
+    </assign>
+    <if name="If_JnsUser">
+      <condition>$extendedVar/ns2:kdJnsUser != '000'</condition>
+      <sequence name="Sequence4">
+        <assign name="Error_jnsUser">
+          <copy>
+            <from>'X-Authentication Jenis User Bukan Administrator'</from>
+            <to>$outputVariable.payload/ns1:message</to>
+          </copy>
+          <copy>
+            <from><literal>412</literal></from>
+            <to>$outputVariable.payload/ns1:code</to>
+          </copy>
+        </assign>
+        <reply name="ReturnError" variable="outputVariable"
+               partnerLink="deletekegiatan_client"
+               portType="client:deleteKegiatan" operation="process"/>
+        <exit name="Exit1"/>
+      </sequence>
+      <else>
+        <sequence name="Sequence1">
+          <if name="If_eduId">
+            <condition>string-length($inputVariable.payload/ns1:eduId) = 0</condition>
+            <sequence name="Sequence5">
+              <assign name="Error_eduId"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                <copy>
+                  <from>'eduId Tidak boleh kosong'</from>
+                  <to>$outputVariable.payload/ns1:message</to>
+                </copy>
+                <copy>
+                  <from><literal>412</literal></from>
+                  <to>$outputVariable.payload/ns1:code</to>
+                </copy>
+              </assign>
+              <reply name="returnError" variable="outputVariable"
+                     partnerLink="deletekegiatan_client"
+                     portType="client:deleteKegiatan" operation="process"/>
+              <exit name="Exit2"/>
+            </sequence>
+            <else>
+              <sequence name="Sequence2">
+                <assign name="Check_eduId">
+                  <copy>
+                    <from>$inputVariable.payload/ns1:eduId</from>
+                    <to>$getEdukasiData_InputVariable.InputParameters/ns5:eduId</to>
+                  </copy>
+                  <copy>
+                    <from>$extendedVar/ns2:ppk</from>
+                    <to>$getEdukasiData_InputVariable.InputParameters/ns5:kdppk</to>
+                  </copy>
+                </assign>
+                <invoke name="getEdukasiData"
+                        partnerLink="getEdukasiData"
+                        portType="ns4:getEdukasiData_ptt"
+                        operation="getEdukasiData"
+                        inputVariable="getEdukasiData_InputVariable"
+                        outputVariable="getEdukasiData_OutputVariable"
+                        bpelx:invokeAsDetail="no"/>
+                <if name="If_checkReferenceValid">
+                  <condition>count($getEdukasiData_OutputVariable.OutputParameters/ns5:RowSet/ns5:Row) &lt; 1</condition>
+                  <sequence name="Sequence6">
+                    <assign name="Error_refrences"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                      <copy>
+                        <from>'eduId Tidak sesuai dengan referensi sistem.'</from>
+                        <to>$outputVariable.payload/ns1:message</to>
+                      </copy>
+                      <copy>
+                        <from><literal>404</literal></from>
+                        <to>$outputVariable.payload/ns1:code</to>
+                      </copy>
+                    </assign>
+                    <reply name="returnError" variable="outputVariable"
+                           partnerLink="deletekegiatan_client"
+                           portType="client:deleteKegiatan"
+                           operation="process"/>
+                    <exit name="Exit3"/>
+                  </sequence>
+                  <else>
+                    <sequence name="Sequence3">
+                      <assign name="Check_eduId"
+                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                        <copy>
+                          <from>$inputVariable.payload/ns1:eduId</from>
+                          <to>$delete_kegiatan_process_InputVariable.payload/ns9:eduId</to>
+                        </copy>
+                        <copy>
+                          <from>$extendedVar/ns2:ppk</from>
+                          <to>$delete_kegiatan_process_InputVariable.payload/ns9:kdppk</to>
+                        </copy>
+                      </assign>
+                      <invoke name="delete_kegiatan"
+                              partnerLink="deleteKegiatanToDB.deletekegiatantodb_client"
+                              portType="ns8:deleteKegiatanToDB"
+                              operation="process"
+                              inputVariable="delete_kegiatan_process_InputVariable"
+                              outputVariable="delete_kegiatan_process_OutputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                      <if name="If_returnType">
+                        <documentation>
+                          <![CDATA[valid]]>
+                        </documentation>
+                        <condition>$delete_kegiatan_process_OutputVariable.payload/ns9:response</condition>
+                        <assign name="return200">
+                          <copy>
+                            <from><literal>200</literal></from>
+                            <to>$outputVariable.payload/ns1:code</to>
+                          </copy>
+                          <copy>
+                            <from>'OK'</from>
+                            <to>$outputVariable.payload/ns1:message</to>
+                          </copy>
+                        </assign>
+                        <else>
+                          <documentation>
+                            <![CDATA[invalid]]>
+                          </documentation>
+                          <assign name="return500">
+                            <copy>
+                              <from><literal>500</literal></from>
+                              <to>$outputVariable.payload/ns1:code</to>
+                            </copy>
+                            <copy>
+                              <from>'NOT_MODIFIED'</from>
+                              <to>$outputVariable.payload/ns1:message</to>
+                            </copy>
+                          </assign>
+                        </else>
+                      </if>
+                    </sequence>
+                  </else>
+                </if>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="deletekegiatan_client" portType="client:deleteKegiatan" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org"
+            targetNamespace="http://www.example.org"
+            elementFormDefault="qualified">
+ <xsd:element name="inputDaftarDelete">
+    <xsd:complexType>
+      <xsd:sequence>
+      <xsd:element name="PPK_KUNJUNGAN" type="xsd:string"/>
+      <xsd:element name="TGLDAFTAR" type="xsd:string"/>
+        <xsd:element name="NOURUT" type="xsd:int"/>
+        <xsd:element name="NOKAPST" type="xsd:string"/>
+        <xsd:element name="KDPOLI" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="outputDaftarDelete">
+    <xsd:complexType>
+      <xsd:sequence>
+          <xsd:element name="response" type="xsd:boolean"/>
+      </xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="setNoUrut">
+    <xsd:complexType>
+      <xsd:sequence>
+          <xsd:element name="setNoUrut" type="xsd:int"/>
+      </xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>

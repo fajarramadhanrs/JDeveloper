@@ -1,0 +1,33 @@
+<?binding.jca insertDB_db.jca?>
+<wsdl:definitions name="insertDB" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/testSHA1/testInsert/insertDB" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/testSHA1/testInsert/insertDB" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/insertDB">
+    <plt:partnerLinkType name="insertDB_plt">
+        <plt:role name="insertDB_role">
+            <plt:portType name="tns:insertDB_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/insertDB" schemaLocation="xsd/insertDB_table.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="LogPstNoNokaCollection_msg">
+        <wsdl:part name="LogPstNoNokaCollection" element="top:LogPstNoNokaCollection"/>
+    </wsdl:message>
+    <wsdl:message name="insertDBSelect_inputParameters">
+        <wsdl:part name="insertDBSelect_inputParameters" element="top:insertDBSelectInputParameters"/>
+    </wsdl:message>
+    <wsdl:portType name="insertDB_ptt">
+        <wsdl:operation name="merge">
+            <wsdl:input message="tns:LogPstNoNokaCollection_msg"/>
+            <wsdl:output message="tns:LogPstNoNokaCollection_msg"/>
+        </wsdl:operation>
+        <wsdl:operation name="insert">
+            <wsdl:input message="tns:LogPstNoNokaCollection_msg"/>
+            <wsdl:output message="tns:LogPstNoNokaCollection_msg"/>
+        </wsdl:operation>
+        <wsdl:operation name="insertDBSelect">
+            <wsdl:input message="tns:insertDBSelect_inputParameters"/>
+            <wsdl:output message="tns:LogPstNoNokaCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

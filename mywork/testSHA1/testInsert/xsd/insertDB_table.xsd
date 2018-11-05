@@ -1,0 +1,57 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/insertDB" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/insertDB" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="LogPstNoNokaCollection" type="LogPstNoNokaCollection"/>
+   <xs:complexType name="LogPstNoNokaCollection">
+      <xs:sequence>
+         <xs:element name="LogPstNoNoka" type="LogPstNoNoka" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="LogPstNoNoka">
+      <xs:sequence>
+         <xs:element name="id" type="xs:integer" nillable="true"/>
+         <xs:element name="nama" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="200"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="nokk" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="35"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="jenkel" type="xs:short" minOccurs="0"/>
+         <xs:element name="tmplahir" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="200"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="tgllahir" type="xs:dateTime" minOccurs="0"/>
+         <xs:element name="nohp" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="13"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="kdrs" minOccurs="0">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:maxLength value="8"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:element>
+         <xs:element name="statuscetak" type="xs:short" minOccurs="0"/>
+         <xs:element name="tsinput" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="insertDBSelectInputParameters" type="insertDBSelect"/>
+   <xs:complexType name="insertDBSelect">
+      <xs:sequence/>
+   </xs:complexType>
+</xs:schema>

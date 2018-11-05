@@ -1,0 +1,153 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Aug 06 11:37:52 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_JAVA"
+               targetNamespace="http://xmlns.oracle.com/testSHA1/TESTSHA1/BPEL_JAVA"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/testSHA1/TESTSHA1/BPEL_JAVA"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns1="http://www.example.org/empAccount"
+         xmlns:ns2="http://www.example.org/setVar">
+  <import namespace="http://www.example.org/empAccount"
+          location="xsd/empAccount.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org/setVar" location="xsd/setVar.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/testSHA1/TESTSHA1/BPEL_JAVA" location="BPEL_JAVA.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <import location="oracle.xml.parser.v2.XMLElement" importType="http://schemas.oracle.com/bpel/extension/java"/>
+     <import location="java.security.MessageDigest" importType="http://schemas.oracle.com/bpel/extension/java"/>  
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_java_client" partnerLinkType="client:BPEL_JAVA" myRole="BPEL_JAVAProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_JAVARequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="Set" element="ns2:SetVar"/>
+    <variable name="Output" element="ns2:Response"/>
+    <variable name="Variable1" element="ns1:emplResponse"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_JAVA.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpel_java_client" portType="client:BPEL_JAVA" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="If1">
+      <condition>string-length($inputVariable.payload/ns1:strNOREF)=0</condition>
+      <assign name="Assign1">
+        <copy>
+          <from>'kosong'</from>
+          <to>$Variable1/ns1:Response/ns1:Entity/ns1:Response</to>
+        </copy>
+      </assign>
+      <else>
+        <empty name="Empty1"/>
+      </else>
+    </if>
+    <extensionActivity>
+      <bpelx:exec name="Java_Embedding1" language="java">
+        <![CDATA[try{    
+    String text= "12345678";  
+    MessageDigest md = MessageDigest.getInstance("SHA1");   
+    byte[] data = new byte[40];                     
+    md.update(text.getBytes("iso-8859-1"), 0, text.length());                     
+    data = md.digest();                     
+    StringBuffer buf = new StringBuffer(); 	               
+    for (int i = 0; i < data.length; i++) {                     
+        int halfbyte = (data[i] >>> 4) & 0x0F;                     
+        int two_halfs = 0;                     
+        do {                     
+            if ((0 <= halfbyte) && (halfbyte <= 9)) {                     
+                buf.append((char) ('0' + halfbyte));  }                   
+            else {                     
+                buf.append((char) ('a' + (halfbyte - 10))); }                
+                halfbyte = data[i] & 0x0F;                    
+        } while (two_halfs++ < 1);               
+    }               
+    String result = buf.toString();    
+   setVariableData("Set","/ns2:SetVar","/ns2:setPwd",result);           
+}catch(Exception e){             
+}]]>
+      </bpelx:exec>
+    </extensionActivity>
+    <assign name="Assign2">
+      <copy>
+        <from>$inputVariable.payload/ns1:strNOREF</from>
+        <to>$Output/ns2:noref</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:strKDKANTOR</from>
+        <to>$Output/ns2:kdkantor</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:strNIK</from>
+        <to>$Output/ns2:nik</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:strNMUSER</from>
+        <to>$Output/ns2:nmuser</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:strNOHP</from>
+        <to>$Output/ns2:nohp</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:strKDBANK</from>
+        <to>$Output/ns2:kdbank</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:strTGLLHR</from>
+        <to>$Output/ns2:tgllhr</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpel_java_client" portType="client:BPEL_JAVA" operation="process"
+           variable="Output"/>
+  </sequence>
+</process>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<adapter-config name="getDatUserByNik" adapter="Database Adapter" wsdlLocation="getDatUserByNik.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="getRefKantor" adapterRef=""/>
+   <endpoint-interaction portType="getDatUserByNik_ptt" operation="getDatUserByNik">
+      <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+         <property name="SqlString" value="SELECT NOPEG, KDKANTOR, USERID, PWD, NIK, NMPEGAWAI, KDJABATAN, STATUS, TGLLHR, NOHP, TSINPUT, USERINPUT, TSUPDATE, USERUPDATE, KDPKS, LASTIPLOGIN, LASTTIMELOGIN, TMT, TAT, KET FROM dbo.DATUSER WHERE NIK=#NIK  AND TSINPUT IS NOT NULL"/>
+         <property name="GetActiveUnitOfWork" value="false"/>
+      </interaction-spec>
+      <input/>
+      <output/>
+   </endpoint-interaction>
+</adapter-config>

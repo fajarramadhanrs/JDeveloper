@@ -1,0 +1,13 @@
+<adapter-config name="GetAlamatLast" adapter="Database Adapter" wsdlLocation="GetAlamatLast.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="SQLBPJS" adapterRef=""/>
+  <endpoint-interaction portType="GetAlamatLast_ptt" operation="GetAlamatLast">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="SELECT A.PSNOKA,A.TGLSEJAK,A.KDDESA,A.ALAMAT,A.RT,A.RW,A.KODEPOS,A.KKNO,A.KDTLP,A.NOTLP,A.KDFAX,A.NOFAX,A.KDJNS_ALAMAT,B.NMDESA,C.KDKEC,C.NMKEC,D.KDDATI2,D.NMDATI2,E.KDPROP, E.NMPROP, A.KDDATI2 AS KDDATI2PST FROM ALAMAT_PRESENT A LEFT JOIN DESA_TBL B ON A.KDDESA=B.KDDESA LEFT JOIN KEC_TBL C ON B.KDKEC=C.KDKEC LEFT JOIN DATI2_TBL D ON C.KDDATI2=D.KDDATI2 LEFT JOIN PROP_TBL E ON D.KDPROP=E.KDPROP WHERE A.PSNOKA=#PSNOKA AND A.KDJNS_ALAMAT =#KDJNS_ALAMAT  "/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

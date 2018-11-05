@@ -1,0 +1,13 @@
+<adapter-config name="GetPesertaBYpsnoka" adapter="Database Adapter" wsdlLocation="GetPesertaBYpsnoka.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="SQLBPJS" adapterRef=""/>
+  <endpoint-interaction portType="GetPesertaBYpsnoka_ptt" operation="GetPesertaBYpsnoka">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="SELECT A.PSNOKA, A.PSNOKALAMA, A.PSNOKALAMA2, A.NAMA, A.NMCETAK, A.JENKEL,A.AGAMA, A.TMPLHR, A.TGLLHR, A.FLAGTANGGUNGAN, A.NOHP, A.NIK, A.NOKTP, isnull(A.TMT,GETDATE()) AS TMT,  A.TAT, A.NPWP, A.EMAIL, A.NOKA, A.KDHUBKEL, A.KDSTAWIN, A.KDNEGARA,KDGOLDARAH,  A.KDSTATUSPST, A.KDKANTOR, ISNULL(A.TSINPUT, '2014-01-01') AS TSINPUT, A.TSUPDATE, A.USERINPUT, A.USERUPDATE, A.TSSTATUS, A.DAFTAR, B.NMHUBKEL FROM dbo.PESERTA A INNER JOIN dbo.HUBKEL_TBL B ON A.KDHUBKEL=B.KDHUBKEL WHERE PSNOKA=#PS_NOKA"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

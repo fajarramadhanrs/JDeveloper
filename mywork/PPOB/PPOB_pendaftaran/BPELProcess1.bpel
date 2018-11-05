@@ -1,0 +1,790 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Jul 10 13:24:00 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELProcess1"
+               targetNamespace="http://xmlns.oracle.com/WSPendaftaranPPOB/PENDAFTARANPPOB/BPELProcess1"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/WSPendaftaranPPOB/PENDAFTARANPPOB/BPELProcess1"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getRefKantor"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns2="http://www.example.org/empAccount"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/getRefKantor"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getDatUserByNik"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/getDatUserByNik"
+         xmlns:ns6="http://www.example.org"
+         xmlns:ns7="http://www.example.org/setVariable"
+         xmlns:ns8="http://www.example.org/setVar"
+         xmlns:ns9="http://www.example.org/setVar1"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getDatUserByKdpks"
+         xmlns:ns12="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getDatUserMaxPPOB"
+         xmlns:ns13="http://xmlns.oracle.com/pcbpel/adapter/db/sp/getDatUserMaxPPOB"
+         xmlns:ns14="http://xmlns.oracle.com/pcbpel/adapter/db/sp/getDatUserByKdpks"
+         xmlns:ns15="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/saveDatUser"
+         xmlns:ns16="http://xmlns.oracle.com/pcbpel/adapter/db/sp/saveDatUser"
+         xmlns:ns17="http://xmlns.oracle.com/pcbpel/adapter/db/top/saveDatUser"
+         xmlns:ns18="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/saveDatUserDB"
+         xmlns:ns19="http://xmlns.oracle.com/pcbpel/adapter/db/top/saveDatUserDB"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://www.example.org/empAccount"
+          location="xsd/empAccount.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org/setVar" location="xsd/setVar.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/WSPendaftaranPPOB/PENDAFTARANPPOB/BPELProcess1" location="BPELProcess1.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- extended classes
+    -->
+     <import location="oracle.xml.parser.v2.XMLElement" importType="http://schemas.oracle.com/bpel/extension/java"/>
+     <import location="java.security.MessageDigest" importType="http://schemas.oracle.com/bpel/extension/java"/>  
+     <import location="java.io.UnsupportedEncodingException" importType="http://schemas.oracle.com/bpel/extension/java"/>
+     <import location="java.security.NoSuchAlgorithmException" importType="http://schemas.oracle.com/bpel/extension/java"/>
+    <!--
+    
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpelprocess1_client" partnerLinkType="client:BPELProcess1" myRole="BPELProcess1Provider"/>
+    <partnerLink name="getRefKantor" partnerLinkType="ns1:getRefKantor_plt"
+                 partnerRole="getRefKantor_role"/>
+    <partnerLink name="getDatUserByNik"
+                 partnerLinkType="ns4:getDatUserByNik_plt"
+                 partnerRole="getDatUserByNik_role"/>
+    <partnerLink name="getDatUserMaxPPOB"
+                 partnerLinkType="ns12:getDatUserMaxPPOB_plt"
+                 partnerRole="getDatUserMaxPPOB_role"/>
+    <partnerLink name="saveDatUserDB" partnerLinkType="ns18:saveDatUserDB_plt"
+                 partnerRole="saveDatUserDB_role"/>
+    <partnerLink name="getDatUserByKdpks"
+                 partnerLinkType="ns10:getDatUserByKdpks_plt"
+                 partnerRole="getDatUserByKdpks_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPELProcess1RequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="Invoke1_getRefKantor_InputVariable_1"
+              messageType="ns1:getRefKantorInput_msg"/>
+    <variable name="Invoke1_getRefKantor_OutputVariable_1"
+              messageType="ns1:getRefKantorOutputCollection_msg"/>
+    <variable name="Invoke1_getDatUserByNik_InputVariable"
+              messageType="ns4:getDatUserByNikInput_msg"/>
+    <variable name="Invoke1_getDatUserByNik_OutputVariable"
+              messageType="ns4:getDatUserByNikOutputCollection_msg"/>
+    <variable name="setVar" element="ns8:SetVar"/>
+    <variable name="getDatUserMaxPPOB_InputVariable"
+              messageType="ns12:args_in_msg"/>
+    <variable name="getDatUserMaxPPOB_OutputVariable"
+              messageType="ns12:args_out_msg"/>
+<variable name="Invoke2_insert_InputVariable"
+              messageType="ns18:DatuserCollection_msg"/>
+    <variable name="SHA" type="xsd:string"/>
+    <variable name="ConvDate" type="xsd:dateTime"/>
+    <variable name="Invoke3_getDatUserByKdpks_InputVariable"
+              messageType="ns10:args_in_msg"/>
+    <variable name="Invoke3_getDatUserByKdpks_OutputVariable"
+              messageType="ns10:args_out_msg"/>
+    <variable name="OutputVariable"
+              messageType="client:BPELProcess1ResponseMessage"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence22">
+        <assign name="Error">
+          <copy>
+            <from>401</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+          <copy>
+            <from>'Exception'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+        </assign>
+        <reply name="Reply14" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELProcess1.wsdl) --><receive name="receiveInput" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="If_StrREF">
+      <condition>string-length($inputVariable.payload/ns2:NOREF)=0</condition>
+      <sequence name="Sequence6">
+        <assign name="Error_message">
+          <copy>
+            <from>'No. Referensi Kosong'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply1" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+        <exit name="Exit2"/>
+      </sequence>
+      <else><sequence name="Sequence21"><empty name="Empty3"/></sequence></else>
+    </if>
+    <if name="If_strKdKantor"
+             xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <condition>string-length($inputVariable.payload/ns2:KDKANTOR)= 0 and not(string-length($inputVariable.payload/ns2:KDKANTOR)=4)</condition>
+      <sequence name="Sequence7">
+        <assign name="Response_kdKantor1">
+          <copy>
+            <from>
+               <literal>Kode Kantor Tidak Lengkap</literal>
+            </from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply2" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+        <exit name="Exit3"/>
+      </sequence>
+      <else>
+         <sequence name="Sequence1">
+          <assign name="Passing_input_to_database">
+               <copy>
+                  <from>$inputVariable.payload/ns2:KDKANTOR</from>
+                  <to>$Invoke1_getRefKantor_InputVariable_1.getRefKantorInput_msg/ns3:KDKANTOR</to>
+               </copy>
+            </assign>
+            <invoke name="Check_database" partnerLink="getRefKantor"
+                    portType="ns1:getRefKantor_ptt" operation="getRefKantor"
+                    inputVariable="Invoke1_getRefKantor_InputVariable_1"
+                    outputVariable="Invoke1_getRefKantor_OutputVariable_1"
+                    bpelx:invokeAsDetail="no"
+                    xmlns:bpelx="http://schemas.oracle.com/bpel/extension"/>
+          <if name="If_kdKantor">
+               <condition>string-length($Invoke1_getRefKantor_OutputVariable_1.getRefKantorOutputCollection/ns3:getRefKantorOutput/ns3:A_KDKANTOR)=0</condition>
+            <sequence name="Sequence8">
+              <assign name="response_kdKantorNull">
+                <copy>
+                  <from>
+                        <literal>Kode Kantor Salah</literal>
+                     </from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+                </copy>
+                <copy>
+                  <from>403</from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+                </copy>
+              </assign>
+              <reply name="Reply3" variable="OutputVariable"
+                     partnerLink="bpelprocess1_client"
+                     portType="client:BPELProcess1" operation="process"/>
+              <exit name="Exit4"/>
+            </sequence>
+            <else>
+                  <sequence>
+                <empty name="Empty2"/>
+              </sequence>
+               </else>
+            </if>
+        </sequence>
+      </else>
+   </if>
+    <if name="If_StrNik">
+      <condition>string-length($inputVariable.payload/ns2:NIK) = 0 and not(string-length($inputVariable.payload/ns2:NIK)) =16</condition>
+      <sequence name="Sequence9">
+        <assign name="Error_StrNik">
+          <copy>
+            <from>'NIK Tidak Lengkap'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply4" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+        <exit name="Exit5"/>
+      </sequence>
+      <else>
+        <sequence>
+          <if name="If_strNIK_isNum">
+            <condition>string(number($inputVariable.payload/ns2:NIK)) = 'NaN'</condition>
+            <sequence name="Sequence10">
+              <assign name="Error_strNikNumber">
+                <copy>
+                  <from>'Format NIK Salah'</from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+                </copy>
+                <copy>
+                  <from>403</from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+                </copy>
+              </assign>
+              <reply name="Reply5" variable="OutputVariable"
+                     partnerLink="bpelprocess1_client"
+                     portType="client:BPELProcess1" operation="process"/>
+              <exit name="Exit6"/>
+            </sequence>
+            <else>
+              <sequence name="Sequence2">
+                <forEach parallel="no" counterName="ForEach1Counter"
+                         name="ForEach">
+                  <startCounterValue>1</startCounterValue>
+                  <finalCounterValue>count($inputVariable.payload/ns2:NIK)</finalCounterValue>
+                  <scope name="Scope1">
+                    <sequence>
+                      <assign name="getDatUserByNik">
+                        <copy>
+                          <from>$inputVariable.payload/ns2:NIK</from>
+                          <to>$Invoke1_getDatUserByNik_InputVariable.getDatUserByNikInput_msg/ns5:NIK</to>
+                        </copy>
+                        <copy>
+                          <from>$inputVariable.payload/ns2:NIK[$ForEach1Counter]</from>
+                          <to>$Invoke1_getDatUserByNik_InputVariable.getDatUserByNikInput_msg/ns5:NIK</to>
+                        </copy>
+                      </assign>
+                      <invoke name="Invoke1" partnerLink="getDatUserByNik"
+                              portType="ns4:getDatUserByNik_ptt"
+                              operation="getDatUserByNik"
+                              inputVariable="Invoke1_getDatUserByNik_InputVariable"
+                              outputVariable="Invoke1_getDatUserByNik_OutputVariable"
+                              bpelx:invokeAsDetail="no"/>
+                    </sequence>
+                  </scope>
+                </forEach>
+                <if name="If_KdJabatan_exist">
+                  <condition>$Invoke1_getDatUserByNik_OutputVariable.getDatUserByNikOutputCollection/ns5:getDatUserByNikOutput/ns5:KDJABATAN = $inputVariable.payload/ns2:KDBANK and string-length($Invoke1_getDatUserByNik_OutputVariable.getDatUserByNikOutputCollection/ns5:getDatUserByNikOutput/ns5:TSINPUT)!=0</condition>
+                  <sequence name="Sequence11">
+                    <assign name="Error_NikExist">
+                      <copy>
+                        <from>'NIK Sudah Terdaftar'</from>
+                        <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+                      </copy>
+                      <copy>
+                        <from>403</from>
+                        <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+                      </copy>
+                    </assign>
+                    <reply name="Reply6" variable="OutputVariable"
+                           partnerLink="bpelprocess1_client"
+                           portType="client:BPELProcess1" operation="process"/>
+                    <exit name="Exit7"/>
+                  </sequence>
+                  <else>
+                    <empty name="Empty4"/>
+                  </else>
+                </if>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <if name="If_StrNMUSER">
+      <condition>string-length($inputVariable.payload/ns2:NMUSER) = 0</condition>
+      <sequence name="Sequence5">
+        <assign name="Error_StrNMUSER">
+          <copy>
+            <from>'Nama User Tidak Lengkap'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply_exit" partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"
+               variable="OutputVariable"/>
+        <exit name="Exit1"/>
+      </sequence>
+      <else>
+        <empty name="Empty5"/>
+      </else>
+    </if>
+    <if name="If_strTGLLHR">
+      <condition>string-length($inputVariable.payload/ns2:TGLLHR)= 0 and not(xp20:format-dateTime($inputVariable.payload/ns2:TGLLHR,'[D01]/[M01]/[Y]'))</condition>
+      <sequence name="Sequence12">
+        <assign name="Error_tglLLHR_format">
+          <copy>
+            <from>'Format Tgl. Lahir Salah(DD/MM/YYYY)'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply7" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+        <exit name="Exit8"/>
+      </sequence>
+      <else>
+        <sequence>
+          <assign name="assign">
+            <copy>
+              <from>concat(substring($inputVariable.payload/ns2:TGLLHR,7,4),'-',substring($inputVariable.payload/ns2:TGLLHR,4,2),'-',(substring($inputVariable.payload/ns2:TGLLHR,1,2)))</from>
+              <to>$setVar/ns8:settgllhr</to>
+            </copy>
+          </assign>
+        </sequence>
+      </else>
+    </if>
+    <if name="If_strNOHP">
+      <condition>string-length($inputVariable.payload/ns2:NOHP) = 0</condition>
+      <sequence name="Sequence3">
+        <assign name="Error_noHP">
+          <copy>
+            <from>'No. HP Kosong'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply8" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+        <exit name="Exit9"/>
+      </sequence>
+      <else>
+        <sequence name="Sequence13">
+          <if name="If_Format_strNOHP">
+            <condition>string(number($inputVariable.payload/ns2:NOHP)) = 'NaN'</condition>
+            <sequence>
+              <assign name="Error_FormatNoHP">
+                <copy>
+                  <from>'Format HP Salah'</from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+                </copy>
+                <copy>
+                  <from>403</from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+                </copy>
+              </assign>
+              <reply name="Reply9" variable="OutputVariable"
+                     partnerLink="bpelprocess1_client"
+                     portType="client:BPELProcess1" operation="process"/>
+              <exit name="Exit10"/>
+            </sequence>
+            <else>
+              <sequence>
+                <sequence>
+                  <empty name="Empty7"/>
+                </sequence>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <if name="If_KdBank">
+      <condition>string-length($inputVariable.payload/ns2:KDBANK) = 0</condition>
+      <sequence name="Sequence15">
+        <assign name="Error_KdBankKosong">
+          <copy>
+            <from>'Kode Bank Kosong'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply10" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+        <exit name="Exit11"/>
+      </sequence>
+      <else>
+        <sequence>
+          <if name="If_KdBank_Config">
+            <condition>not($inputVariable.payload/ns2:KDBANK  &gt;= '8' or $inputVariable.payload/ns2:KDBANK  &lt;= '11')</condition>
+            <sequence name="Sequence16">
+              <assign name="Error_kdBankSalah">
+                <copy>
+                  <from>'Kode Bank Salah'</from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+                </copy>
+                <copy>
+                  <from>403</from>
+                  <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+                </copy>
+              </assign>
+              <reply name="Reply11" variable="OutputVariable"
+                     partnerLink="bpelprocess1_client"
+                     portType="client:BPELProcess1" operation="process"/>
+              <exit name="Exit12"/>
+            </sequence>
+            <else>
+              <sequence>
+                <empty name="Empty8"/>
+              </sequence>
+            </else>
+          </if>
+          <assign name="KDPPOB">
+            <copy>
+              <from>$setVar/ns8:kdPPOB = 'X'</from>
+              <to>$setVar/ns8:kdPPOB</to>
+            </copy>
+          </assign>
+          <if name="If_KDPPOB">
+            <condition>$inputVariable.payload/ns2:KDBANK = '8'</condition>
+            <assign name="PPOB_BNI">
+              <copy>
+                <from>'N'</from>
+                <to>$setVar/ns8:kdPPOB</to>
+              </copy>
+            </assign>
+            <elseif>
+              <condition>$inputVariable.payload/ns2:KDBANK = '9'</condition>
+              <assign name="PPOB_BRI"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+   <copy>
+         <from>'R'</from>
+         <to>$setVar/ns8:kdPPOB</to>
+      </copy></assign></elseif>
+            <elseif>
+              <condition>$inputVariable.payload/ns2:KDBANK = '10'</condition>
+              <sequence>
+                <assign name="PPOB_MANDIRI"
+                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <copy>
+                    <from>'M'</from>
+                    <to>$setVar/ns8:kdPPOB</to>
+                  </copy>
+                </assign>
+              </sequence>
+            </elseif>
+            <elseif>
+              <condition>$inputVariable.payload/ns2:KDBANK = '11'</condition>
+              <assign name="PPOB_BTN"
+                            xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      
+   <copy>
+         <from>'T'</from>
+         <to>$setVar/ns8:kdPPOB</to>
+      </copy></assign></elseif>
+            <else>
+              <empty name="Empty9"/>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <assign name="REF_KDPKS">
+      <copy>
+        <from>$inputVariable.payload/ns2:NOREF</from>
+        <to>$Invoke3_getDatUserByKdpks_InputVariable.InputParameters/ns14:KDPKS</to>
+      </copy>
+    </assign>
+    <invoke name="REF_to_KDPKS"
+            partnerLink="getDatUserByKdpks"
+            portType="ns10:getDatUserByKdpks_ptt"
+            operation="getDatUserByKdpks"
+            inputVariable="Invoke3_getDatUserByKdpks_InputVariable"
+            outputVariable="Invoke3_getDatUserByKdpks_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <if name="If_strKdPKS">
+      <documentation/>
+      <condition>$Invoke3_getDatUserByKdpks_OutputVariable.OutputParameters/ns14:RowSet/ns14:Row/ns14:Column != ''</condition>
+      <sequence name="Sequence17">
+        <assign name="error_KdPKS">
+          <copy>
+            <from>'NIK sudah terdaftar'</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:entity</to>
+          </copy>
+          <copy>
+            <from>403</from>
+            <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+          </copy>
+        </assign>
+        <reply name="Reply12" variable="OutputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+        <exit name="Exit13"/>
+      </sequence>
+      <else>
+        <sequence name="Sequence4">
+          <assign name="MaxUID">
+            <copy>
+              <from>$inputVariable.payload/ns2:KDKANTOR</from>
+              <to>$getDatUserMaxPPOB_InputVariable.InputParameters/ns13:KDKANTOR</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/ns2:KDBANK</from>
+              <to>$getDatUserMaxPPOB_InputVariable.InputParameters/ns13:KDBANK</to>
+            </copy>
+            <copy>
+              <from>$setVar/ns8:kdPPOB</from>
+              <to>$getDatUserMaxPPOB_InputVariable.InputParameters/ns13:KDPPOB</to>
+            </copy>
+            <copy>
+              <from><literal>1</literal></from>
+              <to>$getDatUserMaxPPOB_InputVariable.InputParameters/ns13:JNSPPOB</to>
+            </copy>
+          </assign>
+          <invoke name="getDatUserMaxPPOB_DB" partnerLink="getDatUserMaxPPOB"
+                  portType="ns12:getDatUserMaxPPOB_ptt"
+                  operation="getDatUserMaxPPOB"
+                  inputVariable="getDatUserMaxPPOB_InputVariable"
+                  outputVariable="getDatUserMaxPPOB_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <if name="If_maxUID">
+            <condition>count($getDatUserMaxPPOB_OutputVariable.OutputParameters/ns13:RowSet/ns13:Row/ns13:Column[@name="MAXUID"]/text()) = 0</condition>
+            <sequence name="Sequence18">
+              <assign name="New_MaxUID">
+                <copy>
+                  <from>concat($inputVariable.payload/ns2:KDKANTOR,'1',$setVar/ns8:kdPPOB, '0000001')</from>
+                  <to>$setVar/ns8:maxUID</to>
+                </copy>
+              </assign>
+            </sequence>
+            <else>
+              <sequence name="Sequence20">
+                <assign name="assign_MaxUID">
+                  <copy>
+                    <from>$getDatUserMaxPPOB_OutputVariable.OutputParameters/ns13:RowSet/ns13:Row/ns13:Column[@name="MAXUID"]/text()</from>
+                    <to>$setVar/ns8:maxUID</to>
+                  </copy>
+                </assign>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <assign name="put_to_SetVar">
+      <copy>
+        <from>$setVar/ns8:maxUID</from>
+        <to>$setVar/ns8:setNopeg</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:KDKANTOR</from>
+        <to>$setVar/ns8:setKdkantor</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:NIK</from>
+        <to>$setVar/ns8:setNik</to>
+      </copy>
+      <copy>
+        <from>'1'</from>
+        <to>$setVar/ns8:setStatus</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:NOHP</from>
+        <to>$setVar/ns8:setNohp</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:NMUSER</from>
+        <to>$setVar/ns8:setNmpegawai</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:maxUID</from>
+        <to>$setVar/ns8:setUserid</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:KDBANK</from>
+        <to>$setVar/ns8:setKdjabatan</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:NOREF</from>
+        <to>$setVar/ns8:setKdpks</to>
+      </copy>
+      <copy>
+        <from>xp20:current-dateTime()</from>
+        <to>$setVar/ns8:TSINPUT</to>
+      </copy>
+    </assign>
+    <extensionActivity>
+      <bpelx:exec name="Java_Embedding1" language="java">
+        <![CDATA[try{           
+    String text= "12345678";         
+    MessageDigest md = MessageDigest.getInstance("SHA1");          
+    byte[] data = new byte[40];                            
+    md.update(text.getBytes("iso-8859-1"), 0, text.length());                            
+    data = md.digest();                            
+    StringBuffer buf = new StringBuffer(); 	                      
+    for (int i = 0; i < data.length; i++) {                            
+        int halfbyte = (data[i] >>> 4) & 0x0F;                            
+        int two_halfs = 0;                            
+        do {                            
+            if ((0 <= halfbyte) && (halfbyte <= 9)) {                            
+                buf.append((char) ('0' + halfbyte));  }                          
+            else {                            
+                buf.append((char) ('a' + (halfbyte - 10))); }                       
+                halfbyte = data[i] & 0x0F;                           
+        } while (two_halfs++ < 1);                      
+    }                      
+    String result = buf.toString();    
+    //System.out.println(result);    
+    // setVariableData("setVar","/ns8:setPwd","kuda");     
+     setVariableData("SHA",result);      
+}catch(Exception e){ 
+}]]>
+      </bpelx:exec>
+    </extensionActivity>
+    <assign name="SHA_to_PWD">
+      <copy>
+        <from>$SHA</from>
+        <to>$setVar/ns8:setPwd</to>
+      </copy>
+    </assign>
+    <assign name="Intert_to_database">
+      <copy>
+        <from>$setVar/ns8:setNopeg</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:nopeg</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setKdkantor</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:kdkantor</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:maxUID</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:userid</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setPwd</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:pwd</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setNik</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:nik</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setNmpegawai</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:nmpegawai</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setKdjabatan</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:kdjabatan</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setStatus</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:status</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setNohp</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:nohp</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:TSINPUT</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:tsinput</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:settgllhr</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:tgllhr</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setKdpks</from>
+        <to>$Invoke2_insert_InputVariable.DatuserCollection/ns19:Datuser/ns19:kdpks</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke2"
+            partnerLink="saveDatUserDB" portType="ns18:saveDatUserDB_ptt"
+            operation="insert" inputVariable="Invoke2_insert_InputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="Set_pwd">
+      <copy>
+        <from>'12345678'</from>
+        <to>$setVar/ns8:pwd</to>
+      </copy>
+    </assign>
+    <assign name="Resp_user">
+      <copy>
+        <from>$inputVariable.payload/ns2:TGLLHR</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:tgllhr</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setNopeg</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:noref</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setKdkantor</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:kdkantor</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setNik</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:nik</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setKdjabatan</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:kdbank</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setUserid</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:uid</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setNmpegawai</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:nmuser</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:setNohp</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:nohp</to>
+      </copy>
+      <copy>
+        <from>$setVar/ns8:pwd</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:pwd</to>
+      </copy>
+      <copy>
+        <from>200</from>
+        <to>$OutputVariable.payload/ns2:entity/ns2:status</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" operation="process"
+           variable="OutputVariable"/>
+  </sequence>
+</process>

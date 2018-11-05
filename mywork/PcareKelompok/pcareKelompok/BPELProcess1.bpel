@@ -1,0 +1,115 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Oct 08 15:33:11 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELProcess1"
+               targetNamespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/BPELProcess1"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/BPELProcess1"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/PcareKelompok/pcareKelompok/EdukasiDetDelete"
+         xmlns:ns2="http://www.example.org"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EdukasiDetDelete">
+
+    <import namespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/BPELProcess1" location="BPELProcess1.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpelprocess1_client" partnerLinkType="client:BPELProcess1" myRole="BPELProcess1Provider"/>
+    <partnerLink name="EdukasiDetDelete"
+                 partnerLinkType="ns1:EdukasiDetDelete_plt"
+                 partnerRole="EdukasiDetDelete_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPELProcess1RequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPELProcess1ResponseMessage"/>
+    <variable name="deletEd_EdukasiDetDelete_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="deletEd_EdukasiDetDelete_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="returnFalse">
+          <copy>
+            <from><literal>0</literal></from>
+            <to>$outputVariable.payload/ns2:response</to>
+          </copy>
+        </assign>
+        <reply name="retunrError" variable="outputVariable"
+               partnerLink="bpelprocess1_client"
+               portType="client:BPELProcess1" operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELProcess1.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="setToDB">
+      <copy>
+        <from>$inputVariable.payload/ns2:eduId</from>
+        <to>$deletEd_EdukasiDetDelete_InputVariable.InputParameters/ns3:No_Id</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:noKartu</from>
+        <to>$deletEd_EdukasiDetDelete_InputVariable.InputParameters/ns3:noka</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:LUser</from>
+        <to>$deletEd_EdukasiDetDelete_InputVariable.InputParameters/ns3:LUser</to>
+      </copy>
+    </assign>
+    <invoke name="deletEd"
+            partnerLink="EdukasiDetDelete" portType="ns1:EdukasiDetDelete_ptt"
+            operation="EdukasiDetDelete"
+            inputVariable="deletEd_EdukasiDetDelete_InputVariable"
+            outputVariable="deletEd_EdukasiDetDelete_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="retrunTrue">
+      <copy>
+        <from><literal>1</literal></from>
+        <to>$outputVariable.payload/ns2:response</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

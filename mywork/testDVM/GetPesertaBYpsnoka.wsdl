@@ -1,0 +1,25 @@
+<?binding.jca GetPesertaBYpsnoka_db.jca?>
+<wsdl:definitions name="GetPesertaBYpsnoka" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPesertaBYpsnoka" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetPesertaBYpsnoka" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/GetPesertaBYpsnoka">
+    <plt:partnerLinkType name="GetPesertaBYpsnoka_plt">
+        <plt:role name="GetPesertaBYpsnoka_role">
+            <plt:portType name="tns:GetPesertaBYpsnoka_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetPesertaBYpsnoka" schemaLocation="xsd/GetPesertaBYpsnoka.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="GetPesertaBYpsnokaInput_msg">
+        <wsdl:part name="GetPesertaBYpsnokaInput_msg" element="db:GetPesertaBYpsnokaInput"/>
+    </wsdl:message>
+    <wsdl:message name="GetPesertaBYpsnokaOutputCollection_msg">
+        <wsdl:part name="GetPesertaBYpsnokaOutputCollection" element="db:GetPesertaBYpsnokaOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="GetPesertaBYpsnoka_ptt">
+        <wsdl:operation name="GetPesertaBYpsnoka">
+            <wsdl:input message="tns:GetPesertaBYpsnokaInput_msg"/>
+            <wsdl:output message="tns:GetPesertaBYpsnokaOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

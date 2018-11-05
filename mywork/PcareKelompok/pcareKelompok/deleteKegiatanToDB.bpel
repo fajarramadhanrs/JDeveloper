@@ -1,0 +1,120 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Oct 04 16:10:38 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="deleteKegiatanToDB"
+               targetNamespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatanToDB"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatanToDB"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/PcareKelompok/pcareKelompok/EdukasiDelete2"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/sp/EdukasiDelete2"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns2="http://www.example.org"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import namespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatanToDB" location="deleteKegiatanToDB.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="deletekegiatantodb_client" partnerLinkType="client:deleteKegiatanToDB" myRole="deleteKegiatanToDBProvider"/>
+    <partnerLink name="EdukasiDelete2" partnerLinkType="ns1:EdukasiDelete2_plt"
+                 partnerRole="EdukasiDelete2_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:deleteKegiatanToDBRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:deleteKegiatanToDBResponseMessage"/>
+    <variable name="EdukasiDelete2_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="EdukasiDelete2_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="returnFalse">
+          <copy>
+            <from><literal>0</literal></from>
+            <to>$outputVariable.payload/ns2:response</to>
+          </copy>
+        </assign>
+        <reply name="returnFalse" variable="outputVariable"
+               partnerLink="deletekegiatantodb_client"
+               portType="client:deleteKegiatanToDB" operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in deleteKegiatanToDB.wsdl) -->
+    <receive name="receiveInput" partnerLink="deletekegiatantodb_client" portType="client:deleteKegiatanToDB" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="set_toDB">
+      <copy>
+        <from>$inputVariable.payload/ns2:eduId</from>
+        <to>$EdukasiDelete2_InputVariable.InputParameters/ns3:No_Id</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:kdppk</from>
+        <to>$EdukasiDelete2_InputVariable.InputParameters/ns3:kdppk</to>
+      </copy>
+    </assign>
+    <invoke name="EdukasiDelete"
+            partnerLink="EdukasiDelete2" portType="ns1:EdukasiDelete2_ptt"
+            operation="EdukasiDelete2"
+            inputVariable="EdukasiDelete2_InputVariable"
+            outputVariable="EdukasiDelete2_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="returnTrue">
+      <copy>
+        <from><literal>1</literal></from>
+        <to>$outputVariable.payload/ns2:response</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="deletekegiatantodb_client" portType="client:deleteKegiatanToDB" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

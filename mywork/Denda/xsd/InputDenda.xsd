@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.example.org" targetNamespace="http://www.example.org" elementFormDefault="qualified">
+   <xsd:element name="Request">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="request">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="Denda">
+                        <xsd:complexType>
+                           <xsd:sequence>
+                              <xsd:element name="noSep" type="xsd:string"/>
+                              <xsd:element name="isUserPelayanan" type="xsd:boolean"/>
+                              <xsd:element name="tglPelayanan" type="xsd:dateTime"/>
+                              <xsd:element name="kdHit" type="xsd:int"/>
+                           </xsd:sequence>
+                        </xsd:complexType>
+                     </xsd:element>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="Response">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="metadata">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="code" type="xsd:string" nillable="true"/>
+                     <xsd:element name="message" type="xsd:string" nillable="true"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="response">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="Nosep" type="xsd:string" nillable="true"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+</xsd:schema>

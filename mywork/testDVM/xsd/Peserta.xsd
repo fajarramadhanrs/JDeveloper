@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:pst="http://www.example.org"
+            targetNamespace="http://www.example.org"
+            elementFormDefault="qualified">
+  <xsd:element name="pst">
+    <xsd:annotation>
+      <xsd:documentation>
+        A sample element
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="psnoka" type="xsd:string"/>
+        <xsd:element name="psnokalama" type="xsd:string"/>
+        <xsd:element name="psnokalama2" type="xsd:string"/>
+        <xsd:element name="nama" type="xsd:string"/>
+        <xsd:element name="nmcetak" type="xsd:string"/>
+        <xsd:element name="jenkel" type="xsd:string"/>
+        <xsd:element name="agama" type="xsd:string"/>
+        <xsd:element name="tmplhr" type="xsd:string"/>
+        <xsd:element name="tgllhr" type="xsd:string"/>
+        <xsd:element name="flagtanggungan" type="xsd:string"/>
+        <xsd:element name="nohp" type="xsd:string"/>
+        <xsd:element name="nik" type="xsd:string"/>
+        <xsd:element name="noktp" type="xsd:string"/>
+        <xsd:element name="tmt" type="xsd:date"/>
+        <xsd:element name="tat" type="xsd:date"/>
+        <xsd:element name="npwp" type="xsd:string"/>
+        <xsd:element name="email" type="xsd:string"/>
+        <xsd:element name="tsinput" type="xsd:string"/>
+        <xsd:element name="tsupdate" type="xsd:string"/>
+        <xsd:element name="userinput" type="xsd:string"/>
+        <xsd:element name="userupdate" type="xsd:string"/>
+        <xsd:element name="kdstatuspst" type="xsd:string"/>
+        <xsd:element name="ketstatuspst" type="xsd:string"/>
+        <xsd:element name="kdhubkel" type="xsd:string"/>
+        <xsd:element name="kdstawin" type="xsd:string"/>
+        <xsd:element name="kdnegara" type="xsd:string"/>
+        <xsd:element name="kdgoldarah" type="xsd:string"/>
+        <xsd:element name="kdkantor" type="xsd:string"/>
+        <xsd:element name="nokapst">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="noka" type="xsd:string"/>
+              <xsd:element name="status" type="xsd:string"/>
+              <xsd:element name="pendaftar" type="xsd:string"/>
+              <xsd:element name="tsinput" type="xsd:string"/>
+              <xsd:element name="tsupdate" type="xsd:string"/>
+              <xsd:element name="userinput" type="xsd:string"/>
+              <xsd:element name="userupdate" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

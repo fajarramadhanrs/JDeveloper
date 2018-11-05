@@ -1,0 +1,581 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Sep 24 14:28:48 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="edit_tindakan"
+               targetNamespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.example.org/BPJS/extendedVariable"
+         xmlns:ns2="http://www.example.org/BPJS/pcareTindakan"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/TindakanUpdate"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/getTindakan"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/getTindakan"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/getKunjunganByNo"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/sp/getKunjunganByNo"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/getTindakanF1DetByPpkAndKd"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/db/getTindakanF1DetByPpkAndKd"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/db/sp/getTindakanF1DetByPpkAndKd">
+  <import namespace="http://www.example.org/BPJS/pcareTindakan"
+          location="xsd/editTindakan.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org/BPJS/extendedVariable"
+          location="xsd/extendedVariable.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan" location="edit_tindakan.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="edit_tindakan_client" partnerLinkType="client:edit_tindakan" myRole="edit_tindakanProvider"/>
+    <partnerLink name="getTindakan" partnerLinkType="ns4:getTindakan_plt"
+                 partnerRole="getTindakan_role"/>
+    <partnerLink name="getKunjunganByNo"
+                 partnerLinkType="ns6:getKunjunganByNo_plt"
+                 partnerRole="getKunjunganByNo_role"/>
+    <partnerLink name="TindakanUpdate.tindakanupdate_client"
+                 partnerLinkType="ns3:TindakanUpdate"
+                 partnerRole="TindakanUpdateProvider"/>
+    <partnerLink name="getTindakanF1DetByPpkAndKd"
+                 partnerLinkType="ns8:getTindakanF1DetByPpkAndKd_plt"
+                 partnerRole="getTindakanF1DetByPpkAndKd_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:edit_tindakanRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:edit_tindakanResponseMessage"/>
+    <variable name="tempEdit" element="ns1:tempEdit"/>
+    <variable name="header" element="ns2:header"/>
+    <variable name="getTindakan_InputVariable"
+              messageType="ns4:getTindakanInput_msg"/>
+    <variable name="getTindakan_OutputVariable"
+              messageType="ns4:getTindakanOutputCollection_msg"/>
+    <variable name="getKunjunganByNo_InputVariable"
+              messageType="ns6:args_in_msg"/>
+    <variable name="getKunjunganByNo_OutputVariable"
+              messageType="ns6:args_out_msg"/>
+    <variable name="TindakanUpdate_process_InputVariable"
+              messageType="ns3:TindakanUpdateRequestMessage"/>
+    <variable name="TindakanUpdate_process_OutputVariable"
+              messageType="ns3:TindakanUpdateResponseMessage"/>
+    <variable name="getTindakanF1DetByPpkAndKd_InputVariable"
+              messageType="ns8:args_in_msg"/>
+    <variable name="getTindakanF1DetByPpkAndKd_OutputVariable"
+              messageType="ns8:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in edit_tindakan.wsdl) -->
+    <receive name="receiveInput" partnerLink="edit_tindakan_client" portType="client:edit_tindakan" operation="process" variable="inputVariable" createInstance="yes"
+             bpelx:headerVariable="header"/>
+    <assign name="kdppk_dan_setlUser">
+      <copy>
+        <from>$header/ns2:username</from>
+        <to>$tempEdit/ns1:username</to>
+      </copy>
+      <copy>
+        <from>$header/ns2:kdppk</from>
+        <to>$tempEdit/ns1:kdppk</to>
+      </copy>
+    </assign>
+    <if name="If_checkNotEmpty_kdTindakanSK">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>normalize-space($inputVariable.payload/ns2:kdTindakanSK) = 0</condition>
+      <sequence name="Sequence1">
+        <assign name="error_response">
+          <copy>
+            <from>'kdTindakanSK'</from>
+            <to>$outputVariable.payload/ns2:field</to>
+          </copy>
+          <copy>
+            <from>'Tidak boleh kosong'</from>
+            <to>$outputVariable.payload/ns2:message</to>
+          </copy>
+          <copy>
+            <from>'PRECONDITION_FAILED'</from>
+            <to>$outputVariable.payload/ns2:message2</to>
+          </copy>
+          <copy>
+            <from><literal>412</literal></from>
+            <to>$outputVariable.payload/ns2:code</to>
+          </copy>
+        </assign>
+        <reply name="return_error" variable="outputVariable"
+               partnerLink="edit_tindakan_client"
+               portType="client:edit_tindakan" operation="process"/>
+        <exit name="Exit1"/>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation>
+        <sequence name="Sequence2">
+          <assign name="check_refrences">
+            <copy>
+              <from>$inputVariable.payload/ns2:kdTindakanSK</from>
+              <to>$getTindakan_InputVariable.getTindakanInput_msg/ns5:kdTindakanSk</to>
+            </copy>
+          </assign>
+          <invoke name="getTindakan"
+                  partnerLink="getTindakan" portType="ns4:getTindakan_ptt"
+                  operation="getTindakan"
+                  inputVariable="getTindakan_InputVariable"
+                  outputVariable="getTindakan_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <if name="CheckResponseSize">
+            <documentation>
+              <![CDATA[NOT_ZERO]]>
+            </documentation>
+            <condition>count($getTindakan_OutputVariable.getTindakanOutputCollection/ns5:getTindakanOutput) &gt; 0</condition>
+            <sequence>
+              <empty name="DoNothing"/>
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[ZERO]]>
+              </documentation>
+              <sequence>
+                <assign name="error_response"
+                        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                  <copy>
+                    <from>'kdTindakanSK'</from>
+                    <to>$outputVariable.payload/ns2:field</to>
+                  </copy>
+                  <copy>
+                    <from>'Tidak sesuai dengan referensi sistem.'</from>
+                    <to>$outputVariable.payload/ns2:message</to>
+                  </copy>
+                  <copy>
+                    <from>'PRECONDITION_FAILED'</from>
+                    <to>$outputVariable.payload/ns2:message2</to>
+                  </copy>
+                  <copy>
+                    <from><literal>412</literal></from>
+                    <to>$outputVariable.payload/ns2:code</to>
+                  </copy>
+                </assign>
+                <reply name="return_error"
+                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                       variable="outputVariable"
+                       partnerLink="edit_tindakan_client"
+                       portType="client:edit_tindakan" operation="process"/>
+                <exit name="Exit1"
+                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <if name="If_checkNotEmpty_noKun">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>string-length($inputVariable.payload/ns2:noKunjungan) = 0</condition>
+      <sequence name="Sequence3"><assign name="error_response"
+                                         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <copy>
+            <from>'noKunjungan'</from>
+            <to>$outputVariable.payload/ns2:field</to>
+          </copy>
+          <copy>
+            <from>'Tidak boleh kosong'</from>
+            <to>$outputVariable.payload/ns2:message</to>
+          </copy>
+          <copy>
+            <from>'PRECONDITION_FAILED'</from>
+            <to>$outputVariable.payload/ns2:message2</to>
+          </copy>
+          <copy>
+            <from><literal>412</literal></from>
+            <to>$outputVariable.payload/ns2:code</to>
+          </copy>
+        </assign>
+        <reply name="Reply1" variable="outputVariable"
+               partnerLink="edit_tindakan_client"
+               portType="client:edit_tindakan" operation="process"/>
+        <exit name="Exit2"/>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation>
+        <sequence name="Sequence4">
+          <assign name="check_kunjungan_usingSP">
+            <copy>
+              <from>$inputVariable.payload/ns2:noKunjungan</from>
+              <to>$getKunjunganByNo_InputVariable.InputParameters/ns7:nokunj</to>
+            </copy>
+          </assign>
+          <invoke name="getKunjunganByNo"
+                  partnerLink="getKunjunganByNo"
+                  portType="ns6:getKunjunganByNo_ptt"
+                  operation="getKunjunganByNo"
+                  inputVariable="getKunjunganByNo_InputVariable"
+                  outputVariable="getKunjunganByNo_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <if name="If_refrences_noKun_not_exist">
+            <documentation>
+              <![CDATA[valid]]>
+            </documentation>
+            <condition>count($getKunjunganByNo_OutputVariable.OutputParameters/ns7:RowSet/ns7:Row) &lt; 1</condition>
+            <sequence name="Sequence5"><assign name="error_response"
+                                                             xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                <copy>
+                  <from>'noKunjungan'</from>
+                  <to>$outputVariable.payload/ns2:field</to>
+                </copy>
+                <copy>
+                  <from>'Tidak sesuai dengan referensi sistem.'</from>
+                  <to>$outputVariable.payload/ns2:message</to>
+                </copy>
+                <copy>
+                  <from>'PRECONDITION_FAILED'</from>
+                  <to>$outputVariable.payload/ns2:message2</to>
+                </copy>
+                <copy>
+                  <from><literal>412</literal></from>
+                  <to>$outputVariable.payload/ns2:code</to>
+                </copy>
+              </assign><reply name="Reply2" variable="outputVariable"
+                             partnerLink="edit_tindakan_client"
+                             portType="client:edit_tindakan"
+                             operation="process"/>
+              <exit name="Exit3"/>
+            </sequence>
+            <else>
+              <documentation>
+                <![CDATA[invalid]]>
+              </documentation>
+              <sequence>
+                <if name="If_lockedTransaction_noKun">
+                  <documentation>
+                    <![CDATA[valid]]>
+                  </documentation>
+                  <condition>$getKunjunganByNo_OutputVariable.OutputParameters/ns7:RowSet/ns7:Row/ns7:Column[@name='Status']/text() != '0' or $getKunjunganByNo_OutputVariable.OutputParameters/ns7:RowSet/ns7:Row/ns7:Column[@name='diLayaniRS']/text() = '1'</condition>
+                  <sequence name="Sequence6"><assign name="error_response"
+                                                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                      <copy>
+                        <from>'noKunjungan'</from>
+                        <to>$outputVariable.payload/ns2:field</to>
+                      </copy>
+                      <copy>
+                        <from>'Transaksi dikunci karena sudah ditagihkan atau data &gt; 3 bulan.'</from>
+                        <to>$outputVariable.payload/ns2:message</to>
+                      </copy>
+                      <copy>
+                        <from>'PRECONDITION_FAILED'</from>
+                        <to>$outputVariable.payload/ns2:message2</to>
+                      </copy>
+                      <copy>
+                        <from><literal>412</literal></from>
+                        <to>$outputVariable.payload/ns2:code</to>
+                      </copy>
+                    </assign><reply name="Reply2"
+                           xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                             variable="outputVariable"
+                             partnerLink="edit_tindakan_client"
+                             portType="client:edit_tindakan"
+                             operation="process"/>
+                    <exit name="Exit4"/>
+                  </sequence>
+                  <else>
+                    <documentation>
+                      <![CDATA[invalid]]>
+                    </documentation>
+                    <sequence>
+                      <empty name="Empty1"/>
+                    </sequence>
+                  </else>
+                </if>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <if name="If_getKdTindakan_empty">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>normalize-space($inputVariable.payload/ns2:kdTindakan) = 0</condition>
+      <sequence name="Sequence8"><assign name="error_response"
+                                                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <copy>
+            <from>'kdTindakan'</from>
+            <to>$outputVariable.payload/ns2:field</to>
+          </copy>
+          <copy>
+            <from>'Tidak boleh kosong.'</from>
+            <to>$outputVariable.payload/ns2:message</to>
+          </copy>
+          <copy>
+            <from>'PRECONDITION_FAILED'</from>
+            <to>$outputVariable.payload/ns2:message2</to>
+          </copy>
+          <copy>
+            <from><literal>412</literal></from>
+            <to>$outputVariable.payload/ns2:code</to>
+          </copy>
+        </assign><reply name="return_error" variable="outputVariable"
+               partnerLink="edit_tindakan_client"
+               portType="client:edit_tindakan" operation="process"/>
+        <exit name="Exit5"/>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation>
+        <sequence name="Sequence9">
+          <assign name="refTindakanF1DetService">
+            <copy>
+              <from>$tempEdit/ns1:kdppk</from>
+              <to>$getTindakanF1DetByPpkAndKd_InputVariable.InputParameters/ns10:kdppk</to>
+            </copy>
+            <copy>
+              <from>$inputVariable.payload/ns2:kdTindakan</from>
+              <to>$getTindakanF1DetByPpkAndKd_InputVariable.InputParameters/ns10:kdTind</to>
+            </copy>
+            <copy>
+              <from>$getKunjunganByNo_OutputVariable.OutputParameters/ns7:RowSet/ns7:Row/ns7:Column[@name="kdTKP"]/text()</from>
+              <to>$getTindakanF1DetByPpkAndKd_InputVariable.InputParameters/ns10:kdTkp</to>
+            </copy>
+          </assign>
+          <invoke name="getTindakanF1DetByPpkAndKd"
+                  partnerLink="getTindakanF1DetByPpkAndKd"
+                  portType="ns8:getTindakanF1DetByPpkAndKd_ptt"
+                  operation="getTindakanF1DetByPpkAndKd"
+                  inputVariable="getTindakanF1DetByPpkAndKd_InputVariable"
+                  outputVariable="getTindakanF1DetByPpkAndKd_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <if name="If_refrences_notExist">
+            <documentation>
+              <![CDATA[valid]]>
+            </documentation>
+            <condition>count($getTindakanF1DetByPpkAndKd_OutputVariable.OutputParameters/ns10:RowSet/ns10:Row) &lt;  1</condition><sequence name="Sequence10"><assign name="error_response"
+                                                                                                                                                                                                                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                <copy>
+                  <from>'kdTindakan'</from>
+                  <to>$outputVariable.payload/ns2:field</to>
+                </copy>
+                <copy>
+                  <from>'Tidak sesuai dengan referensi sistem.'</from>
+                  <to>$outputVariable.payload/ns2:message</to>
+                </copy>
+                <copy>
+                  <from>'PRECONDITION_FAILED'</from>
+                  <to>$outputVariable.payload/ns2:message2</to>
+                </copy>
+                <copy>
+                  <from><literal>412</literal></from>
+                  <to>$outputVariable.payload/ns2:code</to>
+                </copy>
+              </assign><reply name="return_error"
+                                                                                                                                                                                                                      xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+                             variable="outputVariable"
+                             partnerLink="edit_tindakan_client"
+                             portType="client:edit_tindakan"
+                             operation="process"/>
+              <exit name="Exit6"/>
+            </sequence><else>
+              <documentation>
+                <![CDATA[invalid]]>
+              </documentation>
+              <sequence name="Sequence16">
+                <empty name="Empty7"/>
+              </sequence>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <if name="If_biaya_isWithValue">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>$getTindakanF1DetByPpkAndKd_OutputVariable.OutputParameters/ns10:RowSet/ns10:Row/ns10:Column[@name="withValue"]</condition>
+      <sequence name="Sequence11">
+        <if name="If_checkEmpty_hasil">
+          <documentation>
+            <![CDATA[valid]]>
+          </documentation>
+          <condition>string-length($inputVariable.payload/ns2:hasil) = 0</condition>
+          <sequence name="Sequence12"><assign name="error_response"
+                                                           xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+              <copy>
+                <from>'hasil'</from>
+                <to>$outputVariable.payload/ns2:field</to>
+              </copy>
+              <copy>
+                <from>'Tidak boleh kosong.'</from>
+                <to>$outputVariable.payload/ns2:message</to>
+              </copy>
+              <copy>
+                <from>'PRECONDITION_FAILED'</from>
+                <to>$outputVariable.payload/ns2:message2</to>
+              </copy>
+              <copy>
+                <from><literal>412</literal></from>
+                <to>$outputVariable.payload/ns2:code</to>
+              </copy>
+            </assign><reply name="return_error" variable="outputVariable"
+                             partnerLink="edit_tindakan_client"
+                             portType="client:edit_tindakan"
+                             operation="process"/>
+            <exit name="Exit7"/>
+          </sequence>
+          <else>
+            <documentation>
+              <![CDATA[invalid]]>
+            </documentation>
+            <sequence name="Sequence13">
+              <empty name="Empty6"/>
+            </sequence>
+          </else>
+        </if>
+      </sequence>
+      <else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation>
+        <empty name="Empty4"/>
+      </else>
+    </if>
+    <assign name="set_tgl">
+      <copy>
+        <from>$getKunjunganByNo_OutputVariable.OutputParameters/ns7:RowSet/ns7:Row/ns7:Column[@name="Tgl_Kunjungan"]</from>
+        <to>$tempEdit/ns1:setTglTindakan</to>
+      </copy>
+    </assign>
+    <assign name="set_to_edit_SP">
+      <copy>
+        <from>$inputVariable.payload/ns2:noKunjungan</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:getNoKunjungan</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:biaya</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:getBiaya</to>
+      </copy>
+      <copy>
+        <from>$tempEdit/ns1:username</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:getlUser</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:keterangan</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:getKeterangan</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:hasil</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:getHasil</to>
+      </copy>
+      <copy>
+        <from>$tempEdit/ns1:setTglTindakan</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:setDate</to>
+      </copy>
+      <copy>
+        <from>$tempEdit/ns1:refTindakan</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:getKdTindakan</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:kdTindakanSK</from>
+        <to>$TindakanUpdate_process_InputVariable.payload/ns2:getKdTindakanSK</to>
+      </copy>
+    </assign>
+    <invoke name="TindakanUpdate"
+            inputVariable="TindakanUpdate_process_InputVariable"
+            outputVariable="TindakanUpdate_process_OutputVariable"
+            partnerLink="TindakanUpdate.tindakanupdate_client"
+            portType="ns3:TindakanUpdate" operation="process"
+            bpelx:invokeAsDetail="no"/>
+    <if name="If_TindakanUpdate_true">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>$tempEdit/ns1:TindakanUpdate</condition>
+      <assign name="error_code_201">
+        <copy>
+          <from>'kdTindakanSK'</from>
+          <to>$outputVariable.payload/ns2:field</to>
+        </copy>
+        <copy>
+          <from>$TindakanUpdate_process_OutputVariable.payload/ns2:kdTindakanSK</from>
+          <to>$outputVariable.payload/ns2:message</to>
+        </copy>
+        <copy>
+          <from>'OK'</from>
+          <to>$outputVariable.payload/ns2:message2</to>
+        </copy>
+        <copy>
+          <from><literal>200</literal></from>
+          <to>$outputVariable.payload/ns2:code</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation><sequence name="Sequence17"><assign name="error_code_501"
+                                                                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <copy>
+              <from>'NOT_MODIFIED'</from>
+              <to>$outputVariable.payload/ns2:message2</to>
+            </copy>
+            <copy>
+              <from><literal>500</literal></from>
+              <to>$outputVariable.payload/ns2:code</to>
+            </copy>
+          </assign></sequence></else>
+    </if>
+    <reply name="replyOutput" partnerLink="edit_tindakan_client"
+           portType="client:edit_tindakan" operation="process"
+           variable="outputVariable"/>
+  </sequence>
+</process>

@@ -1,0 +1,145 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue Oct 09 14:28:17 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="daftarDeleteToSP"
+               targetNamespace="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/daftarDeleteToSP"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/daftarDeleteToSP"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/pcarePendaftaran/pcarePendaftaran/DaftarDelete"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:ns2="http://www.example.org"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/DaftarDelete"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/sp/DaftarDelete">
+
+    <import namespace="http://xmlns.oracle.com/pcarePendaftaran/pcarePendaftaran/daftarDeleteToSP" location="daftarDeleteToSP.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="daftardeletetosp_client" partnerLinkType="client:daftarDeleteToSP" myRole="daftarDeleteToSPProvider"/>
+    <partnerLink name="DaftarDelete" partnerLinkType="ns1:DaftarDelete_plt"
+                 partnerRole="DaftarDelete_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:daftarDeleteToSPRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:daftarDeleteToSPResponseMessage"/>
+    <variable name="daftardelete_DaftarDelete_InputVariable"
+              messageType="ns1:args_in_msg"/>
+  </variables>
+  <faultHandlers>
+    <catchAll>
+      <sequence name="Sequence1">
+        <assign name="setToFalse">
+          <copy>
+            <from><literal>0</literal></from>
+            <to>$outputVariable.payload/ns2:response</to>
+          </copy>
+        </assign>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in daftarDeleteToSP.wsdl) -->
+    <receive name="receiveInput" partnerLink="daftardeletetosp_client" portType="client:daftarDeleteToSP" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="If_getNoUrut_morethan2">
+      <documentation>
+        <![CDATA[valid]]>
+      </documentation>
+      <condition>string-length(string($inputVariable.payload/ns2:NOURUT)) &gt;= 2</condition>
+      <assign name="substringNoUrut">
+        <copy>
+          <from>substring(string($inputVariable.payload/ns2:NOURUT),2)</from>
+          <to>$inputVariable.payload/ns2:NOURUT</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[invalid]]>
+        </documentation>
+        <empty name="doNothing"/>
+      </else>
+    </if>
+    <assign name="setVariableToSP">
+      <copy>
+        <from>$inputVariable.payload/ns2:TGLDAFTAR</from>
+        <to>$daftardelete_DaftarDelete_InputVariable.InputParameters/ns4:tglDaft</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:PPK_KUNJUNGAN</from>
+        <to>$daftardelete_DaftarDelete_InputVariable.InputParameters/ns4:PPK_Kunjungan</to>
+      </copy>
+      <copy>
+        <from>number($inputVariable.payload/ns2:NOURUT)</from>
+        <to>$daftardelete_DaftarDelete_InputVariable.InputParameters/ns4:nourut</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:NOKAPST</from>
+        <to>$daftardelete_DaftarDelete_InputVariable.InputParameters/ns4:Nokapst</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:KDPOLI</from>
+        <to>$daftardelete_DaftarDelete_InputVariable.InputParameters/ns4:KdPoli</to>
+      </copy>
+    </assign>
+    <invoke name="daftardelete"
+            partnerLink="DaftarDelete" portType="ns1:DaftarDelete_ptt"
+            operation="DaftarDelete"
+            inputVariable="daftardelete_DaftarDelete_InputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="setToTrue">
+      <copy>
+        <from><literal>1</literal></from>
+        <to>$outputVariable.payload/ns2:response</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="daftardeletetosp_client" portType="client:daftarDeleteToSP" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

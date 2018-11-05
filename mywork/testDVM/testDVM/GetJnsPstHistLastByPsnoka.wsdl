@@ -1,0 +1,25 @@
+<?binding.jca GetJnsPstHistLastByPsnoka_db.jca?>
+<wsdl:definitions name="GetJnsPstHistLastByPsnoka" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetJnsPstHistLastByPsnoka" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/BPEL_SOA/PendaftaranBayiBaruLahir/GetJnsPstHistLastByPsnoka" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka">
+    <plt:partnerLinkType name="GetJnsPstHistLastByPsnoka_plt">
+        <plt:role name="GetJnsPstHistLastByPsnoka_role">
+            <plt:portType name="tns:GetJnsPstHistLastByPsnoka_ptt"/>
+        </plt:role>
+    </plt:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/GetJnsPstHistLastByPsnoka" schemaLocation="xsd/GetJnsPstHistLastByPsnoka.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="GetJnsPstHistLastByPsnokaInput_msg">
+        <wsdl:part name="GetJnsPstHistLastByPsnokaInput_msg" element="db:GetJnsPstHistLastByPsnokaInput"/>
+    </wsdl:message>
+    <wsdl:message name="GetJnsPstHistLastByPsnokaOutputCollection_msg">
+        <wsdl:part name="GetJnsPstHistLastByPsnokaOutputCollection" element="db:GetJnsPstHistLastByPsnokaOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="GetJnsPstHistLastByPsnoka_ptt">
+        <wsdl:operation name="GetJnsPstHistLastByPsnoka">
+            <wsdl:input message="tns:GetJnsPstHistLastByPsnokaInput_msg"/>
+            <wsdl:output message="tns:GetJnsPstHistLastByPsnokaOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

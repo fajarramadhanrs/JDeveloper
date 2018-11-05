@@ -1,0 +1,336 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu Sep 06 14:46:12 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="bpel_delete"
+         targetNamespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/bpel_delete"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/bpel_delete"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://www.example.org/BPJS/deleteTindakan"
+         xmlns:ns2="http://www.example.org/BPJS/extendedVariable"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/checkValidKunjungan"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/checkValidKunjungan"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/getTindakanByKDAndKunjungan"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/db/getTindakanByKDAndKunjungan"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/db/pcareTindakan/pcareTindakan/TindakanDelete"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/db/sp/TindakanDelete"
+         xmlns:ns9="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/deleteTIndakanSP"
+         xmlns:ns10="http://www.example.org">
+  <import namespace="http://www.example.org/BPJS/extendedVariable"
+          location="xsd/extendedVariable.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://www.example.org/BPJS/deleteTindakan"
+          location="xsd/deleteTindakan.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import namespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/bpel_delete"
+          location="bpel_delete.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_delete_client" partnerLinkType="client:bpel_delete"
+                 myRole="bpel_deleteProvider"/>
+    <partnerLink name="checkValidKunjungan"
+                 partnerLinkType="ns3:checkValidKunjungan_plt"
+                 partnerRole="checkValidKunjungan_role"/>
+    <partnerLink name="getTindakanByKDAndKunjungan"
+                 partnerLinkType="ns5:getTindakanByKDAndKunjungan_plt"
+                 partnerRole="getTindakanByKDAndKunjungan_role"/>
+    <partnerLink name="deleteTIndakanSP.deletetindakansp_client"
+                 partnerLinkType="ns9:deleteTIndakanSP"
+                 partnerRole="deleteTIndakanSPProvider"/>
+  </partnerLinks>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable"
+              messageType="client:bpel_deleteRequestMessage"/>
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable"
+              messageType="client:bpel_deleteResponseMessage"/>
+    <variable name="header" element="ns1:header"/>
+    <variable name="extendedVar" element="ns2:tempDelete"/>
+    <variable name="checkValidKunjungan_InputVariable"
+              messageType="ns3:checkValidKunjunganInput_msg"/>
+    <variable name="checkValidKunjungan_OutputVariable"
+              messageType="ns3:checkValidKunjunganOutputCollection_msg"/>
+    <variable name="getTindakanByKDAndKunjungan_InputVariable"
+              messageType="ns5:getTindakanByKDAndKunjunganInput_msg"/>
+    <variable name="getTindakanByKDAndKunjungan_OutputVariable"
+              messageType="ns5:getTindakanByKDAndKunjunganOutputCollection_msg"/>
+    <variable name="tindakan_delete_process_InputVariable"
+              messageType="ns9:deleteTIndakanSPRequestMessage"/>
+    <variable name="tindakan_delete_process_OutputVariable"
+              messageType="ns9:deleteTIndakanSPResponseMessage"/>
+  </variables>
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+    <!-- Receive input from requestor. (Note: This maps to operation defined in bpel_delete.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpel_delete_client"
+             portType="client:bpel_delete" operation="process"
+             variable="inputVariable" createInstance="yes"/>
+    <assign name="Kdppk">
+      <copy>
+        <from>$header/ns1:kdppk</from>
+        <to>$extendedVar/ns2:kdPpk</to>
+      </copy>
+      <copy>
+        <from>$header/ns1:username</from>
+        <to>$extendedVar/ns2:setFuser</to>
+      </copy>
+    </assign>
+    <if name="If_noKunjungan">
+      <condition>string-length($inputVariable.payload/ns1:noKunjungan) = 0</condition><sequence name="Sequence3"><assign name="error_response"
+                                                                                                                                                                                                                                                                       xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+          <copy>
+            <from>'noKunjungan, Tidak boleh kosong'</from>
+            <to>$outputVariable.payload/ns1:message</to>
+          </copy>
+          <copy>
+            <from><literal>412</literal></from>
+            <to>$outputVariable.payload/ns1:code</to>
+          </copy>
+        </assign>
+        <reply name="Reply1" variable="outputVariable"
+               partnerLink="bpel_delete_client" portType="client:bpel_delete"
+               operation="process"/>
+        <exit name="Exit1"/>
+      </sequence><else>
+        <sequence name="Sequence1">
+          <assign name="check_refrences">
+            <copy>
+              <from>$inputVariable.payload/ns1:noKunjungan</from>
+              <to>$checkValidKunjungan_InputVariable.checkValidKunjunganInput_msg/ns4:no_Kunjungan</to>
+            </copy>
+            <copy>
+              <from>$extendedVar/ns2:kdPpk</from>
+              <to>$checkValidKunjungan_InputVariable.checkValidKunjunganInput_msg/ns4:ppk_kunjungan</to>
+            </copy>
+          </assign>
+          <invoke name="checkValidKunjungan"
+                  partnerLink="checkValidKunjungan"
+                  portType="ns3:checkValidKunjungan_ptt"
+                  operation="checkValidKunjungan"
+                  inputVariable="checkValidKunjungan_InputVariable"
+                  outputVariable="checkValidKunjungan_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <if name="If_checkReferenceValid">
+            <documentation>
+              <![CDATA[valid]]>
+            </documentation>
+            <condition>count($checkValidKunjungan_OutputVariable.checkValidKunjunganOutputCollection/ns4:checkValidKunjunganOutput/ns4:No_Kunjungan) = 0</condition><sequence name="Sequence4"><assign name="error_response"
+                                                                                                                                                                                                                                                                                                                                                                               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                <copy>
+                  <from>'noKunjungan, Tidak sesuai dengan referensi sistem.'</from>
+                  <to>$outputVariable.payload/ns1:message</to>
+                </copy>
+                <copy>
+                  <from><literal>412</literal></from>
+                  <to>$outputVariable.payload/ns1:code</to>
+                </copy>
+              </assign>
+              <reply name="Reply2" variable="outputVariable"
+                     partnerLink="bpel_delete_client"
+                     portType="client:bpel_delete" operation="process"/>
+              <exit name="Exit2"/>
+            </sequence><else>
+              <documentation>
+                <![CDATA[invalid]]>
+              </documentation>
+              <if name="check_islockedtransaction">
+                <documentation>
+                  <![CDATA[valid]]>
+                </documentation>
+                <condition>$checkValidKunjungan_OutputVariable.checkValidKunjunganOutputCollection/ns4:checkValidKunjunganOutput/ns4:Status !='0' or $checkValidKunjungan_OutputVariable.checkValidKunjunganOutputCollection/ns4:checkValidKunjunganOutput/ns4:diLayaniRS = '1'</condition>
+                <sequence><assign name="error_response"
+                                   xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                    <copy>
+                      <from>'noKunjungan, Transaksi dikunci karena sudah ditagihkan atau data &gt; 3 bulan'</from>
+                      <to>$outputVariable.payload/ns1:message</to>
+                    </copy>
+                    <copy>
+                      <from><literal>412</literal></from>
+                      <to>$outputVariable.payload/ns1:code</to>
+                    </copy>
+                  </assign>
+                  <reply name="Reply3" partnerLink="bpel_delete_client"
+                         portType="client:bpel_delete" operation="process"
+                         variable="outputVariable"/>
+                  <exit name="Exit3"/>
+                </sequence>
+                <else>
+                  <documentation>
+                    <![CDATA[invalid]]>
+                  </documentation>
+                  <sequence name="Sequence2">
+                    <if name="If_kdTindakanSk_null">
+                      <condition>normalize-space($inputVariable.payload/ns1:kdTIndakanSk) = 0</condition><sequence name="Sequence5"><assign name="error_response"
+                                                                                                                                                                                                                                                                                              xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                          <copy>
+                            <from>'KdTindakanSK, Tidak boleh kosong'</from>
+                            <to>$outputVariable.payload/ns1:message</to>
+                          </copy>
+                          <copy>
+                            <from><literal>412</literal></from>
+                            <to>$outputVariable.payload/ns1:code</to>
+                          </copy>
+                        </assign>
+                        <reply name="Reply4" variable="outputVariable"
+                               partnerLink="bpel_delete_client"
+                               portType="client:bpel_delete"
+                               operation="process"/>
+                        <exit name="Exit4"/>
+                      </sequence><else>
+                        <sequence>
+                          <assign name="check_noKunjungan_kdTindakanSk">
+                            <copy>
+                              <from>$inputVariable.payload/ns1:noKunjungan</from>
+                              <to>$getTindakanByKDAndKunjungan_InputVariable.getTindakanByKDAndKunjunganInput_msg/ns6:no_kunjungan</to>
+                            </copy>
+                            <copy>
+                              <from>$inputVariable.payload/ns1:kdTIndakanSk</from>
+                              <to>$getTindakanByKDAndKunjungan_InputVariable.getTindakanByKDAndKunjunganInput_msg/ns6:kdTindakanSk</to>
+                            </copy>
+                          </assign>
+                          <invoke name="getTindakanByKDAndKunjungan"
+                                  partnerLink="getTindakanByKDAndKunjungan"
+                                  portType="ns5:getTindakanByKDAndKunjungan_ptt"
+                                  operation="getTindakanByKDAndKunjungan"
+                                  inputVariable="getTindakanByKDAndKunjungan_InputVariable"
+                                  outputVariable="getTindakanByKDAndKunjungan_OutputVariable"
+                                  bpelx:invokeAsDetail="no"/>
+                          <if name="If_checkRefrences">
+                            <condition>count($getTindakanByKDAndKunjungan_OutputVariable.getTindakanByKDAndKunjunganOutputCollection/ns6:getTindakanByKDAndKunjunganOutput)=0</condition><sequence name="Sequence6"><assign name="error_response"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                                <copy>
+                                  <from>'KdTindakanSK,Tidak Sesuai Dengan Sistem'</from>
+                                  <to>$outputVariable.payload/ns1:message</to>
+                                </copy>
+                                <copy>
+                                  <from><literal>412</literal></from>
+                                  <to>$outputVariable.payload/ns1:code</to>
+                                </copy>
+                              </assign>
+                              <reply name="Reply5" variable="outputVariable"
+                                     partnerLink="bpel_delete_client"
+                                     portType="client:bpel_delete"
+                                     operation="process"/>
+                              <exit name="Exit5"/>
+                            </sequence><else>
+                              <empty name="doNothing"/>
+                            </else>
+                          </if>
+                        </sequence>
+                      </else>
+                    </if>
+                  </sequence>
+                </else>
+              </if>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <assign name="setFUser">
+      <copy>
+        <from>$header/ns1:username</from>
+        <to>$extendedVar/ns2:setFuser</to>
+      </copy>
+    </assign>
+    <assign name="setToDB">
+      <copy>
+        <from>$inputVariable.payload/ns1:kdTIndakanSk</from>
+        <to>$tindakan_delete_process_InputVariable.payload/ns10:getKdTindakanSK</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns1:noKunjungan</from>
+        <to>$tindakan_delete_process_InputVariable.payload/ns10:getNoKunjungan</to>
+      </copy>
+      <copy>
+        <from>$getTindakanByKDAndKunjungan_OutputVariable.getTindakanByKDAndKunjunganOutputCollection/ns6:getTindakanByKDAndKunjunganOutput/ns6:kdTindakan</from>
+        <to>$tindakan_delete_process_InputVariable.payload/ns10:getKdTindakan</to>
+      </copy>
+      <copy>
+        <from>$header/ns1:username</from>
+        <to>$tindakan_delete_process_InputVariable.payload/ns10:setfUser</to>
+      </copy>
+    </assign>
+    <invoke name="tindakan_delete"
+            partnerLink="deleteTIndakanSP.deletetindakansp_client"
+            portType="ns9:deleteTIndakanSP" operation="process"
+            inputVariable="tindakan_delete_process_InputVariable"
+            outputVariable="tindakan_delete_process_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <if name="If_returnValue">
+      <condition>$tindakan_delete_process_OutputVariable.payload/ns10:response</condition>
+      <assign name="isSuccess">
+        <copy>
+          <from><literal>200</literal></from>
+          <to>$outputVariable.payload/ns1:code</to>
+        </copy>
+        <copy>
+          <from>'OK'</from>
+          <to>$outputVariable.payload/ns1:message</to>
+        </copy>
+      </assign>
+      <else><assign name="isSuccess"
+                    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+      <copy>
+         <from>
+            <literal>200</literal>
+         </from>
+         <to>$outputVariable.payload/ns1:code</to>
+      </copy>
+      <copy>
+         <from>'OK'</from>
+         <to>$outputVariable.payload/ns1:message</to>
+      </copy>
+   </assign></else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpel_delete_client"
+           portType="client:bpel_delete" operation="process"
+           variable="outputVariable"/>
+  </sequence>
+</process>

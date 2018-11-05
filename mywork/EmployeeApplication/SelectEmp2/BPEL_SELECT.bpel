@@ -1,0 +1,137 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed May 23 13:24:28 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPEL_SELECT"
+               targetNamespace="http://xmlns.oracle.com/EmployeeApplication/SelectEmp2/BPEL_SELECT"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/EmployeeApplication/SelectEmp2/BPEL_SELECT"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/EmployeeApplication/SelectEmp2/DBEmpByNik"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/EmployeeApplication/SelectEmp2/DBEmpByAll"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://www.example.org/EmpData">
+
+    <import namespace="http://xmlns.oracle.com/EmployeeApplication/SelectEmp2/BPEL_SELECT" location="BPEL_SELECT.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpel_select_client" partnerLinkType="client:BPEL_SELECT" myRole="BPEL_SELECTProvider"/>
+    <partnerLink name="DBEmpByNik" partnerLinkType="ns1:DBEmpByNik_plt"
+                 partnerRole="DBEmpByNik_role"/>
+    <partnerLink name="DBEmpByAll" partnerLinkType="ns2:DBEmpByAll_plt"
+                 partnerRole="DBEmpByAll_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPEL_SELECTRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPEL_SELECTResponseMessage"/>
+    <variable name="InvokeByNik_DBEmpByNik_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="InvokeByNik_DBEmpByNik_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+    <variable name="Invoke2_DBEmpByAll_InputVariable"
+              messageType="ns2:args_in_msg"/>
+    <variable name="Invoke2_DBEmpByAll_OutputVariable"
+              messageType="ns2:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPEL_SELECT.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpel_select_client" portType="client:BPEL_SELECT" operation="process" variable="inputVariable" createInstance="yes"/>
+    <if name="If">
+      <condition>$inputVariable.payload/ns3:nik&gt;0</condition>
+      <sequence name="Sequence1">
+        <assign name="TransformReqByNik">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/EmpRequestByNik.xsl", $inputVariable.payload)</from>
+            <to variable="InvokeByNik_DBEmpByNik_InputVariable"
+                part="InputParameters"/>
+          </copy>
+        </assign>
+        <invoke name="InvokeByNik" bpelx:invokeAsDetail="no"
+                partnerLink="DBEmpByNik" portType="ns1:DBEmpByNik_ptt"
+                operation="DBEmpByNik"
+                inputVariable="InvokeByNik_DBEmpByNik_InputVariable"
+                outputVariable="InvokeByNik_DBEmpByNik_OutputVariable"/>
+        <assign name="TransformResponseByNik">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/EmpResponseByNik.xsl", $InvokeByNik_DBEmpByNik_OutputVariable.OutputParameters)</from>
+            <to variable="outputVariable" part="payload"/>
+          </copy>
+        </assign>
+      </sequence>
+      <else>
+        <sequence name="Sequence2">
+          <invoke name="Invoke2"
+                  partnerLink="DBEmpByAll" portType="ns2:DBEmpByAll_ptt"
+                  operation="DBEmpByAll"
+                  inputVariable="Invoke2_DBEmpByAll_InputVariable"
+                  outputVariable="Invoke2_DBEmpByAll_OutputVariable"
+                  bpelx:invokeAsDetail="no"/>
+          <assign name="Transform3">
+            <bpelx:annotation>
+              <bpelx:pattern patternName="bpelx:transformation"/>
+            </bpelx:annotation>
+            <copy>
+              <from>ora:doXSLTransformForDoc("xsl/EmpResponseByAll.xsl", $Invoke2_DBEmpByAll_OutputVariable.OutputParameters)</from>
+              <to variable="outputVariable" part="payload"/>
+            </copy>
+          </assign>
+        </sequence>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpel_select_client" portType="client:BPEL_SELECT" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

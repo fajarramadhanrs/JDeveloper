@@ -1,0 +1,57 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="deletePeserta"
+     targetNamespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta"
+     xmlns:ns2="http://www.example.org/BPJS/extendedVar"
+     xmlns:ns1="http://www.example.org/BPJS/deletePeserta"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <plnk:partnerLinkType name="deletePeserta">
+        <plnk:role name="deletePesertaProvider" portType="client:deletePeserta"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.example.org/BPJS/extendedVar"
+             xmlns:ns1="http://www.example.org/BPJS/deletePeserta" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <import namespace="http://www.example.org/BPJS/deletePeserta" schemaLocation="xsd/deletePeserta.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.example.org/BPJS/extendedVar"
+             xmlns:ns1="http://www.example.org/BPJS/deletePeserta" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <xsd:import namespace="http://www.example.org/BPJS/extendedVar" schemaLocation="xsd/extendedVar.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="deletePesertaRequestMessage">
+        <wsdl:part name="payload" element="ns1:input"/>
+    </wsdl:message>
+    <wsdl:message name="deletePesertaResponseMessage">
+        <wsdl:part name="payload" element="ns1:output"/>
+    </wsdl:message>
+    <wsdl:message name="deletePesertaHeaderMessage">
+        <wsdl:part name="payload" element="ns1:header"/>
+    </wsdl:message>
+    <wsdl:portType name="deletePeserta">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:deletePesertaRequestMessage"/>
+            <wsdl:output message="client:deletePesertaResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="deletePesertaSOAP11Binding" type="client:deletePeserta">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deletePeserta/process"/>
+            <wsdl:input>
+                <soap:header message="client:deletePesertaHeaderMessage" part="payload" use="literal"/>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

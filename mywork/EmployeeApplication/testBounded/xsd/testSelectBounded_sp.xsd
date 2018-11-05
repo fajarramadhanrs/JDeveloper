@@ -1,0 +1,34 @@
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/testSelectBounded" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/testSelectBounded" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="PNIK" type="string" db:index="1" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="SYS_EMPLOYEEDETAIL_BY_NIK" type="db:SYS.SYS_EMPLOYEEDETAIL_TYPE_SET" db:index="0" db:type="Array" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="SYS.SYS_EMPLOYEEDETAIL_TYPE">
+      <sequence>
+         <element name="NAMA" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="NOMORINDUK" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="TELEPON" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+         <element name="ALAMAT" type="db:string20" db:type="VARCHAR2" minOccurs="0" nillable="true"/>
+      </sequence>
+   </complexType>
+   <complexType name="SYS.SYS_EMPLOYEEDETAIL_TYPE_SET">
+      <sequence>
+         <element name="SYS_EMPLOYEEDETAIL_BY_NIK_ITEM" type="db:SYS.SYS_EMPLOYEEDETAIL_TYPE" db:type="Struct" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+      </sequence>
+   </complexType>
+   <simpleType name="string20">
+      <restriction base="string">
+         <maxLength value="20"/>
+      </restriction>
+   </simpleType>
+</schema>

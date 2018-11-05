@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/getDatUserByNik" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/getDatUserByNik" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="getDatUserByNikInput" type="getDatUserByNikInput"/>
+   <xs:complexType name="getDatUserByNikInput">
+      <xs:sequence>
+         <xs:element name="NIK" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="getDatUserByNikOutputCollection" type="getDatUserByNikOutputCollection"/>
+   <xs:complexType name="getDatUserByNikOutputCollection">
+      <xs:sequence>
+         <xs:element name="getDatUserByNikOutput" type="getDatUserByNikOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="getDatUserByNikOutput">
+      <xs:sequence>
+         <xs:element name="NOPEG" type="xs:string" nillable="true"/>
+         <xs:element name="KDKANTOR" type="xs:string" nillable="true"/>
+         <xs:element name="USERID" type="xs:string" nillable="true"/>
+         <xs:element name="PWD" type="xs:string" nillable="true"/>
+         <xs:element name="NIK" type="xs:string" nillable="true"/>
+         <xs:element name="NMPEGAWAI" type="xs:string" nillable="true"/>
+         <xs:element name="KDJABATAN" type="xs:string" nillable="true"/>
+         <xs:element name="STATUS" type="xs:string" nillable="true"/>
+         <xs:element name="TGLLHR" type="xs:dateTime" nillable="true"/>
+         <xs:element name="NOHP" type="xs:string" nillable="true"/>
+         <xs:element name="TSINPUT" type="xs:dateTime" nillable="true"/>
+         <xs:element name="USERINPUT" type="xs:string" nillable="true"/>
+         <xs:element name="TSUPDATE" type="xs:string" nillable="true"/>
+         <xs:element name="USERUPDATE" type="xs:string" nillable="true"/>
+         <xs:element name="KDPKS" type="xs:string" nillable="true"/>
+         <xs:element name="LASTIPLOGIN" type="xs:string" nillable="true"/>
+         <xs:element name="LASTTIMELOGIN" type="xs:string" nillable="true"/>
+         <xs:element name="TMT" type="xs:dateTime" nillable="true"/>
+         <xs:element name="TAT" type="xs:dateTime" nillable="true"/>
+         <xs:element name="KET" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

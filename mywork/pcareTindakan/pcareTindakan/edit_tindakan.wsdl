@@ -1,0 +1,57 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="edit_tindakan"
+     targetNamespace="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan"
+     xmlns:ns2="http://www.example.org/BPJS/extendedVariable"
+     xmlns:ns1="http://www.example.org/BPJS/pcareTindakan"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <plnk:partnerLinkType name="edit_tindakan">
+        <plnk:role name="edit_tindakanProvider" portType="client:edit_tindakan"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.example.org/BPJS/extendedVariable"
+             xmlns:ns1="http://www.example.org/BPJS/pcareTindakan" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <import namespace="http://www.example.org/BPJS/pcareTindakan" schemaLocation="xsd/editTindakan.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.example.org/BPJS/extendedVariable"
+             xmlns:ns1="http://www.example.org/BPJS/pcareTindakan" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <xsd:import namespace="http://www.example.org/BPJS/extendedVariable" schemaLocation="xsd/extendedVariable.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="edit_tindakanRequestMessage">
+        <wsdl:part name="payload" element="ns1:input"/>
+    </wsdl:message>
+    <wsdl:message name="edit_tindakanResponseMessage">
+        <wsdl:part name="payload" element="ns1:response"/>
+    </wsdl:message>
+    <wsdl:message name="Header_editTindakanMessage">
+        <wsdl:part name="payload" element="ns1:header"/>
+    </wsdl:message>
+    <wsdl:portType name="edit_tindakan">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:edit_tindakanRequestMessage"/>
+            <wsdl:output message="client:edit_tindakanResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="edit_tindakanSOAP11Binding" type="client:edit_tindakan">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="http://xmlns.oracle.com/pcareTindakan/pcareTindakan/edit_tindakan/process"/>
+            <wsdl:input>
+                <soap:header message="client:Header_editTindakanMessage" part="payload" use="literal"/>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

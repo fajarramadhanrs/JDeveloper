@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org/BPJS/extendedVariable"
+            targetNamespace="http://www.example.org/BPJS/extendedVariable"
+            elementFormDefault="qualified">
+   <xsd:element name="tempEdit">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="kdppk" type="xsd:string"/>
+        <xsd:element name="setTglTindakan" type="xsd:string" />
+        <xsd:element name="username" type="xsd:string"/>
+        <xsd:element name="refTindakan" type="xsd:string"/>
+        <xsd:element name="KdTkp" type="xsd:string"/>
+        <xsd:element name="TindakanUpdate" type="xsd:boolean"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="tempDelete">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="kdPpk" type="xsd:string"/>
+        <xsd:element name="kunjungan" type="xsd:string"/>
+        <xsd:element name="setNoKunj" type="xsd:string"/>
+        <xsd:element name="setKdObatSk" type="xsd:int"/>
+        <xsd:element name="setFuser" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

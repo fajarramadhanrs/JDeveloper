@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/sp/saveDatUser" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/sp/saveDatUser" elementFormDefault="qualified">
+   <element name="InputParameters">
+      <complexType>
+         <sequence>
+            <element name="NOPEG" type="db:string13" db:index="1" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDKANTOR" type="db:string4" db:index="2" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="USERID" type="db:string128" db:index="3" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="PWD" type="db:string150" db:index="4" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="NMPEGAWAI" type="db:string100" db:index="5" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDJABATAN" type="db:string4" db:index="6" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="STATUS" type="db:string1" db:index="7" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="TGLLHR" type="date" db:index="8" db:type="DATE" minOccurs="0" nillable="true"/>
+            <element name="NOHP" type="db:string15" db:index="9" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="TSINPUT" type="dateTime" db:index="10" db:type="DATETIME2" minOccurs="0" nillable="true"/>
+            <element name="NIK" type="db:string16" db:index="11" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KDPKS" type="db:string8" db:index="12" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+            <element name="KET" type="db:string50" db:index="13" db:type="VARCHAR" minOccurs="0" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="OutputParameters">
+      <complexType>
+         <sequence>
+            <element name="RowSet" type="db:RowSet" db:type="RowSet" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+         </sequence>
+      </complexType>
+   </element>
+   <complexType name="RowSet">
+      <sequence>
+         <element name="Row" minOccurs="0" maxOccurs="unbounded">
+            <complexType>
+               <sequence>
+                  <element name="Column" maxOccurs="unbounded" nillable="true">
+                     <complexType>
+                        <simpleContent>
+                           <extension base="string">
+                              <attribute name="name" type="string" use="required"/>
+                              <attribute name="sqltype" type="string" use="required"/>
+                           </extension>
+                        </simpleContent>
+                     </complexType>
+                  </element>
+               </sequence>
+            </complexType>
+         </element>
+      </sequence>
+   </complexType>
+   <simpleType name="string13">
+      <restriction base="string">
+         <maxLength value="13"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string4">
+      <restriction base="string">
+         <maxLength value="4"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string128">
+      <restriction base="string">
+         <maxLength value="128"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string150">
+      <restriction base="string">
+         <maxLength value="150"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string100">
+      <restriction base="string">
+         <maxLength value="100"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string1">
+      <restriction base="string">
+         <maxLength value="1"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string15">
+      <restriction base="string">
+         <maxLength value="15"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string16">
+      <restriction base="string">
+         <maxLength value="16"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string8">
+      <restriction base="string">
+         <maxLength value="8"/>
+      </restriction>
+   </simpleType>
+   <simpleType name="string50">
+      <restriction base="string">
+         <maxLength value="50"/>
+      </restriction>
+   </simpleType>
+</schema>

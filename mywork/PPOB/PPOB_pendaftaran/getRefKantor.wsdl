@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="getRefKantor" targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getRefKantor" xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/getRefKantor" xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/WSPendaftaranPPOB/PENDAFTARANPPOB/getRefKantor" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+   <plt:partnerLinkType name="getRefKantor_plt">
+      <plt:role name="getRefKantor_role">
+         <plt:portType name="tns:getRefKantor_ptt"/>
+      </plt:role>
+   </plt:partnerLinkType>
+   <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/getRefKantor" schemaLocation="xsd/getRefKantor.xsd"/>
+      </schema>
+   </wsdl:types>
+   <wsdl:message name="getRefKantorInput_msg">
+      <wsdl:part name="getRefKantorInput_msg" element="db:getRefKantorInput"/>
+   </wsdl:message>
+   <wsdl:message name="getRefKantorOutputCollection_msg">
+      <wsdl:part name="getRefKantorOutputCollection" element="db:getRefKantorOutputCollection"/>
+   </wsdl:message>
+   <wsdl:portType name="getRefKantor_ptt">
+      <wsdl:operation name="getRefKantor">
+         <wsdl:input message="tns:getRefKantorInput_msg"/>
+         <wsdl:output message="tns:getRefKantorOutputCollection_msg"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

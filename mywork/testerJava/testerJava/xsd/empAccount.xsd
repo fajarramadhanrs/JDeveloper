@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/empAccount" xmlns:tns="http://www.example.org/empAccount" elementFormDefault="qualified">
+   <element name="Request" type="tns:input"/>
+   <complexType name="input">
+      <sequence>
+         <element name="strNOREF" type="string"/>
+         <element name="strKDKANTOR" type="string"/>
+         <element name="strNIK" type="string"/>
+         <element name="strNMUSER" type="string"/>
+         <element name="strTGLLHR" type="string"/>
+         <element name="strNOHP" type="string"/>
+         <element name="strKDBANK" type="string"/>
+      </sequence>
+   </complexType>
+   <element name="emplResponse">
+      <complexType>
+         <complexContent>
+            <extension base="tns:output"/>
+         </complexContent>
+      </complexType>
+   </element>
+   <complexType name="output">
+      <sequence>
+         <element name="Response">
+            <complexType>
+               <sequence minOccurs="1">
+                  <element name="Entity" maxOccurs="unbounded">
+                     <complexType>
+                        <sequence minOccurs="1">
+                           <element name="Response" type="string"/>
+                        </sequence>
+                     </complexType>
+                  </element>
+               </sequence>
+            </complexType>
+         </element>
+      </sequence>
+   </complexType>
+</schema>

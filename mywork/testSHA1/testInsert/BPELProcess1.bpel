@@ -1,0 +1,123 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Mon Aug 06 16:14:54 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELProcess1"
+               targetNamespace="http://xmlns.oracle.com/testSHA1/testInsert/BPELProcess1"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/testSHA1/testInsert/BPELProcess1"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/testSHA1/testInsert/insertDB"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/top/insertDB"
+         xmlns:ns2="http://www.example.org">
+
+    <import namespace="http://xmlns.oracle.com/testSHA1/testInsert/BPELProcess1" location="BPELProcess1.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpelprocess1_client" partnerLinkType="client:BPELProcess1" myRole="BPELProcess1Provider"/>
+    <partnerLink name="insertDB" partnerLinkType="ns1:insertDB_plt"
+                 partnerRole="insertDB_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPELProcess1RequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPELProcess1ResponseMessage"/>
+    <variable name="Invoke1_merge_OutputVariable"
+              messageType="ns1:LogPstNoNokaCollection_msg"/>
+    <variable name="Invoke1_merge_InputVariable"
+              messageType="ns1:LogPstNoNokaCollection_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELProcess1.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign1">
+      <copy>
+        <from>$inputVariable.payload/ns2:NAMA</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:nama</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:JENKEL</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:jenkel</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:NOKK</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:nokk</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:TMPLAHIR</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:tmplahir</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:NOHP</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:nohp</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:KDRS</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:kdrs</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:STATUSCETAK</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:statuscetak</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:TSINPUT</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:tsinput</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/ns2:TGLLAHIR</from>
+        <to>$Invoke1_merge_InputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:tgllahir</to>
+      </copy>
+    </assign>
+    <invoke name="Invoke1" partnerLink="insertDB"
+            portType="ns1:insertDB_ptt" operation="merge"
+            inputVariable="Invoke1_merge_InputVariable"
+            outputVariable="Invoke1_merge_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="Assign2">
+      <copy>
+        <from>$Invoke1_merge_OutputVariable.LogPstNoNokaCollection/ns3:LogPstNoNoka/ns3:nama</from>
+        <to>$outputVariable.payload/ns2:Response</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpelprocess1_client" portType="client:BPELProcess1" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

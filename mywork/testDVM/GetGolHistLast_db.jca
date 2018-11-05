@@ -1,0 +1,14 @@
+<adapter-config name="GetGolHistLast" adapter="Database Adapter" wsdlLocation="GetGolHistLast.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="SQLBPJS" UIStrongXSD="false" adapterRef=""/>
+  <endpoint-interaction portType="GetGolHistLast_ptt" operation="GetGolHistLast">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="DBKepesertaan"/>
+      <property name="PackageName" value="dbo"/>
+      <property name="ProcedureName" value="getGolHistLast"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

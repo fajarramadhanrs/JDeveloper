@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org/BPJS/extendedVar"
+            targetNamespace="http://www.example.org/BPJS/extendedVar"
+            elementFormDefault="qualified">
+  <xsd:element name="tempDelete">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="kdPpk" type="xsd:string"/>
+        <xsd:element name="setTglLhr" type="xsd:string"/>
+        <xsd:element name="alias" type="xsd:string"/>
+        <xsd:element name="getKdpoli" type="xsd:string"/>
+        <xsd:element name="setNoUrut" type="xsd:string"/>
+        
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

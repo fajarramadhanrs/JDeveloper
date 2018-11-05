@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<adapter-config name="getRefKantor" adapter="Database Adapter" wsdlLocation="getRefKantor.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+   <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="getRefKantor" adapterRef=""/>
+   <endpoint-interaction portType="getRefKantor_ptt" operation="getRefKantor">
+      <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+         <property name="SqlString" value="SELECT A.KDKANTOR, A.KDKCREF, A.NMKANTOR, A.KEPALAKANTOR,    A.ALAMAT, A.RT, A.RW, A.KODEPOS, A.KDTLP, A.NOTLP, A.FAX,    A.EMAIL, A.LAT, A.LON, A.KDDESA,    A.KDJNSKC,    C.NMJNSKC  FROM dbo.KANTOR_TBL A  INNER JOIN dbo.JNSKC_TBL C ON A.KDJNSKC = C.KDJNSKC  WHERE A.KDKANTOR=#KDKANTOR AND A.KDKANTOR&lt;>'00'  ORDER BY A.KDKCREF,A.KDKANTOR"/>
+         <property name="GetActiveUnitOfWork" value="false"/>
+      </interaction-spec>
+      <input/>
+      <output/>
+   </endpoint-interaction>
+</adapter-config>

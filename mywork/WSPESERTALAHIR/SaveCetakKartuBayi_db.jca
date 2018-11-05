@@ -1,0 +1,14 @@
+<adapter-config name="SaveCetakKartuBayi" adapter="Database Adapter" wsdlLocation="SaveCetakKartuBayi.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="SQLBPJS" UIStrongXSD="false" adapterRef=""/>
+  <endpoint-interaction portType="SaveCetakKartuBayi_ptt" operation="SaveCetakKartuBayi">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="DBKepesertaan"/>
+      <property name="PackageName" value="dbo"/>
+      <property name="ProcedureName" value="saveCetaKartuBayi"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

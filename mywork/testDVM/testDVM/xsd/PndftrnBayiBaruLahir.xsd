@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="http://xmlns.oracle.com/BPJS_SOA/PendaftaranBayiBaruLahir/PndftrnBayiBaruLahir"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="process">
+		<complexType>
+			<sequence>
+				<element name="NIK" type="string"/>
+    <element name="NAMA_LGKP" type="string"/>
+    <element name="TMPT_LHR" type="string"/>
+    <element name="TGL_LHR" type="date"/>
+    <element name="PSNOKA" type="string"/>
+    <element name="NOKA" type="string"/>
+    <element name="KD_RS" type="string"/>
+    <element name="JENIS_KLMIN" type="string"/>
+    <element name="NO_HP" type="string"/>
+    <element name="NO_KK" type="string"/>
+   </sequence>
+		</complexType>
+	</element>
+	<element name="processResponse">
+		<complexType>
+			<sequence>
+				<element name="entity" type="string"/>
+    <element name="status" type="string"/>
+   </sequence>
+		</complexType>
+	</element>
+</schema>

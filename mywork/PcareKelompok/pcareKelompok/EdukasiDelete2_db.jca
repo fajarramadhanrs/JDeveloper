@@ -1,0 +1,14 @@
+<adapter-config name="EdukasiDelete2" adapter="Database Adapter" wsdlLocation="EdukasiDelete2.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/PelayananDS" UIConnectionName="dbPelayanan" UIStrongXSD="false" adapterRef=""/>
+  <endpoint-interaction portType="EdukasiDelete2_ptt" operation="EdukasiDelete2">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="dbPelayanan"/>
+      <property name="PackageName" value="dbo"/>
+      <property name="ProcedureName" value="sp_f1_edu_del"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,13 @@
+<adapter-config name="DBEmpByAll" adapter="Database Adapter" wsdlLocation="DBEmpByAll.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/bpjsds" UIConnectionName="orcl" adapterRef=""/>
+  <endpoint-interaction portType="DBEmpByAll_ptt" operation="DBEmpByAll">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="SYS"/>
+      <property name="ProcedureName" value="SYS_EMPLOYEEDETAIL_ALL"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

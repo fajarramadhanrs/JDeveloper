@@ -1,0 +1,14 @@
+<adapter-config name="GetJmlAnakTanggunganAktif" adapter="Database Adapter" wsdlLocation="GetJmlAnakTanggunganAktif.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/kepesertaanDS" UIConnectionName="SQLBPJS" UIStrongXSD="false" adapterRef=""/>
+  <endpoint-interaction portType="GetJmlAnakTanggunganAktif_ptt" operation="GetJmlAnakTanggunganAktif">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="DBKepesertaan"/>
+      <property name="PackageName" value="dbo"/>
+      <property name="ProcedureName" value="getJmlAnakTanggunganAktif"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

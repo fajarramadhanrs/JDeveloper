@@ -1,0 +1,105 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Tue May 15 14:53:36 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="EmpSelectBounded"
+               targetNamespace="http://xmlns.oracle.com/EmployeeApplication/testBounded/EmpSelectBounded"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/EmployeeApplication/testBounded/EmpSelectBounded"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/EmployeeApplication/testBounded/testSelectBounded"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/sp/testSelectBounded"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns2="http://www.example.org/empAccount">
+
+    <import namespace="http://xmlns.oracle.com/EmployeeApplication/testBounded/EmpSelectBounded" location="EmpSelectBounded.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="empselectbounded_client" partnerLinkType="client:EmpSelectBounded" myRole="EmpSelectBoundedProvider"/>
+    <partnerLink name="testSelectBounded"
+                 partnerLinkType="ns1:testSelectBounded_plt"
+                 partnerRole="testSelectBounded_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:EmpSelectBoundedRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:EmpSelectBoundedResponseMessage"/>
+    <variable name="InvokeDB_select_testSelectBounded_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="InvokeDB_select_testSelectBounded_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in EmpSelectBounded.wsdl) -->
+    <receive name="receiveInput" partnerLink="empselectbounded_client" portType="client:EmpSelectBounded" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Assign1">
+      <copy>
+        <from>$inputVariable.payload/ns2:nik</from>
+        <to>$InvokeDB_select_testSelectBounded_InputVariable.InputParameters/ns3:PNIK</to>
+      </copy>
+    </assign>
+    <invoke name="InvokeDB_select"
+            partnerLink="testSelectBounded"
+            portType="ns1:testSelectBounded_ptt" operation="testSelectBounded"
+            inputVariable="InvokeDB_select_testSelectBounded_InputVariable"
+            outputVariable="InvokeDB_select_testSelectBounded_OutputVariable"
+            bpelx:invokeAsDetail="no"/>
+    <assign name="Assign2">
+      <copy>
+        <from>$InvokeDB_select_testSelectBounded_OutputVariable.OutputParameters/ns3:SYS_EMPLOYEEDETAIL_BY_NIK/ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM/ns3:NAMA</from>
+        <to>$outputVariable.payload/ns2:body/ns2:employee/ns2:nama</to>
+      </copy>
+      <copy>
+        <from>$InvokeDB_select_testSelectBounded_OutputVariable.OutputParameters/ns3:SYS_EMPLOYEEDETAIL_BY_NIK/ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM/ns3:NOMORINDUK</from>
+        <to>$outputVariable.payload/ns2:body/ns2:employee/ns2:nik</to>
+      </copy>
+      <copy>
+        <from>$InvokeDB_select_testSelectBounded_OutputVariable.OutputParameters/ns3:SYS_EMPLOYEEDETAIL_BY_NIK/ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM/ns3:ALAMAT</from>
+        <to>$outputVariable.payload/ns2:body/ns2:employee/ns2:alamat</to>
+      </copy>
+      <copy>
+        <from>$InvokeDB_select_testSelectBounded_OutputVariable.OutputParameters/ns3:SYS_EMPLOYEEDETAIL_BY_NIK/ns3:SYS_EMPLOYEEDETAIL_BY_NIK_ITEM/ns3:TELEPON</from>
+        <to>$outputVariable.payload/ns2:body/ns2:employee/ns2:telepon</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="empselectbounded_client" portType="client:EmpSelectBounded" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

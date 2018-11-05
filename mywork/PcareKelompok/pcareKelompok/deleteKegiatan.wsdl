@@ -1,0 +1,53 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="deleteKegiatan"
+     targetNamespace="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatan"
+     xmlns:ns2="http://www.example.org/BPJS/extendedVar"
+     xmlns:ns1="http://www.example.org/BPJS/deleteKegiatan"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatan"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+    <plnk:partnerLinkType name="deleteKegiatan">
+        <plnk:role name="deleteKegiatanProvider" portType="client:deleteKegiatan"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.example.org/BPJS/deleteKegiatan"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:client="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatan"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <import namespace="http://www.example.org/BPJS/deleteKegiatan" schemaLocation="xsd/deleteKegiatan.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.example.org/BPJS/extendedVar" schemaLocation="xsd/extendedVar.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="deleteKegiatanRequestMessage">
+        <wsdl:part name="payload" element="ns1:input"/>
+    </wsdl:message>
+    <wsdl:message name="deleteKegiatanResponseMessage">
+        <wsdl:part name="payload" element="ns1:output"/>
+    </wsdl:message>
+    <wsdl:message name="deleteKegiatanHeaderMessage">
+        <wsdl:part name="payload" element="ns1:header"/>
+    </wsdl:message>
+    <wsdl:portType name="deleteKegiatan">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:deleteKegiatanRequestMessage"/>
+            <wsdl:output message="client:deleteKegiatanResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="deleteKegiatanSOAP11Binding" type="client:deleteKegiatan">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="http://xmlns.oracle.com/PcareKelompok/pcareKelompok/deleteKegiatan/process"/>
+            <wsdl:input>
+                <soap:header message="client:deleteKegiatanHeaderMessage" part="payload" use="literal"/>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="payload"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

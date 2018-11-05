@@ -1,0 +1,126 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Thu May 24 19:16:37 ICT 2018
+  Author:  Fajar
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="BPELDELETE"
+               targetNamespace="http://xmlns.oracle.com/EmployeeApplication/DeleteEmp/BPELDELETE"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/EmployeeApplication/DeleteEmp/BPELDELETE"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/EmployeeApplication/DeleteEmp/EmpDeleteFail"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/EmployeeApplication/DeleteEmp/EmpDataByNik"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ns3="http://www.example.org/EmpData"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap">
+
+    <import namespace="http://xmlns.oracle.com/EmployeeApplication/DeleteEmp/BPELDELETE" location="BPELDELETE.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="bpeldelete_client" partnerLinkType="client:BPELDELETE" myRole="BPELDELETEProvider"/>
+    <partnerLink name="EmpDataByNik" partnerLinkType="ns2:EmpDataByNik_plt"
+                 partnerRole="EmpDataByNik_role"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:BPELDELETERequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:BPELDELETEResponseMessage"/>
+    <variable name="Invoke1_EmpDeleteFail_InputVariable"
+              messageType="ns1:args_in_msg"/>
+    <variable name="Invoke1_EmpDeleteFail_OutputVariable"
+              messageType="ns1:args_out_msg"/>
+    <variable name="Invoke1_EmpDataByNik_InputVariable"
+              messageType="ns2:args_in_msg"/>
+    <variable name="Invoke1_EmpDataByNik_OutputVariable"
+              messageType="ns2:args_out_msg"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in BPELDELETE.wsdl) -->
+    <receive name="receiveInput" partnerLink="bpeldelete_client" portType="client:BPELDELETE" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="Transform1">
+      <bpelx:annotation>
+        <bpelx:pattern patternName="bpelx:transformation"/>
+      </bpelx:annotation>
+      <copy>
+        <from>ora:doXSLTransformForDoc("xsl/TransformReqByNik.xsl", $inputVariable.payload)</from>
+        <to variable="Invoke1_EmpDataByNik_InputVariable"
+            part="InputParameters"/>
+      </copy>
+    </assign>
+    <invoke name="Invoke1"
+            partnerLink="EmpDataByNik" portType="ns2:EmpDataByNik_ptt"
+            operation="EmpDataByNik"
+            inputVariable="Invoke1_EmpDataByNik_InputVariable"
+            bpelx:invokeAsDetail="no"
+            outputVariable="Invoke1_EmpDataByNik_OutputVariable"/>
+    <if name="If">
+      <condition>oraext:lookup-table($inputVariable.payload/ns3:nik)&gt;0</condition>
+      <assign name="Transform2">
+        <bpelx:annotation>
+          <bpelx:pattern patternName="bpelx:transformation"/>
+        </bpelx:annotation>
+        <copy>
+          <from>ora:doXSLTransformForDoc("xsl/TransformResponseByNik.xsl", $Invoke1_EmpDataByNik_OutputVariable.OutputParameters)</from>
+          <to variable="outputVariable" part="payload"/>
+        </copy>
+      </assign>
+      <else>
+        <assign name="Transform3">
+          <bpelx:annotation>
+            <bpelx:pattern patternName="bpelx:transformation"/>
+          </bpelx:annotation>
+          <copy>
+            <from>ora:doXSLTransformForDoc("xsl/TransformFailResponse.xsl", $Invoke1_EmpDeleteFail_OutputVariable.OutputParameters)</from>
+            <to variable="outputVariable" part="payload"/>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="bpeldelete_client" portType="client:BPELDELETE" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org/BPJS/pcareTindakan"
+            targetNamespace="http://www.example.org/BPJS/pcareTindakan"
+            elementFormDefault="qualified">
+  <xsd:element name="input">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="kdTindakanSK" type="xsd:integer"/>
+        <xsd:element name="noKunjungan" type="xsd:string"/>
+        <xsd:element name="kdTindakan" type="xsd:string"/>
+        <xsd:element name="biaya" type="xsd:integer"/>
+        <xsd:element name="keterangan" type="xsd:string"/>
+        <xsd:element name="hasil" type="xsd:integer"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+    <xsd:element name="response">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="field" type="xsd:string"/>
+        <xsd:element name="message" type="xsd:string"/>
+        <xsd:element name="metaData" type="xsd:string"/>
+        <xsd:element name="message2" type="xsd:string"/>
+        <xsd:element name="code" type="xsd:integer"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="header">
+    <xsd:complexType>
+    <xsd:sequence>
+        <xsd:element name="kdppk" type="xsd:string"/>
+        <xsd:element name="username" type="xsd:string"/>
+    </xsd:sequence>
+    </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

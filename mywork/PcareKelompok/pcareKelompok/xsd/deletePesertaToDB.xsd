@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org"
+            targetNamespace="http://www.example.org"
+            elementFormDefault="qualified">
+ <xsd:element name="inputPeserta">
+    <xsd:complexType>
+      <xsd:sequence>
+      <xsd:element name="eduId" type="xsd:string"/>
+      <xsd:element name="noKartu" type="xsd:string"/>
+       <xsd:element name="LUser" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="outputPeserta">
+    <xsd:complexType>
+      <xsd:sequence>
+          <xsd:element name="response" type="xsd:boolean"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

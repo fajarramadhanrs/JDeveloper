@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org"
+            targetNamespace="http://www.example.org"
+            elementFormDefault="qualified">
+  <xsd:element name="input">
+    <xsd:annotation>
+      <xsd:documentation>
+        A sample element
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="NAMA" type="xsd:string"/>
+        <xsd:element name="TGLLAHIR" type="xsd:date"/>
+        <xsd:element name="NOKK" type="xsd:string"/>
+        <xsd:element name="JENKEL" type="xsd:string"/>
+        <xsd:element name="TMPLAHIR" type="xsd:string"/>
+        <xsd:element name="NOHP" type="xsd:string"/>
+        <xsd:element name="KDRS" type="xsd:string"/>
+        <xsd:element name="STATUSCETAK" type="xsd:string"/>
+        <xsd:element name="TSINPUT" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="output">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Response" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

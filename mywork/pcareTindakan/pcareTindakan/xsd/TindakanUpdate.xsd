@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org/BPJS/pcareTindakan"
+            targetNamespace="http://www.example.org/BPJS/pcareTindakan"
+            elementFormDefault="qualified">
+  <xsd:element name="tindakanUpdateinput">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="getNoKunjungan" type="xsd:string"/>
+        <xsd:element name="setDate" type="xsd:date"/>
+        <xsd:element name="getKdTindakan" type="xsd:string"/>
+        <xsd:element name="getKeterangan" type="xsd:string"/>
+        <xsd:element name="getBiaya" type="xsd:double"/>
+        <xsd:element name="getHasil" type="xsd:double"/>
+        <xsd:element name="getlUser" type="xsd:string"/>
+        <xsd:element name="getKdTindakanSK" type="xsd:integer"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="tindakanUpdateresponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="response" type="xsd:boolean"/>
+        <xsd:element name="kdTindakanSK" type="xsd:int"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

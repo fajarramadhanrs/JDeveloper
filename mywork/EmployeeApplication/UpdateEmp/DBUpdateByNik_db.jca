@@ -1,0 +1,13 @@
+<adapter-config name="DBUpdateByNik" adapter="Database Adapter" wsdlLocation="DBUpdateByNik.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/bpjsds" UIConnectionName="orcl" adapterRef=""/>
+  <endpoint-interaction portType="DBUpdateByNik_ptt" operation="DBUpdateByNik">
+    <interaction-spec className="oracle.tip.adapter.db.DBStoredProcedureInteractionSpec">
+      <property name="SchemaName" value="SYS"/>
+      <property name="ProcedureName" value="UPDATEEMPDATA"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

@@ -1,0 +1,13 @@
+<adapter-config name="getTindakan" adapter="Database Adapter" wsdlLocation="getTindakan.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/DB/PelayananDS" UIConnectionName="dbPelayanan" adapterRef=""/>
+  <endpoint-interaction portType="getTindakan_ptt" operation="getTindakan">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="select a.kdTindakanSk, a.no_kunjungan, a.kdTindakan, b.nmTindakan, a.keterangan, a.fdate, a.biaya, a.tglTindakan, a.hasil from datTindakanDokkel a left join refTindakanF1 b on (a.kdTindakan=b.kdTindakan) where a.kdTindakanSk=#kdTindakanSk order by a.fdate"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+    <input/>
+    <output/>
+  </endpoint-interaction>
+
+</adapter-config>

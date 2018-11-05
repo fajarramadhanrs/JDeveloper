@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/empAccount" xmlns:tns="http://www.example.org/empAccount" elementFormDefault="qualified">
+   <element name="Request" type="tns:input"/>
+   <complexType name="input">
+      <sequence>
+         <element name="NOREF" type="string"/>
+         <element name="KDKANTOR" type="string"/>
+         <element name="NIK" type="string"/>
+         <element name="NMUSER" type="string"/>
+         <element name="TGLLHR" type="string"/>
+         <element name="NOHP" type="string"/>
+         <element name="KDBANK" type="string"/>
+      </sequence>
+   </complexType>
+   <element name="Output">
+      <complexType>
+         <complexContent>
+            <extension base="tns:output"/>
+         </complexContent>
+      </complexType>
+   </element>
+   <complexType name="output">
+      <sequence>
+         <element name="entity">
+            <complexType>
+               <sequence>
+                  <element name="entity" type="string"/>
+                  <element name="noref" type="string"/>
+                  <element name="kdkantor" type="string"/>
+                  <element name="nik" type="string"/>
+                  <element name="nmuser" type="string"/>
+                  <element name="pwd" type="string"/>
+                  <element name="uid" type="string"/>
+                  <element name="nohp" type="string"/>
+                  <element name="kdbank" type="string"/>
+                  <element name="tgllhr" type="string"/>
+                  <element name="status" type="integer"/>
+                  <element name="metadata" type="string"/>
+               </sequence>
+            </complexType>
+         </element>
+      </sequence>
+   </complexType>
+</schema>

@@ -1,0 +1,38 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="BPEL_JAVA"
+     targetNamespace="http://xmlns.oracle.com/testSHA1/TESTSHA1/BPEL_JAVA"
+     xmlns:ns2="http://www.example.org/setVar"
+     xmlns:ns1="http://www.example.org/empAccount"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:client="http://xmlns.oracle.com/testSHA1/TESTSHA1/BPEL_JAVA"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="BPEL_JAVA">
+        <plnk:role name="BPEL_JAVAProvider" portType="client:BPEL_JAVA"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.example.org/setVar"
+             xmlns:ns1="http://www.example.org/empAccount" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/testSHA1/TESTSHA1/BPEL_JAVA" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <import namespace="http://www.example.org/empAccount" schemaLocation="xsd/empAccount.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.example.org/setVar"
+             xmlns:ns1="http://www.example.org/empAccount" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:client="http://xmlns.oracle.com/testSHA1/TESTSHA1/BPEL_JAVA" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <xsd:import namespace="http://www.example.org/setVar" schemaLocation="xsd/setVar.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="BPEL_JAVARequestMessage">
+        <wsdl:part name="payload" element="ns1:Request"/>
+    </wsdl:message>
+    <wsdl:message name="BPEL_JAVAResponseMessage">
+        <wsdl:part name="payload" element="ns2:Response"/>
+    </wsdl:message>
+    <wsdl:portType name="BPEL_JAVA">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPEL_JAVARequestMessage"/>
+            <wsdl:output message="client:BPEL_JAVAResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

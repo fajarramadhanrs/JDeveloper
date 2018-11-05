@@ -1,0 +1,70 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/checkValidKunjungan" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/checkValidKunjungan" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="checkValidKunjunganInput" type="checkValidKunjunganInput"/>
+   <xs:complexType name="checkValidKunjunganInput">
+      <xs:sequence>
+         <xs:element name="no_Kunjungan" type="xs:string" nillable="true"/>
+         <xs:element name="ppk_kunjungan" type="xs:string" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="checkValidKunjunganOutputCollection" type="checkValidKunjunganOutputCollection"/>
+   <xs:complexType name="checkValidKunjunganOutputCollection">
+      <xs:sequence>
+         <xs:element name="checkValidKunjunganOutput" type="checkValidKunjunganOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="checkValidKunjunganOutput">
+      <xs:sequence>
+         <xs:element name="No_Kunjungan" type="xs:string" nillable="true"/>
+         <xs:element name="Tgl_Kunjungan" type="xs:dateTime" nillable="true"/>
+         <xs:element name="RefAsalKunjungan" type="xs:string" nillable="true"/>
+         <xs:element name="PPK_Kunjungan" type="xs:string" nillable="true"/>
+         <xs:element name="NokaPst" type="xs:string" nillable="true"/>
+         <xs:element name="PisaPst" type="xs:string" nillable="true"/>
+         <xs:element name="KdPoli" type="xs:string" nillable="true"/>
+         <xs:element name="Kd_ProgProlanis" type="xs:string" nillable="true"/>
+         <xs:element name="Keluhan" type="xs:string" nillable="true"/>
+         <xs:element name="Kd_Diagnosa" type="xs:string" nillable="true"/>
+         <xs:element name="KdSadar" type="xs:string" nillable="true"/>
+         <xs:element name="Sistole" type="xs:int" nillable="true"/>
+         <xs:element name="Diastole" type="xs:int" nillable="true"/>
+         <xs:element name="BeratBadan" type="xs:decimal" nillable="true"/>
+         <xs:element name="TinggiBadan" type="xs:int" nillable="true"/>
+         <xs:element name="Resp_Rate" type="xs:decimal" nillable="true"/>
+         <xs:element name="Heart_Rate" type="xs:decimal" nillable="true"/>
+         <xs:element name="CatatanKhusus" type="xs:string" nillable="true"/>
+         <xs:element name="PemeriksaanLain" type="xs:string" nillable="true"/>
+         <xs:element name="RujukLanjutF" type="xs:boolean" nillable="true"/>
+         <xs:element name="PPK_Rujuk" type="xs:string" nillable="true"/>
+         <xs:element name="Poli_Rujuk" type="xs:string" nillable="true"/>
+         <xs:element name="PPK_AsalRujuk" type="xs:string" nillable="true"/>
+         <xs:element name="FUser" type="xs:string" nillable="true"/>
+         <xs:element name="FDate" type="xs:dateTime" nillable="true"/>
+         <xs:element name="LUser" type="xs:string" nillable="true"/>
+         <xs:element name="LDate" type="xs:dateTime" nillable="true"/>
+         <xs:element name="Status" type="xs:string" nillable="true"/>
+         <xs:element name="kdTKP" type="xs:string" nillable="true"/>
+         <xs:element name="kdStatusPulang" type="xs:string" nillable="true"/>
+         <xs:element name="TglPulang" type="xs:dateTime" nillable="true"/>
+         <xs:element name="PPK_Pst" type="xs:string" nillable="true"/>
+         <xs:element name="kdJnsPst" type="xs:string" nillable="true"/>
+         <xs:element name="RujukBalikF" type="xs:boolean" nillable="true"/>
+         <xs:element name="kd_Diagnosa2" type="xs:string" nillable="true"/>
+         <xs:element name="kd_Diagnosa3" type="xs:string" nillable="true"/>
+         <xs:element name="biaya" type="xs:decimal" nillable="true"/>
+         <xs:element name="PRB_ID" type="xs:integer" nillable="true"/>
+         <xs:element name="KdDokter" type="xs:string" nillable="true"/>
+         <xs:element name="Poli_RujukInternal" type="xs:string" nillable="true"/>
+         <xs:element name="kd_kunjungan" type="xs:string" nillable="true"/>
+         <xs:element name="IdSistem" type="xs:string" nillable="true"/>
+         <xs:element name="KDKC" type="xs:string" nillable="true"/>
+         <xs:element name="diLayaniRS" type="xs:boolean" nillable="true"/>
+         <xs:element name="KdTagih" type="xs:string" nillable="true"/>
+         <xs:element name="fromWs" type="xs:boolean" nillable="true"/>
+         <xs:element name="kdTacc" type="xs:byte" nillable="true"/>
+         <xs:element name="alasanTacc" type="xs:string" nillable="true"/>
+         <xs:element name="catatanRujuk" type="xs:string" nillable="true"/>
+         <xs:element name="TglEstRujuk" type="xs:dateTime" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

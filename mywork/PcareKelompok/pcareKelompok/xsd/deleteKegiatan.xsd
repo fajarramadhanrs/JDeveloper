@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org/BPJS/deleteKegiatan"
+            targetNamespace="http://www.example.org/BPJS/deleteKegiatan"
+            elementFormDefault="qualified">
+   <xsd:element name="input">
+    <xsd:complexType>
+      <xsd:sequence>
+      <xsd:element name="eduId" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="output">
+    <xsd:complexType>
+      <xsd:sequence>
+          <xsd:element name="response" type="xsd:string"/>
+            <xsd:element name="metaData" type="xsd:string"/>
+              <xsd:element name="message" type="xsd:string"/>
+                <xsd:element name="code" type="xsd:int"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="header">
+    <xsd:complexType>
+    <xsd:sequence>
+        <xsd:element name="ppk" type="xsd:string"/>
+        <xsd:element name="kdJnsUser" type="xsd:string"/>
+        <xsd:element name="username" type="xsd:string"/>
+    </xsd:sequence>
+    </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
